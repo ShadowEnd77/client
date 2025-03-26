@@ -11,3 +11,4 @@ export type City = {
 } & HasId & HasName
 
 export type Region = & HasId & HasName
+

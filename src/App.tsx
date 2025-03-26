@@ -1,4 +1,4 @@
-import './App.css'
+import './ui/styles/App.css'
 import { LoginPage } from './ui/pages/LoginPage'
 
 function App() {
