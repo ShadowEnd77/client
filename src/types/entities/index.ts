@@ -12,3 +12,7 @@ export type City = {
 
 export type Region = & HasId & HasName
 
+export type Session = {
+    session_token: string
+    expires_at: string
+}
