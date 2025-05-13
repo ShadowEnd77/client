@@ -1,11 +1,11 @@
-import { Session, User } from "../entities"
+import { User } from "../entities"
 
 export type SessionCreateReq = {
     region_id: number
     city_id: number
     school: string
 } & Omit<User, "id">
-export type SessionCreateRes = { session_data: Session }
+//export type SessionCreateRes = { session_data: Session }
 
 
 export type SessionGetResultsReq = {
@@ -20,6 +20,7 @@ export type SessionFinishReq = {
     game_id: string
     game_state: object
 }
+
 export type SessionFinishRes = {}
 
 

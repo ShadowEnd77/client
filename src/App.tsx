@@ -1,14 +1,15 @@
+import { RegisterScreen } from './features/user/ui/RegisterScreen'
+import { AuthProvider } from './features/user/ui/AuthProvider'
 import './ui/styles/App.css'
-import { LoginPage } from './ui/pages/LoginPage'
 
 function App() {
 
   return (
-    <>
+    <AuthProvider>
       <main>
-        <LoginPage />
+        <RegisterScreen />
       </main>
-    </>
+    </AuthProvider>
   )
 }
 

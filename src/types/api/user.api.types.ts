@@ -1,5 +1,9 @@
-import { AccessData } from "../common/applied.types";
+import { SecureData } from "../common/specials.types";
 import { User } from "../entities";
 
-export type UserRegisterReq = Omit<User, "id"> & AccessData
-export type UserRegisterRes = User
+export type UserRegisterReq = Omit<User, "id"> & SecureData
+export type UserRegisterRes = {
+    uuid: string
+    access_token: string
+}
+

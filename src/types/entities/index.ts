@@ -4,15 +4,8 @@ export type User = {
     first_name: string
     last_name: string
     age: number
+    city_id: number
+    school: string
 } & HasId
 
-export type City = {
-    region_id: number
-} & HasId & HasName
-
-export type Region = & HasId & HasName
-
-export type Session = {
-    session_token: string
-    expires_at: string
-}
+export type City = HasId & HasName
