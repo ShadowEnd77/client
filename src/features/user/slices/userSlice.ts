@@ -1,34 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { User } from '../../../types/entities'
 import { UserRegisterReq, UserRegisterRes } from '../../../types/api/user.api.types'
 import { UserApi } from '../api/user.api'
 import { AxiosResponse } from 'axios'
+import { storeToken } from '../utils/storeToken'
+import { USER_MESSAGES } from '../messages'
+import { initialUserState } from './userState'
 
-type UserSliceState = {
-    token: boolean
-    data: User
-    register: {
-        loading: boolean
-        error: string
-    }
-}
-
-const initialState: UserSliceState = {
-    token: false,
-    data: {
-        id: 0,
-        age: 0,
-        first_name: "",
-        last_name: "",
-        city_id: 0,
-        school: ""
-    },
-    register: {
-        loading: false,
-        error: ""
-    }
-
-}
 
 export const userRegister = createAsyncThunk(
     'user/register',
@@ -39,7 +16,7 @@ export const userRegister = createAsyncThunk(
             throw res;
         }
 
-        // store token
+        storeToken(res.data.access_token);
 
         return res.data;
     },
@@ -47,13 +24,13 @@ export const userRegister = createAsyncThunk(
 
 export const userSlice = createSlice({
     name: 'user',
-    initialState,
+    initialState: initialUserState,
     reducers: {
-        checkValidToken: (state, action: PayloadAction<boolean>) => {
+        setTokenIsValid: (state, action: PayloadAction<boolean>) => {
             state.token = action.payload
         },
-        resetUserData: state => {
-            state.data = initialState.data
+        resetRegisterForm: state => {
+            state.form = initialUserState.form
         }
     },
     extraReducers(builder) {
@@ -63,19 +40,20 @@ export const userSlice = createSlice({
                 state.register.error = ""
             })
             .addCase(userRegister.fulfilled, (state, action: PayloadAction<UserRegisterRes>) => {
+                state.data.uuid = action.payload.uuid
                 state.register.loading = false
                 state.token = true
             })
-            .addCase(userRegister.rejected, (state, action) => {
+            .addCase(userRegister.rejected, state => {
                 state.register.loading = false
-                state.register.error = "Не удалось зарегистрироваться"
+                state.register.error = USER_MESSAGES.REGISTRATION_ERROR
             })
     },
 })
 
 export const {
-    checkValidToken,
-    resetUserData
+    setTokenIsValid,
+    resetRegisterForm
 } = userSlice.actions
 
 export const userReducer = userSlice.reducer

@@ -1,15 +1,12 @@
-import { RegisterScreen } from './features/user/ui/RegisterScreen'
-import { AuthProvider } from './features/user/ui/AuthProvider'
-import './ui/styles/App.css'
+import { AppRouter } from './router'
+import './styles/App.css'
 
 function App() {
 
   return (
-    <AuthProvider>
-      <main>
-        <RegisterScreen />
-      </main>
-    </AuthProvider>
+    <main>
+      <AppRouter />
+    </main>
   )
 }
 
