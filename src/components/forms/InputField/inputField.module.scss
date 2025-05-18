@@ -1,0 +1,20 @@
+.input {
+    color: rgba(0, 0, 0, 0.2);
+    outline: none;
+    border-radius: 100px;
+    border: var(--border);
+    border-color: currentColor;
+    height: var(--btn-height);
+    padding-inline: 10px;
+    text-align: center;
+    transition-property: color;
+
+    &::placeholder {
+        color: inherit;
+    }
+
+    &:not(:placeholder-shown) {
+        color: var(--c-dark-alt);
+    }
+}
+

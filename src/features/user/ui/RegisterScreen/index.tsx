@@ -1,25 +1,43 @@
 import React from 'react'
 import styles from './registerScreen.module.scss'
+import { InputField } from '../../../../components/forms/InputField'
 
 export const RegisterScreen = () => {
   return (
-    <section className={styles.section}>
-      <header className={styles.header}>
-        <h1>Регистрация</h1>
-        <img src="" alt="Логотип" />
-      </header>
-      <form action="" className={styles.form}>
+    <div className={styles.centered}>
+      <section className={styles.section}>
+        <header className={styles.header}>
+          <h1 className={"sas"}>Регистрация</h1>
+          <img src="" alt="Логотип" />
+        </header>
+        <form action="" className={styles.form}>
           <fieldset>
-            <legend>Личные данные</legend>
+            <legend>
+              <h2>Личные данные</h2>
+            </legend>
             <div>
-              <input placeholder={"Имя"} type="text" />
-              <input type="text" />
-              <input type="text" />
-              <input type="text" />
+              <InputField placeholder={"Имя"} />
+              <InputField placeholder={"Фамилия"} />
+              <InputField placeholder={"Отчество (если есть)"} />
+              <InputField placeholder={"Возраст"} />
             </div>
           </fieldset>
-      </form>
-      
-    </section>
+          <fieldset>
+            <legend>
+              <h2>Данные о школе</h2>
+            </legend>
+            <div>
+              <InputField placeholder={"Имя"} />
+              <InputField placeholder={"Фамилия"} />
+              <InputField placeholder={"Отчество (если есть)"} />
+              <InputField placeholder={"Возраст"} />
+            </div>
+          </fieldset>
+
+        </form>
+
+      </section>
+    </div>
+
   )
 }

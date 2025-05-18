@@ -6,7 +6,7 @@
     font-size: calc(clamp(#{$min}px, calcVW($screen, $max), #{$max}px) * var(--fz-scale));
 }
 
-@mixin flex-center($is-inline) {
+@mixin flex-center($is-inline: false) {
     @if($is-inline) {
         display: inline-flex;
     }

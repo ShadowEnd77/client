@@ -2,6 +2,9 @@
 
 :root {
     /*COLORS*/
+    --c-light: white;
+    --c-dark: black;
+    --c-dark-alt: #2F2F2F;
     --c-accent: #003087;
     --c-accent-alt: #4fcd32;
     --c-brand-first-lt: #efffeb;
@@ -19,22 +22,33 @@
     --font-base: "Raleway", sans-serif;
 
     /*BLOCKS*/
+    --border: 1px solid var(--c-dark-alt); 
     --bradius-l: 30px;
     --bradius-m: 20px;
     --bradius-s: 10px;
-
     --btn-height: 64px;
+
+    /*TRANSITIONS*/
+    --trans-dur: 0.3s;
 }
 
 body {
     @include fluid-text($base-min, $base-max);
-
+    color: var(--c-dark-alt);
     font-family: var(--font-base);
     background: var(--bg-gradient) no-repeat;
 }
 
+input, button, a {
+    transition-duration: var(--trans-dur);
+}
+
 #root {
     min-height: 100vh;
+}
+main {
+    min-height: inherit;
+    display: flex
 }
 
 h1 {
