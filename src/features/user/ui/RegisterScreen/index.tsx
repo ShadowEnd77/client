@@ -1,8 +1,13 @@
 import React from 'react'
 import styles from './registerScreen.module.scss'
 import { InputField } from '../../../../components/forms/InputField'
+import Select from 'react-select'
+import { SelectField } from '../../../../components/forms/SelectField'
+
+
 
 export const RegisterScreen = () => {
+
   return (
     <div className={styles.centered}>
       <section className={styles.section}>
@@ -19,7 +24,7 @@ export const RegisterScreen = () => {
               <InputField placeholder={"Имя"} />
               <InputField placeholder={"Фамилия"} />
               <InputField placeholder={"Отчество (если есть)"} />
-              <InputField placeholder={"Возраст"} />
+              <SelectField/>
             </div>
           </fieldset>
           <fieldset>
@@ -28,9 +33,7 @@ export const RegisterScreen = () => {
             </legend>
             <div>
               <InputField placeholder={"Имя"} />
-              <InputField placeholder={"Фамилия"} />
-              <InputField placeholder={"Отчество (если есть)"} />
-              <InputField placeholder={"Возраст"} />
+              <InputField placeholder={"Школа"} />
             </div>
           </fieldset>
 

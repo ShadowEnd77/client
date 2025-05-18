@@ -10,5 +10,6 @@ export const InputField: FC<InputFieldProps> = ({ type = "text", ...props }) => 
             className={`${props.className} ${styles.input}`}
             type={type}
         />
+
     )
 }
