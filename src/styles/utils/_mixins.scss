@@ -1,0 +1,18 @@
+@function calcVW($screen, $px) {
+    @return #{$px / $screen * 100}vw;
+}
+
+@mixin fluid-text($min, $max) {
+    font-size: calc(clamp(#{$min}px, calcVW($screen, $max), #{$max}px) * var(--fz-scale));
+}
+
+@mixin flex-center($is-inline) {
+    @if($is-inline) {
+        display: inline-flex;
+    }
+    @else {
+        display: flex;  
+    }
+    justify-content: center;
+    align-items: center;
+}

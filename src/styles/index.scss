@@ -1,0 +1,54 @@
+@import './normalize.scss', './fonts.scss';
+
+:root {
+    /*COLORS*/
+    --c-accent: #003087;
+    --c-accent-alt: #4fcd32;
+    --c-brand-first-lt: #efffeb;
+    --c-brand-second-lt: #94b6f5;
+    --c-brand-third-lt: #b8f7aa;
+    --bg-gradient: linear-gradient(
+        35deg,
+        var(--c-brand-third-lt) 0%,
+        var(--c-brand-second-lt) 70%,
+        var(--c-brand-first-lt) 100%
+    );
+
+    /*FONTS*/
+    --fz-scale: 1;
+    --font-base: "Raleway", sans-serif;
+
+    /*BLOCKS*/
+    --bradius-l: 30px;
+    --bradius-m: 20px;
+    --bradius-s: 10px;
+
+    --btn-height: 64px;
+}
+
+body {
+    @include fluid-text($base-min, $base-max);
+
+    font-family: var(--font-base);
+    background: var(--bg-gradient) no-repeat;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+h1 {
+    @include fluid-text($h1-min, $h1-max);
+}
+
+h2 {
+    @include fluid-text($h2-min, $h2-max);
+}
+
+h3 {
+    @include fluid-text($h3-min, $h3-max);
+}
+
+h4 {
+    @include fluid-text($h4-min, $h4-max);
+}
