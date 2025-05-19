@@ -5,6 +5,7 @@ import { logoIcon, tickIcon } from '../../../../ui/icons'
 import { FieldsGroup } from '../../../../ui/components/forms/FieldsGroup'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { useState } from 'react'
+import { useFormik } from 'formik'
 
 const ageOptions: SelectFieldOption[] = Array(9).fill(5).map((_, index) => {
   return {
@@ -14,7 +15,29 @@ const ageOptions: SelectFieldOption[] = Array(9).fill(5).map((_, index) => {
 })
 
 export const RegisterScreen = () => {
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      age: 0,
+      city: 0
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   const [agreeCheckbox, setAgreeCheckbox] = useState(false);
+
+  const selectAge = (age: number) => {
+    formik.setValues((values) => {
+      return {
+        ...values,
+        age: age
+      }
+    })
+  }
 
   return (
     <div className={styles.centered}>
