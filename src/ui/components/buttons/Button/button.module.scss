@@ -1,0 +1,13 @@
+.button {
+    width: 100%;
+    font-weight: 600;
+    border: unset;
+    height: var(--btn-height);
+    background-color: var(--c-accent-alt);
+    border-radius: 100px;
+    color: var(--c-light);
+    text-align: center;
+    &:disabled {
+        background-color: rgb(209, 209, 209);
+    }
+}
