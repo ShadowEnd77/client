@@ -2,24 +2,42 @@ import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import { arrowDownIcon, tickIcon } from '../../../icons'
 import inputStyles from '../InputField/inputField.module.scss'
 import styles from './selectField.module.scss'
+import { HasClassName } from '../../../../types/common/utilitarian.types'
 
 export type SelectFieldOption = {
     label: string
     value: number
 }
+type SelectAsyncOptions = {
+    isLoading?: boolean
+    limit?: number
+    part: number,
+    onLoad: () => void
+}
 
 type SelectFieldProps = {
     htmlId: string;
     selectedValue: number
-    isLoading?: boolean
+    readOnly?: boolean,
     placeholder?: string
-    searchValue: string
+    value?: string
     options: SelectFieldOption[]
+    asyncOptions?: SelectAsyncOptions
     onSearch?: (e: ChangeEvent<HTMLInputElement>) => void
-    onChange?: (value: number) => void
-}
+    onChange?: (value: number, label: string) => void
+} & HasClassName
 
-export const SelectField: FC<SelectFieldProps> = ({ isLoading, htmlId, placeholder, searchValue, options, selectedValue, onChange, onSearch }) => {
+export const SelectField: FC<SelectFieldProps> = ({
+    className,
+    readOnly,
+    htmlId,
+    placeholder,
+    value,
+    options,
+    selectedValue,
+    onChange,
+    onSearch
+}) => {
     const [isFocused, setIsFocused] = useState(false)
     const [menuIsOpened, setMenuIsOpened] = useState(false)
 
@@ -40,10 +58,9 @@ export const SelectField: FC<SelectFieldProps> = ({ isLoading, htmlId, placehold
         setMenuIsOpened(prev => !prev)
     }
 
-
-    const handleSelect = (val: number) => {
+    const handleSelect = (val: number, label: string) => {
         if (onChange) {
-            onChange(val)
+            onChange(val, label)
         }
         setIsFocused(false)
         setMenuIsOpened(false)
@@ -72,7 +89,7 @@ export const SelectField: FC<SelectFieldProps> = ({ isLoading, htmlId, placehold
         <div
             ref={ref}
             onClick={onContainerClick}
-            className={`${styles.container}`}>
+            className={`${styles.container} ${className}`}>
             <label
                 htmlFor={htmlId}
                 onClick={onLabelClick}
@@ -82,9 +99,10 @@ export const SelectField: FC<SelectFieldProps> = ({ isLoading, htmlId, placehold
                 ${styles.controls}`
                 }>
                 <input
+                    readOnly={readOnly}
                     onChange={onSearch}
                     placeholder={placeholder || "Не выбрано"}
-                    value={isLoading ? "Загрузка" : searchValue}
+                    value={value || ""}
                     onFocus={onSearchFocus}
                     className={inputStyles.input}
                     type="text"
@@ -105,7 +123,7 @@ export const SelectField: FC<SelectFieldProps> = ({ isLoading, htmlId, placehold
                                 <ul className={styles.list}>
                                     {
                                         options.map(option => (
-                                            <li onClick={() => handleSelect(option.value)} className={styles.option}>
+                                            <li onClick={() => handleSelect(option.value, option.label)} className={styles.option}>
                                                 <span>{option.label}</span>
                                                 {
                                                     selectedValue === option.value ?

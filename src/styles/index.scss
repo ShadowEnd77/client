@@ -1,11 +1,11 @@
-@import './normalize.scss', './fonts.scss';
+@import "./normalize.scss", "./fonts.scss";
 
 :root {
     /*COLORS*/
     --c-light: white;
     --c-dark: black;
     --c-dark-opacity: rgba(0, 0, 0, 0.2);
-    --c-dark-alt: #2F2F2F;
+    --c-dark-alt: #2f2f2f;
     --c-accent: #003087;
     --c-accent-alt: #4fcd32;
     --c-brand-first-lt: #efffeb;
@@ -23,13 +23,13 @@
     --font-base: "Raleway", sans-serif;
 
     /*BLOCKS*/
-    --border: 1px solid var(--c-dark-alt); 
+    --border: 1px solid var(--c-dark-alt);
     --bradius-l: 30px;
     --bradius-m: 20px;
     --bradius-s: 10px;
     --bradius-xs: 6px;
-    --btn-height: 64px;
-    
+    --btn-height: 56px;
+
     /*SHADOWS*/
     --shadow-s: 0 0 20px rgba(0, 0, 0, 0.05);
 
@@ -39,12 +39,18 @@
 
 body {
     @include fluid-text($base-min, $base-max);
+    @include scrollbar;
+
     color: var(--c-dark-alt);
     font-family: var(--font-base);
     background: var(--bg-gradient) no-repeat;
+    background-attachment: fixed;
+    line-height: 1.3;
 }
 
-input, button, a {
+input,
+button,
+a {
     transition-duration: var(--trans-dur);
 }
 
@@ -52,11 +58,16 @@ input, button, a {
     min-height: 100vh;
 }
 main {
+    padding: 20px;
     min-height: inherit;
-    display: flex
+    overflow-y: auto;
+    display: flex;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     line-height: 1.2;
 }
 

@@ -1,11 +1,12 @@
 import React, { Attributes, FC, FocusEvent, FocusEventHandler, HTMLAttributes, InputHTMLAttributes, useState } from 'react'
 import styles from './inputField.module.scss'
 
-type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+type InputFieldProps<NameType> = InputHTMLAttributes<HTMLInputElement> & {
     error?: string
+    name?: NameType
 }
 
-export const InputField: FC<InputFieldProps> = ({ ...props }) => {
+export const InputField = <NameType,>(props: InputFieldProps<NameType>) => {
     const [isFocused, setIsFocused] = useState(false)
 
     const onFocus = (e: FocusEvent<HTMLInputElement>) => {
@@ -28,7 +29,7 @@ export const InputField: FC<InputFieldProps> = ({ ...props }) => {
         <label
             className={`
                 ${styles.wrapper} 
-                ${isFocused || props.value ? styles.focused : ""}
+                ${(isFocused || props.value) ? styles.focused : ""}
                 ${props.error ? styles.error : ""}
                 ${props.disabled ? styles.disabled : ""}
                 `}
@@ -36,6 +37,7 @@ export const InputField: FC<InputFieldProps> = ({ ...props }) => {
         >
             <input
                 {...props}
+                name={props.name}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 className={`${props.className} ${styles.input}`}
