@@ -11,17 +11,17 @@ import { UserRegisterReq } from '../../../../types/api/user.api.types'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { getCities, resetPagination } from '../../../citites/slices/citiesSlice'
+import { generateKey } from '../../utils/generateKey'
 
 type UserRegisterForm = Omit<UserRegisterReq, "password">
 type UserRegisterFormKeys = keyof UserRegisterForm
 type UserRegisterFormSelects = keyof Pick<UserRegisterForm, "age" | "city_id">
 
-
 export const RegisterForm = () => {
     const dispatch = useAppDispatch()
     const { cities } = useAppSelector(state => state)
 
-    const [agreeCheckbox, setAgreeCheckbox] = useState(false);
+    const [agreeCheckbox, setAgreeCheckbox] = useState(true);
     const [searchCitiesValue, setSearchCitiesValue] = useState("");
     const defferedSearchCitiesValue = useDeferredValue(searchCitiesValue)
 
@@ -34,7 +34,11 @@ export const RegisterForm = () => {
             city_id: 0
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            const data: UserRegisterReq = {
+                ...values,
+                password: generateKey(60)
+            }
+            console.log(data)
         },
     });
 
@@ -65,10 +69,6 @@ export const RegisterForm = () => {
     }
 
     useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values])
-
-    useEffect(() => {
         if (!cities.statuses.loading) {
             dispatch(resetPagination())
             fetchCities()
@@ -76,7 +76,7 @@ export const RegisterForm = () => {
     }, [defferedSearchCitiesValue])
 
     return (
-        <form action="" className={styles.form}>
+        <form autoComplete={"off"} onSubmit={formik.handleSubmit} action="" className={styles.form}>
             <FieldsGroup
                 classNames={{
                     body: styles.personFields
@@ -137,7 +137,7 @@ export const RegisterForm = () => {
                 />
             </FieldsGroup>
             <div className={styles.bottom}>
-                <Button disabled={fieldsAreNotValid || !agreeCheckbox}>Начать</Button>
+                <Button type={"submit"} disabled={fieldsAreNotValid || !agreeCheckbox}>Начать</Button>
                 <div onClick={() => setAgreeCheckbox(prev => !prev)} tabIndex={1} className={styles.checkboxWrapper}>
                     <div className={styles.checkbox}>
                         {agreeCheckbox ? <img src={tickIcon} height={5} width={9} alt="" /> : null}
