@@ -21,6 +21,7 @@
         &:not(:placeholder-shown)::placeholder {
             color: inherit;
         }
+        
         &:placeholder-shown::placeholder {
             color: var(--c-dark-opacity);
         }

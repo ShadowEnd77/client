@@ -4,10 +4,15 @@ import { useAppSelector } from '../store/hooks'
 import { AuthRoute } from './ui/AuthRoute'
 import { AuthChecker } from '../features/user/ui/AuthProvider'
 import { routes } from './routes'
+import { useEffect } from 'react'
 
 export const AppRouter = () => {
     const { token } = useAppSelector(state => state.user)
 
+    useEffect(() => {
+        console.log("render in router");
+        
+    }, [])
     return (
         <Routes>
             {

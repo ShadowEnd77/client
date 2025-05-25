@@ -1,31 +1,11 @@
-import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
-import { arrowDownIcon, tickIcon } from '../../../icons'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { arrowDownIcon } from '../../../icons'
+import { ObserverContainer } from '../../containers/ObserverContainer'
+import { Loader } from '../../service/Loader'
+import { SelectFieldOption, SelectFieldProps } from './selectField.types'
 import inputStyles from '../InputField/inputField.module.scss'
 import styles from './selectField.module.scss'
-import { HasClassName } from '../../../../types/common/utilitarian.types'
-
-export type SelectFieldOption = {
-    label: string
-    value: number
-}
-type SelectAsyncOptions = {
-    isLoading?: boolean
-    limit?: number
-    part: number,
-    onLoad: () => void
-}
-
-type SelectFieldProps = {
-    htmlId: string;
-    selectedValue: number
-    readOnly?: boolean,
-    placeholder?: string
-    value?: string
-    options: SelectFieldOption[]
-    asyncOptions?: SelectAsyncOptions
-    onSearch?: (e: ChangeEvent<HTMLInputElement>) => void
-    onChange?: (value: number, label: string) => void
-} & HasClassName
+import { SelectOption } from './option'
 
 export const SelectField: FC<SelectFieldProps> = ({
     className,
@@ -33,6 +13,7 @@ export const SelectField: FC<SelectFieldProps> = ({
     htmlId,
     placeholder,
     value,
+    asyncOptions,
     options,
     selectedValue,
     onChange,
@@ -40,8 +21,7 @@ export const SelectField: FC<SelectFieldProps> = ({
 }) => {
     const [isFocused, setIsFocused] = useState(false)
     const [menuIsOpened, setMenuIsOpened] = useState(false)
-
-    const ref = useRef<any>(null);
+    const ref = useRef<HTMLDivElement>(null);
 
     const onSearchFocus = () => {
         setIsFocused(true)
@@ -58,32 +38,35 @@ export const SelectField: FC<SelectFieldProps> = ({
         setMenuIsOpened(prev => !prev)
     }
 
-    const handleSelect = (val: number, label: string) => {
-        if (onChange) {
-            onChange(val, label)
-        }
+    const onSelect = useCallback((option: SelectFieldOption) => {
+        onChange?.(option.value, option.label)
         setIsFocused(false)
         setMenuIsOpened(false)
-    }
+    }, [onChange])
 
-    const handleClickOutside = (event: any) => {
+    const onClickOutside = (event: any) => {
         if (ref.current && !ref.current.contains(event.target)) {
             if (menuIsOpened) {
                 setIsFocused(false)
                 setMenuIsOpened(false)
             }
         }
-    };
+    }
+
+    useEffect(() => {
+        if (!menuIsOpened && isFocused) {
+            setMenuIsOpened(true)
+        }
+    }, [value])
 
     useEffect(() => {
         if (menuIsOpened) {
-            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('mousedown', onClickOutside);
         }
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', onClickOutside);
         };
     }, [menuIsOpened])
-
 
     return (
         <div
@@ -95,7 +78,7 @@ export const SelectField: FC<SelectFieldProps> = ({
                 onClick={onLabelClick}
                 className={`
                 ${inputStyles.wrapper} 
-                ${isFocused || selectedValue ? inputStyles.focused : ""} 
+                ${isFocused || selectedValue || value ? inputStyles.focused : ""} 
                 ${styles.controls}`
                 }>
                 <input
@@ -112,33 +95,43 @@ export const SelectField: FC<SelectFieldProps> = ({
                 </div>
             </label>
             {
-                menuIsOpened ?
-                    <div className={styles.menu}>
-                        {
+                menuIsOpened &&
+                <div className={styles.menu}>
+                    {
+                        !options.length || asyncOptions?.is_loading ?
+                            <div className={styles.noMatch}>
+                                <p>{!asyncOptions?.is_loading ? "Ничего не найдено" : "Ищем города..."}</p>
+                            </div> :
+                            <ul className={styles.list}>
+                                {
+                                    options.map((option) => (
+                                        <SelectOption
+                                            selectedValue={selectedValue}
+                                            onSelect={() => onSelect(option)}
+                                            {...option}
+                                        />
+                                    ))
+                                }
+                                {
+                                    asyncOptions &&
+                                    <li>
+                                        <ObserverContainer
+                                            disabled={asyncOptions.is_pag_loading || asyncOptions.is_loading}
+                                            onInView={asyncOptions.onLoad}
+                                        />
+                                        {
+                                            asyncOptions.is_pag_loading &&
+                                            <div className={`${styles.loader}`}>
+                                                <Loader width={16} height={16} />
+                                                <span>Загружаем еще...</span>
+                                            </div>
+                                        }
 
-                            !options.length ?
-                                <div className={styles.noMatch}>
-                                    <p>Ничего не найдено</p>
-                                </div> :
-                                <ul className={styles.list}>
-                                    {
-                                        options.map(option => (
-                                            <li onClick={() => handleSelect(option.value, option.label)} className={styles.option}>
-                                                <span>{option.label}</span>
-                                                {
-                                                    selectedValue === option.value ?
-                                                        <img src={tickIcon} height={8} width={12} alt="" />
-                                                        : null
-                                                }
-
-                                            </li>
-                                        ))
-                                    }
-                                </ul>
-
-                        }
-                    </div>
-                    : null
+                                    </li>
+                                }
+                            </ul>
+                    }
+                </div>
             }
         </div>
     )

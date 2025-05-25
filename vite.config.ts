@@ -11,6 +11,7 @@ export default defineConfig({
         additionalData: `
           @import "@/styles/utils/variables";
           @import "@/styles/utils/mixins";
+          @import "@/styles/utils/utils";
         `
       }
     }

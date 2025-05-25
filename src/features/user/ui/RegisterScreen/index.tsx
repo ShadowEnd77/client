@@ -1,28 +1,29 @@
 import styles from './registerScreen.module.scss'
 import { InputField } from '../../../../ui/components/forms/InputField'
-import { SelectField, SelectFieldOption } from '../../../../ui/components/forms/SelectField'
+import { SelectField } from '../../../../ui/components/forms/SelectField'
 import { logoIcon, tickIcon } from '../../../../ui/icons'
 import { FieldsGroup } from '../../../../ui/components/forms/FieldsGroup'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { UserRegisterReq } from '../../../../types/api/user.api.types'
-
+import { STATIC_DATA } from '../../config'
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { getCities, resetPagination } from '../../../citites/slices/citiesSlice'
+import { getSelectOptions } from '../../../../utils/getSelectOptions'
+import { useDeferredValue } from '../../../../hooks/useDefferedValue'
 
 type UserRegisterForm = Omit<UserRegisterReq, "password">
 type UserRegisterFormKeys = keyof UserRegisterForm
 type UserRegisterFormSelects = keyof Pick<UserRegisterForm, "age" | "city_id">
 
-const ageOptions: SelectFieldOption[] = Array(9).fill(null).map((_, index) => {
-  return {
-    value: 7 + index,
-    label: `${7 + index} лет`
-  }
-})
-
 export const RegisterScreen = () => {
+  const dispatch = useAppDispatch();
+  const { cities } = useAppSelector(state => state)
+
   const [agreeCheckbox, setAgreeCheckbox] = useState(false);
-  const [searchCitiesValue, setSearchCitiesValue] = useState("")
+  const [searchCitiesValue, setSearchCitiesValue] = useState("");
+  const defferedSearchCitiesValue = useDeferredValue(searchCitiesValue)
 
   const formik = useFormik<UserRegisterForm>({
     initialValues: {
@@ -53,6 +54,14 @@ export const RegisterScreen = () => {
       }
     })
   }
+  const fetchCities = () => {
+    dispatch(getCities({
+      part: cities.pagination.part,
+      limit: cities.pagination.limit
+    }))
+    console.log("Пытаемся загрузить");
+
+  }
 
   const onCitySelect = (city: number, name: string) => {
     if (name !== searchCitiesValue) {
@@ -63,8 +72,14 @@ export const RegisterScreen = () => {
 
   useEffect(() => {
     console.log(formik.values);
-
   }, [formik.values])
+
+  useEffect(() => {
+    if (!cities.statuses.loading) {
+      dispatch(resetPagination())
+      fetchCities()
+    }
+  }, [defferedSearchCitiesValue])
 
   return (
     <div className={styles.centered}>
@@ -92,16 +107,16 @@ export const RegisterScreen = () => {
               value={formik.values.last_name}
               onChange={formik.handleChange}
             />
-            <SelectField
+            {/* <SelectField
               className={styles.ageSelect}
               readOnly
               placeholder={"Выбери свой возраст"}
               htmlId={"register-age-input"}
-              options={ageOptions}
-              value={ageOptions.find(item => item.value === formik.values.age)?.label}
+              options={STATIC_DATA.AGES_OPTIONS}
+              value={STATIC_DATA.AGES_OPTIONS.find(item => item.value === formik.values.age)?.label}
               selectedValue={formik.values.age}
               onChange={(value) => registerFormSelect("age", value)}
-            />
+            /> */}
           </FieldsGroup>
           <FieldsGroup
             classNames={{
@@ -111,12 +126,19 @@ export const RegisterScreen = () => {
           >
             <SelectField
               className={styles.ageSelect}
-              readOnly
               placeholder={"Выбери свой город"}
               htmlId={"register-city-input"}
-              options={[]}
+              options={getSelectOptions(cities.items, "id", "name")}
+              asyncOptions={{
+                is_loading: cities.statuses.loading,
+                is_pag_loading: cities.pagination.loading,
+                part: cities.pagination.part,
+                limit: cities.pagination.limit,
+                onLoad: fetchCities,
+              }}
+              onSearch={(e) => setSearchCitiesValue(e.target.value)}
               value={searchCitiesValue}
-              selectedValue={formik.values.age}
+              selectedValue={formik.values.city_id}
               onChange={(value, label) => onCitySelect(value, label)}
             />
             <InputField<UserRegisterFormKeys>

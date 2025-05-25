@@ -1,8 +1,10 @@
-@import "./normalize.scss", "./fonts.scss";
+@import "./normalize.scss", "./fonts.scss", "./animations.scss";
 
 :root {
     /*COLORS*/
     --c-light: white;
+    --c-light-hover: #fbfbfb;
+    --c-gray: rgb(209, 209, 209);
     --c-dark: black;
     --c-dark-opacity: rgba(0, 0, 0, 0.2);
     --c-dark-alt: #2f2f2f;

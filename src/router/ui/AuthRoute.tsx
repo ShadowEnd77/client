@@ -12,6 +12,7 @@ export const AuthRoute: FC<AppRouteProps<AuthRouteOptions>> = ({
     }
 }) => {
 
+
     if (!options.token && !options.authIsInverted) {
         return <Navigate to={ROUTER.PATHS.SIGNUP} />
     }

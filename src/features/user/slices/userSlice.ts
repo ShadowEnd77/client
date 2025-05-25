@@ -3,9 +3,8 @@ import { UserRegisterReq, UserRegisterRes } from '../../../types/api/user.api.ty
 import { UserApi } from '../api/user.api'
 import { AxiosResponse } from 'axios'
 import { storeToken } from '../utils/storeToken'
-import { USER_MESSAGES } from '../messages'
 import { initialUserState } from './userState'
-
+import { USER_STRINGS } from '../config'
 
 export const userRegister = createAsyncThunk(
     'user/register',
@@ -46,7 +45,7 @@ export const userSlice = createSlice({
             })
             .addCase(userRegister.rejected, state => {
                 state.register.loading = false
-                state.register.error = USER_MESSAGES.REGISTRATION_ERROR
+                state.register.error = USER_STRINGS.REGISTRATION_ERROR
             })
     },
 })

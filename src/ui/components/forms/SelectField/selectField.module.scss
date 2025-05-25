@@ -25,12 +25,19 @@
         overflow: hidden;
         z-index: 2;
 
+        .loader {
+            @include flex-center;
+
+            column-gap: 5px;
+            color: var(--c-gray);
+        }
         .list {
             @include scrollbar;
 
             max-height: inherit;
             padding-bottom: 20px;
             overflow-y: auto;
+
             .option {
                 font-weight: 500;
                 display: flex;
@@ -40,8 +47,9 @@
                 transition: var(--trans-dur) background;
                 border-radius: var(--bradius-xs);
                 padding: 8px 18px;
+
                 &:hover {
-                    background-color: #fbfbfb;
+                    background-color: var(--c-light-hover);
                 }
             }
         }

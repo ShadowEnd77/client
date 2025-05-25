@@ -1,13 +1,11 @@
+import { ResponseStatus } from "../../../types/common/utilitarian.types"
 import { User } from "../../../types/entities"
 
 type UserSliceState = {
     token: boolean
     data: User
     form: Omit<User, "uuid">
-    register: {
-        loading: boolean
-        error: string
-    }
+    register: ResponseStatus
 }
 
 const defaultUserData: Omit<User, "uuid"> = {
@@ -27,7 +25,8 @@ export const initialUserState: UserSliceState = {
     form: defaultUserData,
     register: {
         loading: false,
-        error: ""
+        error: "",
+        success: null
     }
 
 }

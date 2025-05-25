@@ -1,0 +1,14 @@
+import { SelectFieldOption } from "../ui/components/forms/SelectField/selectField.types"
+
+export const getSelectOptions = <ListElementType>(
+    items: ListElementType[],
+    valueKey: keyof ListElementType,
+    labelKey: keyof ListElementType
+): SelectFieldOption[] => {
+    return items.map((element) => {
+        return {
+            value: parseInt(element[valueKey] as string),
+            label: String(element[labelKey])
+        }
+    })
+}
