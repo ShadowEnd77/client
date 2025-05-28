@@ -9,15 +9,23 @@ import { USER_STRINGS } from '../config'
 export const userRegister = createAsyncThunk(
     'user/register',
     async (req: UserRegisterReq) => {
-        const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
+        return new Promise<UserRegisterRes>((rs, _) => {
+            setTimeout(() => {
+                rs({
+                    access_token: "access_token",
+                    uuid: "user id test"
+                })
+            }, 3000)
+        })
+        // const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
 
-        if (!res.data) {
-            throw res;
-        }
+        // if (!res.data) {
+        //     throw res;
+        // }
 
-        storeToken(res.data.access_token);
+        // storeToken(res.data.access_token);
 
-        return res.data;
+        // return res.data;
     },
 )
 

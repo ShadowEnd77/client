@@ -10,3 +10,10 @@ export type User = {
 }
 
 export type City = HasId & HasName
+
+export type SurveyQuestion = {
+    text: string
+} & HasId
+
+export type SurveyAnswer = 0 | 1
+export type SurveyAnswers = Record<SurveyAnswer, string>

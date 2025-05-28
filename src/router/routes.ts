@@ -1,5 +1,5 @@
 import { StartPage } from "../ui/components/StartPage";
-import { RegisterScreen } from "../features/user/ui/RegisterScreen";
+import { RegisterScreen } from "../features/user/ui/screens/RegisterScreen";
 import { ROUTER } from "./consts";
 import { AppRoute, AppRouteType } from "./types";
 

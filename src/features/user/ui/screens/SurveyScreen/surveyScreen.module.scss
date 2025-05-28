@@ -1,0 +1,71 @@
+.section {
+    max-width: 740px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 30px;
+        margin-bottom: 40px;
+    }
+    .survey {
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px;
+
+        .surveyHeader {
+            .surveyTitle {
+                text-align: center;
+                font-weight: 600;
+            }
+        }
+        .surveyDescription {
+            @include flex-center;
+            @include scrollbar;
+
+            --maxHeightText: 160px;
+            width: 100%;
+            max-height: var(--maxHeightText);
+            min-height: var(--maxHeightText);
+            overflow-y: auto;
+            text-align: center;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        .surveyControls {
+            .suggestion {
+                color: var(--c-gray-dark);
+                font-size: 14px;
+                display: block;
+                text-align: center;
+                margin-bottom: 1em;
+            }
+            .buttons {
+                --surveyButtonHeight: 66px;
+                display: flex;
+                gap: 10px;
+                justify-content: space-between;
+                
+                .buttonNo {
+                    background-color: var(--c-red);
+                }
+
+                button {
+                    height: var(--surveyButtonHeight);
+                }
+            }
+        }
+        .progressBar {
+            height: 4px;
+            border-radius: var(--bradius-xs);
+            background-color: var(--c-gray);
+
+            .line {
+                transition: var(--trans-dur) width;
+                height: inherit;
+                border-radius: inherit;
+                background-color: var(--c-accent-alt);
+            }
+        }
+    }
+}

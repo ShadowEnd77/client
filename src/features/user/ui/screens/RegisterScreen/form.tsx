@@ -1,17 +1,18 @@
-import { useDeferredValue, useEffect, useState } from 'react'
+import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import styles from './registerScreen.module.scss'
-import { Button } from '../../../../ui/components/buttons/Button'
-import { FieldsGroup } from '../../../../ui/components/forms/FieldsGroup'
-import { InputField } from '../../../../ui/components/forms/InputField'
-import { SelectField } from '../../../../ui/components/forms/SelectField'
-import { tickIcon } from '../../../../ui/icons'
-import { getSelectOptions } from '../../../../utils/getSelectOptions'
-import { STATIC_DATA } from '../../config'
-import { UserRegisterReq } from '../../../../types/api/user.api.types'
+import { Button } from '../../../../../ui/components/buttons/Button'
+import { FieldsGroup } from '../../../../../ui/components/forms/FieldsGroup'
+import { InputField } from '../../../../../ui/components/forms/InputField'
+import { SelectField } from '../../../../../ui/components/forms/SelectField'
+import { tickIcon } from '../../../../../ui/icons'
+import { getSelectOptions } from '../../../../../utils/getSelectOptions'
+import { STATIC_DATA } from '../../../config'
+import { UserRegisterReq } from '../../../../../types/api/user.api.types'
 import { useFormik } from 'formik'
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { getCities, resetPagination } from '../../../citites/slices/citiesSlice'
-import { generateKey } from '../../utils/generateKey'
+import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
+import { getCities, resetPagination } from '../../../../citites/slices/citiesSlice'
+import { generateKey } from '../../../utils/generateKey'
+import { userRegister } from '../../../slices/userSlice'
 
 type UserRegisterForm = Omit<UserRegisterReq, "password">
 type UserRegisterFormKeys = keyof UserRegisterForm
@@ -19,7 +20,7 @@ type UserRegisterFormSelects = keyof Pick<UserRegisterForm, "age" | "city_id">
 
 export const RegisterForm = () => {
     const dispatch = useAppDispatch()
-    const { cities } = useAppSelector(state => state)
+    const { cities, user } = useAppSelector(state => state)
 
     const [agreeCheckbox, setAgreeCheckbox] = useState(true);
     const [searchCitiesValue, setSearchCitiesValue] = useState("");
@@ -39,6 +40,7 @@ export const RegisterForm = () => {
                 password: generateKey(60)
             }
             console.log(data)
+            dispatch(userRegister(data))
         },
     });
 
@@ -57,10 +59,12 @@ export const RegisterForm = () => {
         registerFormSelect("city_id", city)
     }
 
-    const fieldsAreNotValid = Object.keys(formik.values).some((key) => {
-        const typedKey = key as UserRegisterFormKeys;
-        return !formik.values[typedKey]
-    })
+    const fieldsAreNotValid = useMemo(() => {
+        return Object.keys(formik.values).some((key) => {
+            const typedKey = key as UserRegisterFormKeys;
+            return !formik.values[typedKey]
+        })
+    }, [formik.values])
 
     const registerFormSelect = (key: UserRegisterFormSelects, value: number) => {
         formik.setValues((values) => {
@@ -137,7 +141,12 @@ export const RegisterForm = () => {
                 />
             </FieldsGroup>
             <div className={styles.bottom}>
-                <Button type={"submit"} disabled={fieldsAreNotValid || !agreeCheckbox}>Начать</Button>
+                <Button
+                    isLoading={user.register.loading}
+                    type={"submit"}
+                    disabled={fieldsAreNotValid || !agreeCheckbox}>
+                    Начать
+                </Button>
                 <div onClick={() => setAgreeCheckbox(prev => !prev)} tabIndex={1} className={styles.checkboxWrapper}>
                     <div className={styles.checkbox}>
                         {agreeCheckbox ? <img src={tickIcon} height={5} width={9} alt="" /> : null}

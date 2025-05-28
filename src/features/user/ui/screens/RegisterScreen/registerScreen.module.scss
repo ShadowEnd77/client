@@ -1,14 +1,6 @@
-.centered {
-    @include flex-center();
-    width: 100%;
-}
 .section {
-    background: white;
-    padding: 50px;
-    border-radius: var(--bradius-l);
-    max-width: 590px;
-    width: 100%;
-
+    max-width: 580px;
+    
     .header {
         display: flex;
         justify-content: space-between;

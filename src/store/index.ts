@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { userReducer } from '../features/user/slices/userSlice'
 import { citiesReducer } from '../features/citites/slices/citiesSlice'
+import { surveyReducer } from '../features/survey/slices/surveySlice'
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
-        cities: citiesReducer
+        cities: citiesReducer,
+        survey: surveyReducer,
     },
 })
 
