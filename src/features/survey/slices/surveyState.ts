@@ -1,4 +1,4 @@
-import { SendSurveyReq } from "../../../types/api/survey.api.typs"
+import { SendSurveyReq } from "../../../types/api/survey.api.types"
 import { ResponseStatus } from "../../../types/common/utilitarian.types"
 import { SurveyAnswers, SurveyQuestion } from "../../../types/entities"
 
@@ -10,11 +10,16 @@ type SurveySliceState = {
     }
     data: SendSurveyReq;
     current_question_id: number
+    answered_count: number
+    test_passed: boolean
 }
 
 
 export const initialSurveyState: SurveySliceState = {
-    available_answers: {},
+    available_answers: {
+        0: "",
+        1: ""
+    },
     questions: {
         items: [],
         statuses: {
@@ -24,5 +29,7 @@ export const initialSurveyState: SurveySliceState = {
         }
     },
     data: {},
-    current_question_id: 0
+    current_question_id: 0,
+    answered_count: 0,
+    test_passed: false
 }

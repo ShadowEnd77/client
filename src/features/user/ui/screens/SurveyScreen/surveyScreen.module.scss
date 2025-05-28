@@ -1,5 +1,8 @@
 .section {
-    max-width: 740px;
+    max-width: 650px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
 
     .header {
         display: flex;
@@ -9,15 +12,24 @@
         margin-bottom: 40px;
     }
     .survey {
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         row-gap: 30px;
+        justify-content: flex-end;
+        --surveyButtonHeight: 66px;
 
-        .surveyHeader {
-            .surveyTitle {
-                text-align: center;
-                font-weight: 600;
-            }
+        .surveyPassed {
+            justify-self: flex-end;
+            text-align: center;
+            display: flex;
+            flex-grow: 0.6;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .surveyTitle {
+            text-align: center;
+            font-weight: 600;
         }
         .surveyDescription {
             @include flex-center;
@@ -32,6 +44,9 @@
             font-weight: 500;
             font-size: 18px;
         }
+        .surveyButton {
+            height: var(--surveyButtonHeight);
+        }
         .surveyControls {
             .suggestion {
                 color: var(--c-gray-dark);
@@ -41,17 +56,12 @@
                 margin-bottom: 1em;
             }
             .buttons {
-                --surveyButtonHeight: 66px;
                 display: flex;
                 gap: 10px;
                 justify-content: space-between;
-                
+
                 .buttonNo {
                     background-color: var(--c-red);
-                }
-
-                button {
-                    height: var(--surveyButtonHeight);
                 }
             }
         }

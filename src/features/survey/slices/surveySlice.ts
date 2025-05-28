@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialSurveyState } from './surveyState'
-import { GetSurveyReq, GetSurveyRes } from '../../../types/api/survey.api.typs'
+import { GetSurveyReq, GetSurveyRes } from '../../../types/api/survey.api.types'
+import { SurveyAnswer } from '../../../types/entities'
 
 export const getSurvey = createAsyncThunk(
     'survey/get',
@@ -46,6 +47,20 @@ export const surveySlice = createSlice({
     name: 'survey',
     initialState: initialSurveyState,
     reducers: {
+        answerTheQuestion: (state, action: PayloadAction<SurveyAnswer>) => {
+            state.data[state.current_question_id] = action.payload
+            const questionsLength = state.questions.items.length
+            state.answered_count += 1
+
+            if (state.answered_count == questionsLength) {
+                state.test_passed = true;
+                return;
+            }
+            if (state.answered_count < questionsLength) {
+                state.current_question_id = state.questions.items[state.answered_count].id;
+                return;
+            }
+        }
     },
     extraReducers(builder) {
         builder
@@ -59,6 +74,7 @@ export const surveySlice = createSlice({
             .addCase(getSurvey.fulfilled, (state, action: PayloadAction<GetSurveyRes>) => {
                 state.questions.items = action.payload.questions
                 state.available_answers = action.payload.answers
+                state.current_question_id = action.payload.questions[0].id
                 state.questions.statuses = {
                     loading: true,
                     success: false,
@@ -76,7 +92,7 @@ export const surveySlice = createSlice({
 })
 
 export const {
-
+    answerTheQuestion
 } = surveySlice.actions
 
 export const surveyReducer = surveySlice.reducer
