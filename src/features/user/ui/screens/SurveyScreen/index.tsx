@@ -1,11 +1,12 @@
 import styles from './surveyScreen.module.scss'
-import { logoIcon } from '../../../../../ui/icons'
+import { logoIcon, smileIcon } from '../../../../../ui/icons'
 import { WhiteContainer } from '../../../../../ui/components/containers/WhiteContainer'
 import { Button } from '../../../../../ui/components/buttons/Button'
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { useEffect } from 'react'
 import { answerTheQuestion, getSurvey } from '../../../../survey/slices/surveySlice'
 import { SurveyAnswer } from '../../../../../types/entities'
+import { Loader } from '../../../../../ui/components/service/Loader'
 
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
@@ -48,42 +49,57 @@ export const SurveyScreen = () => {
             </header>
             <div className={styles.survey}>
                 {
-                    test_passed ?
-                        <div className={styles.surveyPassed}>
-                            <h2 className={styles.surveyTitle}>Спасибо тебе <br /> за пройденный опрос!</h2>
-                            <div className={styles.buttons}>
-                                <Button onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
-                                    Отправить ответы
-                                </Button>
-                            </div>
-
-                        </div>
-                        : <>
-                            <header className={styles.surveyHeader}>
-                                <h2 className={styles.surveyTitle}>Вопрос {getAnsweredProgress()}/{questions.items.length}</h2>
-                                <div className={`surveyProgressWrapper ${styles.progressBar}`}>
-                                    <div
-                                        style={{ width: `${getAnsweredProgress() / questions.items.length * 100}%` }}
-                                        className={`surveyProgress ${styles.line}`} />
-                                </div>
-                            </header>
-                            <div className={styles.surveyDescription}>
-                                <p>{currentQuestion?.text}</p>
-                            </div>
-                            <div className={styles.surveyControls}>
-                                <span className={styles.suggestion}>Выберите вариант ответа</span>
+                    !questions.statuses.loading ?
+                        test_passed ?
+                            <div className={styles.surveyPassed}>
+                                <img height={160} width={160} src={smileIcon} alt="" />
+                                <h2 className={styles.surveyTitle}>Спасибо тебе <br /> за пройденный опрос!</h2>
                                 <div className={styles.buttons}>
-                                    <Button onClick={() => onAnswer(0)} classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
-                                        {available_answers[0]}
-                                    </Button>
-                                    <Button classNames={{ button: `${styles.surveyButton}` }} onClick={() => onAnswer(1)}>
-                                        {available_answers[1]}
+                                    <Button onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
+                                        Отправить ответы
                                     </Button>
                                 </div>
+
                             </div>
-                        </>
+                            : <>
+                                <header className={styles.surveyHeader}>
+                                    <h2 className={styles.surveyTitle}>
+                                        <div className={styles.surveyTitleInner}>
+                                            <span className={styles.surveyQuestionLabel}>Вопрос</span>&nbsp;
+                                            <span className={styles.surveyQuestionCount}>{getAnsweredProgress()}/{questions.items.length}</span>
+                                        </div>
+                                    </h2>
+                                    <div className={`surveyProgressWrapper ${styles.progressBar}`}>
+                                        <div
+                                            style={{ width: `${getAnsweredProgress() / questions.items.length * 100}%` }}
+                                            className={`surveyProgress ${styles.line}`} />
+                                    </div>
+                                </header>
+                                <div className={styles.surveyDescription}>
+                                    <p>{currentQuestion?.text}</p>
+                                </div>
+                                <div className={styles.surveyControls}>
+                                    <span className={styles.suggestion}>Выберите вариант ответа</span>
+                                    <div className={styles.buttons}>
+                                        <Button onClick={() => onAnswer(0)} classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
+                                            {available_answers[0]}
+                                        </Button>
+                                        <Button classNames={{ button: `${styles.surveyButton}` }} onClick={() => onAnswer(1)}>
+                                            {available_answers[1]}
+                                        </Button>
+                                    </div>
+                                </div>
+                            </>
+                        :
+                        <div className={styles.surveyPreloader}>
+                            <Loader width={130} height={130} />
+                            <span className={styles.surveyPreloaderText}>
+                                Подождите, загружаем вопросы...
+                            </span>
+                        </div>
+
                 }
             </div>
-        </WhiteContainer>
+        </WhiteContainer >
     )
 }

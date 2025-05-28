@@ -25,11 +25,35 @@ export const getSurvey = createAsyncThunk(
                         {
                             id: 3,
                             text: "Знаете ли вы Пашу Коробова 3?"
+                        },
+                        {
+                            id: 4,
+                            text: "Знаете ли вы Пашу Коробова 1?"
+                        },
+                        {
+                            id: 5,
+                            text: "Знаете ли вы Пашу Коробова 2?"
+                        },
+                        {
+                            id: 6,
+                            text: "Знаете ли вы Пашу Коробова 3?"
+                        },
+                        {
+                            id: 7,
+                            text: "Знаете ли вы Пашу Коробова 1?"
+                        },
+                        {
+                            id: 8,
+                            text: "Знаете ли вы Пашу Коробова 2?"
+                        },
+                        {
+                            id: 9,
+                            text: "Знаете ли вы Пашу Коробова 3?"
                         }
 
                     ]
                 })
-            }, 3000)
+            }, 1500)
         })
         // const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
 
@@ -40,6 +64,13 @@ export const getSurvey = createAsyncThunk(
         // storeToken(res.data.access_token);
 
         // return res.data;
+    },
+)
+
+export const sendSurvey = createAsyncThunk(
+    'survey/send',
+    async (req: GetSurveyReq) => {
+     
     },
 )
 
@@ -76,7 +107,7 @@ export const surveySlice = createSlice({
                 state.available_answers = action.payload.answers
                 state.current_question_id = action.payload.questions[0].id
                 state.questions.statuses = {
-                    loading: true,
+                    loading: false,
                     success: false,
                     error: state.questions.statuses.error
                 }

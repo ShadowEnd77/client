@@ -19,6 +19,23 @@
         justify-content: flex-end;
         --surveyButtonHeight: 66px;
 
+        .surveyPreloader {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            flex-grow: 0.55;
+            flex-direction: column;
+            row-gap: 20px;
+
+            svg {
+                color: var(--c-brand-second-lt);
+            }
+            .surveyPreloaderText {
+                font-size: 18px;
+                color: var(--c-gray-dark);
+            }
+        }
+
         .surveyPassed {
             justify-self: flex-end;
             text-align: center;
@@ -26,10 +43,26 @@
             flex-grow: 0.6;
             flex-direction: column;
             justify-content: space-between;
+            img {
+                margin-inline: auto;
+            }
         }
         .surveyTitle {
             text-align: center;
             font-weight: 600;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            column-gap: .3em;
+            
+            .surveyQuestionLabel {
+                margin-left: -1.66em;
+            }
+            .surveyQuestionCount {
+                text-align: left;
+                min-width: 85px;
+                position: absolute
+            }
         }
         .surveyDescription {
             @include flex-center;
