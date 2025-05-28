@@ -10,14 +10,14 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     }
 }
 
-export const Button: FC<ButtonProps> = ({ children, isLoading, type = "button", ...props }) => {
+export const Button: FC<ButtonProps> = ({ children, classNames, isLoading, type = "button", ...props }) => {
     return (
         <button
             {...props}
             disabled={props.disabled || isLoading}
             type={type}
-            className={`${styles.button} ${props.classNames?.button || ""}`}>
-            <div className={`${styles.content} ${props.classNames?.content || ""}}`}>
+            className={`${styles.button} ${classNames?.button || ""}`}>
+            <div className={`${styles.content} ${classNames?.content || ""}}`}>
                 {children}
                 {
                     isLoading ? <Loader height={16} width={16} /> : null

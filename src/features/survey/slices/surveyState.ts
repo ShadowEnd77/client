@@ -8,6 +8,7 @@ type SurveySliceState = {
         items: SurveyQuestion[]
         statuses: ResponseStatus
     }
+    sending_statuses: ResponseStatus
     data: SendSurveyReq;
     current_question_id: number
     answered_count: number
@@ -27,6 +28,11 @@ export const initialSurveyState: SurveySliceState = {
             error: "",
             loading: false
         }
+    },
+    sending_statuses: {
+        success: null,
+        error: "",
+        loading: false
     },
     data: {},
     current_question_id: 0,

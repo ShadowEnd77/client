@@ -18,6 +18,9 @@
     }
 
     .content {
+        @include flex-center;
+        
+        column-gap: 10px;
         position: relative;
         z-index: 2;
     }

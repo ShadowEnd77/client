@@ -4,7 +4,7 @@ import { WhiteContainer } from '../../../../../ui/components/containers/WhiteCon
 import { Button } from '../../../../../ui/components/buttons/Button'
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { useEffect } from 'react'
-import { answerTheQuestion, getSurvey } from '../../../../survey/slices/surveySlice'
+import { answerTheQuestion, getSurvey, sendSurvey } from '../../../../survey/slices/surveySlice'
 import { SurveyAnswer } from '../../../../../types/entities'
 import { Loader } from '../../../../../ui/components/service/Loader'
 
@@ -17,7 +17,8 @@ export const SurveyScreen = () => {
         questions,
         current_question_id,
         available_answers,
-        answered_count
+        answered_count,
+        sending_statuses
     } = useAppSelector(state => state.survey)
 
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
@@ -27,7 +28,7 @@ export const SurveyScreen = () => {
     }
 
     const onSubmit = () => {
-        console.log(data)
+        dispatch(sendSurvey(data))
     }
 
     const getAnsweredProgress = () => {
@@ -55,7 +56,7 @@ export const SurveyScreen = () => {
                                 <img height={160} width={160} src={smileIcon} alt="" />
                                 <h2 className={styles.surveyTitle}>Спасибо тебе <br /> за пройденный опрос!</h2>
                                 <div className={styles.buttons}>
-                                    <Button onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
+                                    <Button isLoading={sending_statuses.loading} onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
                                         Отправить ответы
                                     </Button>
                                 </div>
@@ -84,7 +85,7 @@ export const SurveyScreen = () => {
                                         <Button onClick={() => onAnswer(0)} classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
                                             {available_answers[0]}
                                         </Button>
-                                        <Button classNames={{ button: `${styles.surveyButton}` }} onClick={() => onAnswer(1)}>
+                                        <Button onClick={() => onAnswer(1)} classNames={{ button: `${styles.surveyButton}` }} >
                                             {available_answers[1]}
                                         </Button>
                                     </div>

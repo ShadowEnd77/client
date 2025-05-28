@@ -53,15 +53,15 @@
             position: relative;
             display: flex;
             justify-content: center;
-            column-gap: .3em;
-            
+            column-gap: 0.3em;
+
             .surveyQuestionLabel {
-                margin-left: -1.66em;
+                margin-left: -1.75em;
             }
             .surveyQuestionCount {
                 text-align: left;
                 min-width: 85px;
-                position: absolute
+                position: absolute;
             }
         }
         .surveyDescription {

@@ -70,7 +70,11 @@ export const getSurvey = createAsyncThunk(
 export const sendSurvey = createAsyncThunk(
     'survey/send',
     async (req: GetSurveyReq) => {
-     
+        return new Promise<any>((rs) => {
+            setTimeout(() => {
+                rs(req)
+            }, 1000)
+        })
     },
 )
 
@@ -117,6 +121,27 @@ export const surveySlice = createSlice({
                     loading: false,
                     success: false,
                     error: "Возникла ошибка получения опроса"
+                }
+            })
+            .addCase(sendSurvey.pending, state => {
+                state.sending_statuses = {
+                    success: null,
+                    loading: true,
+                    error: ""
+                }
+            })
+            .addCase(sendSurvey.fulfilled, state => {
+                state.sending_statuses = {
+                    success: true,
+                    loading: false,
+                    error: state.sending_statuses.error
+                }
+            })
+            .addCase(sendSurvey.rejected, state => {
+                state.sending_statuses = {
+                    success: false,
+                    loading: false,
+                    error: "Не удалось отправить ответы тестирования"
                 }
             })
     },
