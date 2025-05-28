@@ -25,6 +25,10 @@ export const SurveyScreen = () => {
         dispatch(answerTheQuestion(answer))
     }
 
+    const onSubmit = () => {
+        console.log(data)
+    }
+
     const getAnsweredProgress = () => {
         if (test_passed) {
             return questions.items.length
@@ -42,20 +46,18 @@ export const SurveyScreen = () => {
                 <h1 className={`${styles.title}`}>Тестирование</h1>
                 <img src={logoIcon} height={20} width={63} alt="Логотип" />
             </header>
-
             <div className={styles.survey}>
                 {
                     test_passed ?
                         <div className={styles.surveyPassed}>
                             <h2 className={styles.surveyTitle}>Спасибо тебе <br /> за пройденный опрос!</h2>
                             <div className={styles.buttons}>
-                                <Button classNames={{ button: `${styles.surveyButton}` }} onClick={() => onAnswer(1)}>
+                                <Button onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
                                     Отправить ответы
                                 </Button>
                             </div>
 
                         </div>
-
                         : <>
                             <header className={styles.surveyHeader}>
                                 <h2 className={styles.surveyTitle}>Вопрос {getAnsweredProgress()}/{questions.items.length}</h2>
