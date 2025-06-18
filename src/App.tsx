@@ -4,7 +4,6 @@ import { RegisterScreen } from './features/user/ui/screens/RegisterScreen';
 
 function App() {
   useEffect(() => {
-    console.log("render");
 
   }, [])
   return (

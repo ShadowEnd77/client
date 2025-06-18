@@ -44,6 +44,8 @@
 
     /*TRANSITIONS*/
     --trans-dur: 0.3s;
+    
+    background: var(--bg-gradient) no-repeat;
 }
 
 body {
@@ -52,7 +54,6 @@ body {
 
     color: var(--c-dark-alt);
     font-family: var(--font-base);
-    background: var(--bg-gradient) no-repeat;
     background-attachment: fixed;
     line-height: 1.4;
 }

@@ -9,7 +9,6 @@ export type AppRoute = {
 }
 
 export type AuthRouteOptions = {
-    token: boolean
     authIsInverted?: boolean
 }
 

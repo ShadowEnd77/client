@@ -1,5 +1,6 @@
 .loader {
     @include flex-center;
+    color: var(--c-brand-third-lt);
     
     svg {
         path {
