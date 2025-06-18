@@ -1,5 +1,9 @@
-@function calcVW($screen, $px) {
-    @return #{$px / $screen * 100}vw;
+@function calcVW($screen-width, $px) {
+    @return #{$px / $screen-width * 100}vw;
+}
+
+@function calcVH($screen-height, $px) {
+    @return #{$px / $screen-height * 100}vh;
 }
 
 @mixin fluid-text($min, $max) {
