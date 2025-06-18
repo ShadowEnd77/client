@@ -1,9 +1,19 @@
-import { SurveyAnswer, SurveyAnswers, SurveyQuestion } from "../entities"
+import { ResultAnswer, Survey } from "../entities"
 
-export type GetSurveyReq = any
-export type GetSurveyRes = {
-    answers: SurveyAnswers
-    questions: SurveyQuestion[]
+export type GetSurveysReq = {
+    skip?: number;  // Количество пропускаемых записей (по умолчанию 0)
+    limit?: number;  // Лимит записей (по умолчанию 10)
+};
+
+// Типы для ответа опросов
+export type GetSurveysRes = {
+    surveys: Survey[];
+};
+
+export type SendSurveyReq = {   
+    survey_id: number
+    user_id: string
+    answers: ResultAnswer[]
 }
 
-export type SendSurveyReq = Record<number, SurveyAnswer>
+export type SendSurveyResponse = any

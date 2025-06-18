@@ -1,7 +1,7 @@
 import { City } from "../entities";
 
 export type GetCitiesReq = {
-    part: number
+    skip: number
     limit: number
     query?: string
 }

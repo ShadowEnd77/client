@@ -1,45 +1,43 @@
-import styles from './surveyScreen.module.scss'
-import { logoIcon, smileIcon } from '../../../../../ui/icons'
-import { WhiteContainer } from '../../../../../ui/components/containers/WhiteContainer'
-import { Button } from '../../../../../ui/components/buttons/Button'
-import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { useEffect } from 'react'
-import { answerTheQuestion, getSurvey, sendSurvey } from '../../../../survey/slices/surveySlice'
-import { SurveyAnswer } from '../../../../../types/entities'
-import { Loader } from '../../../../../ui/components/service/Loader'
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { Answer } from '../../../../types/entities'
+import { Button } from '../../../../ui/components/buttons/Button'
+import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
+import { Loader } from '../../../../ui/components/service/Loader'
+import { logoIcon, smileIcon } from '../../../../ui/icons'
+import { answerTheQuestion, sendSurvey, getSurvey } from '../../slices/surveySlice'
+import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
+import styles from './surveyScreen.module.scss'
 
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
 
     const {
-        data,
-        test_passed,
+        answers_data,
+        survey_passed,
         questions,
         current_question_id,
-        available_answers,
-        answered_count,
+        id,
         sending_statuses
     } = useAppSelector(state => state.survey)
 
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
 
-    const onAnswer = (answer: SurveyAnswer) => {
+    const onAnswer = (answer: Answer) => {
         dispatch(answerTheQuestion(answer))
     }
 
     const onSubmit = () => {
-        dispatch(sendSurvey(data))
-    }
-
-    const getAnsweredProgress = () => {
-        if (test_passed) {
-            return questions.items.length
-        }
-        return answered_count + 1
+        dispatch(sendSurvey({
+            survey_id: id,
+            user_id: "",
+            answers: answers_data
+        }))
+        alert("Отправлено")
     }
 
     useEffect(() => {
-        dispatch(getSurvey(null))
+        dispatch(getSurvey())
     }, [])
 
     return (
@@ -51,7 +49,7 @@ export const SurveyScreen = () => {
             <div className={styles.survey}>
                 {
                     !questions.statuses.loading ?
-                        test_passed ?
+                        survey_passed ?
                             <div className={styles.surveyPassed}>
                                 <img height={160} width={160} src={smileIcon} alt="" />
                                 <h2 className={styles.surveyTitle}>Спасибо тебе <br /> за пройденный опрос!</h2>
@@ -60,19 +58,18 @@ export const SurveyScreen = () => {
                                         Отправить ответы
                                     </Button>
                                 </div>
-
                             </div>
                             : <>
                                 <header className={styles.surveyHeader}>
                                     <h2 className={styles.surveyTitle}>
                                         <div className={styles.surveyTitleInner}>
                                             <span className={styles.surveyQuestionLabel}>Вопрос</span>&nbsp;
-                                            <span className={styles.surveyQuestionCount}>{getAnsweredProgress()}/{questions.items.length}</span>
+                                            <span className={styles.surveyQuestionCount}>{getAnsweredProgress(survey_passed, answers_data, questions.items.length)}/{questions.items.length}</span>
                                         </div>
                                     </h2>
                                     <div className={`surveyProgressWrapper ${styles.progressBar}`}>
                                         <div
-                                            style={{ width: `${getAnsweredProgress() / questions.items.length * 100}%` }}
+                                            style={{ width: `${getAnsweredProgress(survey_passed, answers_data, questions.items.length) / questions.items.length * 100}%` }}
                                             className={`surveyProgress ${styles.line}`} />
                                     </div>
                                 </header>
@@ -82,23 +79,26 @@ export const SurveyScreen = () => {
                                 <div className={styles.surveyControls}>
                                     <span className={styles.suggestion}>Выберите вариант ответа</span>
                                     <div className={styles.buttons}>
-                                        <Button onClick={() => onAnswer(0)} classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
-                                            {available_answers[0]}
+                                        <Button
+                                            onClick={() => onAnswer(currentQuestion?.options[1] as Answer)}
+                                            classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
+                                            {currentQuestion?.options[1].text}
                                         </Button>
-                                        <Button onClick={() => onAnswer(1)} classNames={{ button: `${styles.surveyButton}` }} >
-                                            {available_answers[1]}
+                                        <Button
+                                            onClick={() => onAnswer(currentQuestion?.options[0] as Answer)}
+                                            classNames={{ button: `${styles.surveyButton}` }}>
+                                            {currentQuestion?.options[0].text}
                                         </Button>
                                     </div>
                                 </div>
                             </>
                         :
                         <div className={styles.surveyPreloader}>
-                            <Loader width={130} height={130} />
+                            <Loader width={50} height={50} />
                             <span className={styles.surveyPreloaderText}>
                                 Подождите, загружаем вопросы...
                             </span>
                         </div>
-
                 }
             </div>
         </WhiteContainer >

@@ -1,58 +1,15 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialSurveyState } from './surveyState'
-import { GetSurveyReq, GetSurveyRes } from '../../../types/api/survey.api.types'
-import { SurveyAnswer } from '../../../types/entities'
+import { SendSurveyReq } from '../../../types/api/survey.api.types'
+import { Answer, Survey } from '../../../types/entities'
+import { mockSurveys } from '../utils/mock-data/surveys.mock'
 
 export const getSurvey = createAsyncThunk(
     'survey/get',
-    async (req: GetSurveyReq) => {
-        return new Promise<GetSurveyRes>((rs, _) => {
+    async () => {
+        return new Promise<Survey>((rs, _) => {
             setTimeout(() => {
-                rs({
-                    answers: {
-                        0: "Нет",
-                        1: "Да"
-                    },
-                    questions: [
-                        {
-                            id: 1,
-                            text: "Знаете ли вы Пашу Коробова 1?"
-                        },
-                        {
-                            id: 2,
-                            text: "Знаете ли вы Пашу Коробова 2?"
-                        },
-                        {
-                            id: 3,
-                            text: "Знаете ли вы Пашу Коробова 3?"
-                        },
-                        {
-                            id: 4,
-                            text: "Знаете ли вы Пашу Коробова 1?"
-                        },
-                        {
-                            id: 5,
-                            text: "Знаете ли вы Пашу Коробова 2?"
-                        },
-                        {
-                            id: 6,
-                            text: "Знаете ли вы Пашу Коробова 3?"
-                        },
-                        {
-                            id: 7,
-                            text: "Знаете ли вы Пашу Коробова 1?"
-                        },
-                        {
-                            id: 8,
-                            text: "Знаете ли вы Пашу Коробова 2?"
-                        },
-                        {
-                            id: 9,
-                            text: "Знаете ли вы Пашу Коробова 3?"
-                        }
-
-                    ]
-                })
+                rs(mockSurveys.surveys[0])
             }, 1500)
         })
         // const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
@@ -69,7 +26,7 @@ export const getSurvey = createAsyncThunk(
 
 export const sendSurvey = createAsyncThunk(
     'survey/send',
-    async (req: GetSurveyReq) => {
+    async (req: SendSurveyReq) => {
         return new Promise<any>((rs) => {
             setTimeout(() => {
                 rs(req)
@@ -82,23 +39,35 @@ export const surveySlice = createSlice({
     name: 'survey',
     initialState: initialSurveyState,
     reducers: {
-        answerTheQuestion: (state, action: PayloadAction<SurveyAnswer>) => {
-            state.data[state.current_question_id] = action.payload
-            const questionsLength = state.questions.items.length
-            state.answered_count += 1
+        answerTheQuestion: (state, action: PayloadAction<Answer>) => {
+            // Answer the current question 
+            state.answers_data = [
+                ...state.answers_data,
+                {
+                    answer_option_id: action.payload.id,
+                    question_id: state.current_question_id
+                }
+            ]
 
-            if (state.answered_count == questionsLength) {
-                state.test_passed = true;
+            const questionsLength = state.questions.items.length
+            const answeredCount = state.answers_data.length
+
+            // Survey passed (finished)
+            if (answeredCount == questionsLength) {
+                state.survey_passed = true;
                 return;
             }
-            if (state.answered_count < questionsLength) {
-                state.current_question_id = state.questions.items[state.answered_count].id;
+
+            // Survey next question
+            if (answeredCount < questionsLength) {
+                state.current_question_id = state.questions.items[answeredCount].id;
                 return;
             }
         }
     },
     extraReducers(builder) {
         builder
+            // Get survey
             .addCase(getSurvey.pending, state => {
                 state.questions.statuses = {
                     loading: true,
@@ -106,9 +75,8 @@ export const surveySlice = createSlice({
                     error: ""
                 }
             })
-            .addCase(getSurvey.fulfilled, (state, action: PayloadAction<GetSurveyRes>) => {
+            .addCase(getSurvey.fulfilled, (state, action: PayloadAction<Survey>) => {
                 state.questions.items = action.payload.questions
-                state.available_answers = action.payload.answers
                 state.current_question_id = action.payload.questions[0].id
                 state.questions.statuses = {
                     loading: false,
@@ -123,6 +91,8 @@ export const surveySlice = createSlice({
                     error: "Возникла ошибка получения опроса"
                 }
             })
+
+            // Send survey
             .addCase(sendSurvey.pending, state => {
                 state.sending_statuses = {
                     success: null,

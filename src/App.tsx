@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { AppRouter } from './router'
-import { SurveyScreen } from './features/user/ui/screens/SurveyScreen';
+import { RegisterScreen } from './features/user/ui/screens/RegisterScreen';
 
 function App() {
   useEffect(() => {
@@ -9,8 +9,7 @@ function App() {
   }, [])
   return (
     <main>
-      {/* <AppRouter /> */}
-      <SurveyScreen />
+      <AppRouter />
     </main>
   )
 }

@@ -31,7 +31,7 @@
                 color: var(--c-brand-second-lt);
             }
             .surveyPreloaderText {
-                font-size: 18px;
+                font-size: var(--fz-l);
                 color: var(--c-gray-dark);
             }
         }
@@ -75,7 +75,7 @@
             overflow-y: auto;
             text-align: center;
             font-weight: 500;
-            font-size: 18px;
+            font-size: var(--fz-xl);
         }
         .surveyButton {
             height: var(--surveyButtonHeight);
@@ -83,7 +83,7 @@
         .surveyControls {
             .suggestion {
                 color: var(--c-gray-dark);
-                font-size: 14px;
+                font-size: var(--fz-m);
                 display: block;
                 text-align: center;
                 margin-bottom: 1em;

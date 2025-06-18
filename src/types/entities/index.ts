@@ -1,5 +1,6 @@
-import { HasId, HasName } from "../common/utilitarian.types"
+import { HasId, HasName, HasText } from "../common/utilitarian.types"
 
+// USER ENTITIES
 export type User = {
     uuid: string
     first_name: string
@@ -9,11 +10,31 @@ export type User = {
     school: string
 }
 
+// CITIES ENTITIES
 export type City = HasId & HasName
 
-export type SurveyQuestion = {
-    text: string
+// SURVIES ENTITIES
+// export type SurveyQuestion = {
+//     text: string
+// } & HasId
+
+// export type SurveyAnswer = 0 | 1
+// export type SurveyAnswers = Record<SurveyAnswer, string>
+
+export type Survey = {
+    title: string;
+    questions: Question[];
 } & HasId
 
-export type SurveyAnswer = 0 | 1
-export type SurveyAnswers = Record<SurveyAnswer, string>
+export type Question = {
+    options: Answer[];
+} & HasId & HasText;
+
+export type Answer = {
+    order: number;
+} & HasId & HasText;
+
+export type ResultAnswer = {
+    question_id: number,
+    answer_option_id: number
+}

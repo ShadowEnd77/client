@@ -1,26 +1,22 @@
-import { SendSurveyReq } from "../../../types/api/survey.api.types"
-import { ResponseStatus } from "../../../types/common/utilitarian.types"
-import { SurveyAnswers, SurveyQuestion } from "../../../types/entities"
+import { HasId, ResponseStatus } from "../../../types/common/utilitarian.types"
+import { Question, ResultAnswer } from "../../../types/entities"
 
 type SurveySliceState = {
-    available_answers: SurveyAnswers
+    title: string
     questions: {
-        items: SurveyQuestion[]
+        items: Question[]
         statuses: ResponseStatus
     }
-    sending_statuses: ResponseStatus
-    data: SendSurveyReq;
+    answers_data: ResultAnswer[];
     current_question_id: number
-    answered_count: number
-    test_passed: boolean
-}
+    sending_statuses: ResponseStatus
+    survey_passed: boolean
+} & HasId
 
 
 export const initialSurveyState: SurveySliceState = {
-    available_answers: {
-        0: "",
-        1: ""
-    },
+    id: 0,
+    title: "",
     questions: {
         items: [],
         statuses: {
@@ -34,8 +30,7 @@ export const initialSurveyState: SurveySliceState = {
         error: "",
         loading: false
     },
-    data: {},
+    answers_data: [],
     current_question_id: 0,
-    answered_count: 0,
-    test_passed: false
+    survey_passed: false
 }

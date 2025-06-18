@@ -39,7 +39,7 @@
             align-items: center;
             gap: 6px;
             span {
-                font-size: 13px;
+                font-size: var(--fz-s);
             }
         }
         .checkbox {

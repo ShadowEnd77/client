@@ -14,7 +14,7 @@
     --c-brand-first-lt: #efffeb;
     --c-brand-second-lt: #94b6f5;
     --c-brand-third-lt: #b8f7aa;
-    --c-red: #DD5745;
+    --c-red: #dd5745;
     --bg-gradient: linear-gradient(
         35deg,
         var(--c-brand-third-lt) 0%,
@@ -24,6 +24,11 @@
 
     /*FONTS*/
     --fz-scale: 1;
+    --fz-xs: calc(10px * var(--fz-scale));
+    --fz-s: calc(12px * var(--fz-scale));
+    --fz-m: calc(14px * var(--fz-scale));
+    --fz-l: calc(16px * var(--fz-scale));
+    --fz-xl: calc(18px * var(--fz-scale));
     --font-base: "Raleway", sans-serif;
 
     /*BLOCKS*/

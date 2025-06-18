@@ -10,7 +10,7 @@ import { STATIC_DATA } from '../../../config'
 import { UserRegisterReq } from '../../../../../types/api/user.api.types'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
-import { getCities, resetPagination } from '../../../../citites/slices/citiesSlice'
+import { getCities, resetPagination } from '../../../../cities/slices/citiesSlice'
 import { generateKey } from '../../../utils/generateKey'
 import { userRegister } from '../../../slices/userSlice'
 
@@ -46,7 +46,7 @@ export const RegisterForm = () => {
 
     const fetchCities = () => {
         dispatch(getCities({
-            part: cities.pagination.part,
+            skip: cities.pagination.part * cities.pagination.limit,
             limit: cities.pagination.limit,
             query: searchCitiesValue
         }))

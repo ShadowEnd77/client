@@ -19,7 +19,7 @@
 
     .content {
         @include flex-center;
-        
+
         column-gap: 10px;
         position: relative;
         z-index: 2;
@@ -32,10 +32,18 @@
         inset: 0;
         z-index: 1;
     }
-    
-    &:not(:disabled):hover {
-        &::before {
-            background-color: rgba(0, 0, 0, 0.1);
+
+    &:not(:disabled) {
+        &:hover {
+            &::before {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+        }
+        &:active {
+            &::before {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
         }
     }
+
 }

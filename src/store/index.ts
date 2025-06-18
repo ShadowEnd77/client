@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { userReducer } from '../features/user/slices/userSlice'
-import { citiesReducer } from '../features/citites/slices/citiesSlice'
+import { citiesReducer } from '../features/cities/slices/citiesSlice'
 import { surveyReducer } from '../features/survey/slices/surveySlice'
 
 export const store = configureStore({

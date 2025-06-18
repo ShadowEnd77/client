@@ -1,6 +1,7 @@
 export const ROUTER = {
     PATHS: {
         HOME: "/",
-        SIGNUP: "/signup"
+        SIGNUP: "/signup",
+        GAME_INFO: "/game/:id"
     }
 }

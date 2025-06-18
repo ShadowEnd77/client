@@ -2,6 +2,7 @@ import { ReactNode } from "react"
 
 export type HasId = { id: number }
 export type HasName = { name: string }
+export type HasText = { text: string }
 export type HasChildren = { children: ReactNode }
 export type HasClassName = { className?: string }
 
