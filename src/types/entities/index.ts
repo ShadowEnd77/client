@@ -14,13 +14,6 @@ export type User = {
 export type City = HasId & HasName
 
 // SURVIES ENTITIES
-// export type SurveyQuestion = {
-//     text: string
-// } & HasId
-
-// export type SurveyAnswer = 0 | 1
-// export type SurveyAnswers = Record<SurveyAnswer, string>
-
 export type Survey = {
     title: string;
     questions: Question[];
@@ -38,3 +31,11 @@ export type ResultAnswer = {
     question_id: number,
     answer_option_id: number
 }
+
+// GAME ENTITIES
+export type Game = {
+    title: string
+    cover: string
+    description: string
+    duration: number
+} & HasId

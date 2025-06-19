@@ -1,8 +1,8 @@
 import { ResultAnswer, Survey } from "../entities"
 
 export type GetSurveysReq = {
-    skip?: number;  // Количество пропускаемых записей (по умолчанию 0)
-    limit?: number;  // Лимит записей (по умолчанию 10)
+    skip?: number;
+    limit?: number; 
 };
 
 // Типы для ответа опросов

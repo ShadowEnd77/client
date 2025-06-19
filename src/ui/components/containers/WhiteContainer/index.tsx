@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import styles from './whiteContainer.module.scss'
 import { HasChildren, HasClassName } from '../../../../types/common/utilitarian.types'
+import { motion } from "motion/react"
 
 type WhiteContainerProps = HasChildren & HasClassName
 
@@ -9,8 +10,11 @@ export const WhiteContainer: FC<WhiteContainerProps> = ({
     className
 }) => {
     return (
-        <section className={`${styles.block} ${className || ""}`}>
+        <motion.section
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className={`${styles.block} ${className || ""}`}>
             {children}
-        </section>
+        </motion.section>
     )
 }

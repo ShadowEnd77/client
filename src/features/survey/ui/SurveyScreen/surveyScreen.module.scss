@@ -19,23 +19,6 @@
         justify-content: flex-end;
         --surveyButtonHeight: 66px;
 
-        .surveyPreloader {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            flex-grow: 0.55;
-            flex-direction: column;
-            row-gap: 20px;
-
-            svg {
-                color: var(--c-brand-second-lt);
-            }
-            .surveyPreloaderText {
-                font-size: var(--fz-l);
-                color: var(--c-gray-dark);
-            }
-        }
-
         .surveyPassed {
             justify-self: flex-end;
             text-align: center;

@@ -8,6 +8,8 @@ import { logoIcon, smileIcon } from '../../../../ui/icons'
 import { answerTheQuestion, sendSurvey, getSurvey } from '../../slices/surveySlice'
 import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
+import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
+import { motion } from "motion/react"
 
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
@@ -40,6 +42,14 @@ export const SurveyScreen = () => {
         dispatch(getSurvey())
     }, [])
 
+    if (questions.statuses.loading) {
+        return <LoaderWidget
+            widthLoader={50}
+            heightLoader={50}
+            text={"Подождите, загружаем опросник..."}
+        />
+    }
+
     return (
         <WhiteContainer className={styles.section}>
             <header className={styles.header}>
@@ -48,57 +58,52 @@ export const SurveyScreen = () => {
             </header>
             <div className={styles.survey}>
                 {
-                    !questions.statuses.loading ?
-                        survey_passed ?
-                            <div className={styles.surveyPassed}>
-                                <img height={160} width={160} src={smileIcon} alt="" />
-                                <h2 className={styles.surveyTitle}>Спасибо тебе <br /> за пройденный опрос!</h2>
+                    survey_passed ?
+                        <div className={styles.surveyPassed}>
+                            <motion.img
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                height={160} width={160} src={smileIcon} alt="" />
+                            <h2 className={styles.surveyTitle}>Спасибо тебе <br /> за пройденный опрос!</h2>
+                            <div className={styles.buttons}>
+                                <Button isLoading={sending_statuses.loading} onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
+                                    Отправить ответы
+                                </Button>
+                            </div>
+                        </div>
+                        : <>
+                            <header className={styles.surveyHeader}>
+                                <h2 className={styles.surveyTitle}>
+                                    <div className={styles.surveyTitleInner}>
+                                        <span className={styles.surveyQuestionLabel}>Вопрос</span>&nbsp;
+                                        <span className={styles.surveyQuestionCount}>{getAnsweredProgress(survey_passed, answers_data, questions.items.length)}/{questions.items.length}</span>
+                                    </div>
+                                </h2>
+                                <div className={`surveyProgressWrapper ${styles.progressBar}`}>
+                                    <div
+                                        style={{ width: `${getAnsweredProgress(survey_passed, answers_data, questions.items.length) / questions.items.length * 100}%` }}
+                                        className={`surveyProgress ${styles.line}`} />
+                                </div>
+                            </header>
+                            <div className={styles.surveyDescription}>
+                                <p>{currentQuestion?.text}</p>
+                            </div>
+                            <div className={styles.surveyControls}>
+                                <span className={styles.suggestion}>Выберите вариант ответа</span>
                                 <div className={styles.buttons}>
-                                    <Button isLoading={sending_statuses.loading} onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
-                                        Отправить ответы
+                                    <Button
+                                        onClick={() => onAnswer(currentQuestion?.options[1] as Answer)}
+                                        classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
+                                        {currentQuestion?.options[1].text}
+                                    </Button>
+                                    <Button
+                                        onClick={() => onAnswer(currentQuestion?.options[0] as Answer)}
+                                        classNames={{ button: `${styles.surveyButton}` }}>
+                                        {currentQuestion?.options[0].text}
                                     </Button>
                                 </div>
                             </div>
-                            : <>
-                                <header className={styles.surveyHeader}>
-                                    <h2 className={styles.surveyTitle}>
-                                        <div className={styles.surveyTitleInner}>
-                                            <span className={styles.surveyQuestionLabel}>Вопрос</span>&nbsp;
-                                            <span className={styles.surveyQuestionCount}>{getAnsweredProgress(survey_passed, answers_data, questions.items.length)}/{questions.items.length}</span>
-                                        </div>
-                                    </h2>
-                                    <div className={`surveyProgressWrapper ${styles.progressBar}`}>
-                                        <div
-                                            style={{ width: `${getAnsweredProgress(survey_passed, answers_data, questions.items.length) / questions.items.length * 100}%` }}
-                                            className={`surveyProgress ${styles.line}`} />
-                                    </div>
-                                </header>
-                                <div className={styles.surveyDescription}>
-                                    <p>{currentQuestion?.text}</p>
-                                </div>
-                                <div className={styles.surveyControls}>
-                                    <span className={styles.suggestion}>Выберите вариант ответа</span>
-                                    <div className={styles.buttons}>
-                                        <Button
-                                            onClick={() => onAnswer(currentQuestion?.options[1] as Answer)}
-                                            classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
-                                            {currentQuestion?.options[1].text}
-                                        </Button>
-                                        <Button
-                                            onClick={() => onAnswer(currentQuestion?.options[0] as Answer)}
-                                            classNames={{ button: `${styles.surveyButton}` }}>
-                                            {currentQuestion?.options[0].text}
-                                        </Button>
-                                    </div>
-                                </div>
-                            </>
-                        :
-                        <div className={styles.surveyPreloader}>
-                            <Loader width={50} height={50} />
-                            <span className={styles.surveyPreloaderText}>
-                                Подождите, загружаем вопросы...
-                            </span>
-                        </div>
+                        </>
                 }
             </div>
         </WhiteContainer >

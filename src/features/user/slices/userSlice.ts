@@ -49,10 +49,12 @@ export const userSlice = createSlice({
             .addCase(userRegister.fulfilled, (state, action: PayloadAction<UserRegisterRes>) => {
                 state.data.uuid = action.payload.uuid
                 state.register.loading = false
+                state.register.success = true
                 state.token = true
             })
             .addCase(userRegister.rejected, state => {
                 state.register.loading = false
+                state.register.success = false
                 state.register.error = USER_STRINGS.REGISTRATION_ERROR
             })
     },

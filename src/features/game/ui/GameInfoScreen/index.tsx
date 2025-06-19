@@ -1,34 +1,61 @@
 import styles from './gameInfoScreen.module.scss'
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
 import { Button } from '../../../../ui/components/buttons/Button'
-import { logoIcon } from '../../../../ui/icons'
+import { clockIcon, logoIcon } from '../../../../ui/icons'
+import previewImage from '../../../../assets/images/preview.jpg'
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { useEffect } from 'react'
+import { useParams } from 'react-router'
+import { getGameInfoById } from '../../slices/game-info/gameInfoSlice'
+import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
+
 
 export const GameInfoScreen = () => {
+    const dispatch = useAppDispatch()
+    const { data, statuses } = useAppSelector(state => state.game)
+    //const params = useParams()
+
+    const handleStartPlay = () => {
+
+    }
+
+    useEffect(() => {
+        dispatch(getGameInfoById({ game_id: 1 }))
+        //dispatch(getGameInfoById({game_id: params.id}))
+    }, [])
+
+    if (statuses.loading || !data.id) {
+        return <LoaderWidget
+            widthLoader={50}
+            heightLoader={50}
+            text={"Подождите, загружаем информацию об игре..."}
+        />
+    }
+
     return (
         <WhiteContainer className={styles.section}>
-            <div className={styles.gameImage}>
-
-            </div>
+            <div style={{ backgroundImage: `url(${previewImage})` }} className={styles.gameImage} />
             <div className={styles.gameInfo}>
                 <header className={styles.gameInfoHeader}>
                     <span className={styles.gameInfoCaption}>Тебе подойдет игра</span>
                 </header>
                 <div className={styles.gameInfoText}>
-                    <h1 className={styles.gameInfoTitle}>«Где я — там и выбор»</h1>
+                    <h1 className={styles.gameInfoTitle}>«{data.title}»</h1>
                     <div className={styles.gameInfoDescription}>
-                        <p>A long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                        <p>{data.description}</p>
                     </div>
                 </div>
                 <footer className={styles.gameInfoFooter}>
                     <div className={styles.gameInfoDuration}>
-                        <span>Примерная длительность 6 мин.</span>
+                        <img src={clockIcon} height={20} width={20} alt="" />
+                        <span>Примерная длительность {data.duration} мин.</span>
                     </div>
                     <div className={styles.gameInfoBottom}>
-                        <Button classNames={{ button: styles.gameInfoButton }}>Играть</Button>
+                        <Button onClick={handleStartPlay} classNames={{ button: styles.gameInfoButton }}>Играть</Button>
                         <img src={logoIcon} height={26} width={80} alt="Логотип" />
                     </div>
                 </footer>
             </div>
-        </WhiteContainer>
+        </WhiteContainer >
     )
 }

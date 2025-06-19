@@ -1,0 +1,15 @@
+.preloaderBlock {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-grow: 0.55;
+    flex-direction: column;
+    row-gap: 20px;
+    color: var(--c-light);
+
+    .preloaderText {
+        font-size: var(--fz-xl);
+        font-weight: 600;
+        color: var(--c-light);
+    }
+}

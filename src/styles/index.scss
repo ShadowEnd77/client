@@ -5,6 +5,7 @@
     --c-light: white;
     --c-light-hover: #fbfbfb;
     --c-gray-dark: #929292;
+    --c-gray-dark-alt: #585858;
     --c-gray: #e7e7e7;
     --c-dark: black;
     --c-dark-opacity: rgba(0, 0, 0, 0.2);
@@ -44,7 +45,7 @@
 
     /*TRANSITIONS*/
     --trans-dur: 0.3s;
-    
+
     background: var(--bg-gradient) no-repeat;
 }
 
