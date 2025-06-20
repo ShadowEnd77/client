@@ -1,22 +1,25 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialSurveyState } from './surveyState'
-import { SendSurveyReq } from '../../../types/api/survey.api.types'
+import { GetSurveysRes, SendSurveyReq } from '../../../types/api/survey.api.types'
 import { Answer, Survey } from '../../../types/entities'
 import { mockSurveys } from '../utils/mock-data/surveys.mock'
+import { SurveyApi } from '../api/survey.api'
+import { AxiosResponse } from 'axios'
 
 export const getSurvey = createAsyncThunk(
     'survey/get',
     async () => {
-        return new Promise<Survey>((rs, _) => {
-            setTimeout(() => {
-                rs(mockSurveys.surveys[0])
-            }, 1500)
-        })
-        // const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
+        // return new Promise<Survey>((rs, _) => {
+        //     setTimeout(() => {
+        //         rs(mockSurveys.surveys[0])
+        //     }, 1500)
+        // })
+        const res: AxiosResponse<GetSurveysRes> = await SurveyApi.getAll();
 
-        // if (!res.data) {
-        //     throw res;
-        // }
+        if (!res.data) {
+            throw res;
+        }
+        return res.data.surveys[0];
 
         // storeToken(res.data.access_token);
 

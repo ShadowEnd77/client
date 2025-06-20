@@ -30,6 +30,7 @@
     --fz-m: calc(14px * var(--fz-scale));
     --fz-l: calc(16px * var(--fz-scale));
     --fz-xl: calc(18px * var(--fz-scale));
+    --fz-xxl: calc(20px * var(--fz-scale));
     --font-base: "Raleway", sans-serif;
 
     /*BLOCKS*/
@@ -39,6 +40,7 @@
     --bradius-s: 10px;
     --bradius-xs: 6px;
     --btn-height: 56px;
+    --screen-padding: 25px;
 
     /*SHADOWS*/
     --shadow-s: 0 0 20px rgba(0, 0, 0, 0.05);
@@ -46,7 +48,11 @@
     /*TRANSITIONS*/
     --trans-dur: 0.3s;
 
+    /*Z-INDEXES*/
+    --z-index-control: 10;
+
     background: var(--bg-gradient) no-repeat;
+    background-attachment: fixed;
 }
 
 body {
@@ -55,7 +61,7 @@ body {
 
     color: var(--c-dark-alt);
     font-family: var(--font-base);
-    background-attachment: fixed;
+    
     line-height: 1.4;
 }
 
@@ -66,12 +72,13 @@ a {
 }
 
 #root {
-    min-height: 100vh;
+    height: 100vh;
 }
 main {
     @include flex-center;
 
-    padding: 20px;
+    height: 100%;
+    padding: var(--screen-padding);
     min-height: inherit;
     overflow-y: auto;
 }

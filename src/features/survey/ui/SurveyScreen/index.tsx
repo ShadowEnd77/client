@@ -10,9 +10,11 @@ import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
 import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
 import { motion } from "motion/react"
+import { useNavigate } from 'react-router'
 
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const {
         answers_data,
@@ -22,6 +24,8 @@ export const SurveyScreen = () => {
         id,
         sending_statuses
     } = useAppSelector(state => state.survey)
+
+    const { statuses } = useAppSelector(state => state.game)
 
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
 
@@ -35,14 +39,18 @@ export const SurveyScreen = () => {
             user_id: "",
             answers: answers_data
         }))
-        alert("Отправлено")
+        navigate("/game")
     }
+
+    useEffect(() => {
+
+    }, [statuses.success])
 
     useEffect(() => {
         dispatch(getSurvey())
     }, [])
 
-    if (questions.statuses.loading) {
+    if (questions.statuses.loading || !currentQuestion) {
         return <LoaderWidget
             widthLoader={50}
             heightLoader={50}

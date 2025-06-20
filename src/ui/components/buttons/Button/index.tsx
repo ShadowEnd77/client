@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, FC } from 'react'
 import styles from './button.module.scss'
 import { Loader } from '../../service/Loader'
 
-type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> & {
+export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> & {
     isLoading?: boolean
     classNames?: {
         button?: string

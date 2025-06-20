@@ -16,7 +16,6 @@ export const AuthRoute: FC<AppRouteProps<AuthRouteOptions>> = ({
 
     // REDIRECT IF NOT AUTH
     if (token === false && !options?.authIsInverted) {
-        alert("not logged in")
         console.log(options);
 
         return <Navigate to={ROUTER.PATHS.SIGNUP} />

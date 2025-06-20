@@ -5,6 +5,15 @@ import { resolve } from 'node:path'
 export default defineConfig({
 
   plugins: [react()],
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'https://m8y20l-185-247-185-62.ru.tuna.am',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, ''),
+  //     },
+  //   },
+  // },
   css: {
     preprocessorOptions: {
       scss: {

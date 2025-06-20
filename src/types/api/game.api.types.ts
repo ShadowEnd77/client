@@ -1,8 +1,6 @@
-import { Game } from "../entities"
+import { Game, Scene } from "../entities"
 
 export type GetGameInfoByIdReq = {
-    game_id: number
-} 
-export type GetGameInfoByIdRes = {
-    game: Game
+    id: number
 }
+export type GetGameInfoByIdRes = Game[]

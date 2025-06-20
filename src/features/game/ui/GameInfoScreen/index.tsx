@@ -5,22 +5,24 @@ import { clockIcon, logoIcon } from '../../../../ui/icons'
 import previewImage from '../../../../assets/images/preview.jpg'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { getGameInfoById } from '../../slices/game-info/gameInfoSlice'
 import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
 
 
 export const GameInfoScreen = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const { data, statuses } = useAppSelector(state => state.game)
     //const params = useParams()
 
     const handleStartPlay = () => {
-
+        navigate("/game/progress")
     }
 
     useEffect(() => {
-        dispatch(getGameInfoById({ game_id: 1 }))
+        dispatch(getGameInfoById({ id: 1 }))
+        
         //dispatch(getGameInfoById({game_id: params.id}))
     }, [])
 
@@ -34,7 +36,7 @@ export const GameInfoScreen = () => {
 
     return (
         <WhiteContainer className={styles.section}>
-            <div style={{ backgroundImage: `url(${previewImage})` }} className={styles.gameImage} />
+            <div style={{ backgroundImage: `url(${data.cover})` }} className={styles.gameImage} />
             <div className={styles.gameInfo}>
                 <header className={styles.gameInfoHeader}>
                     <span className={styles.gameInfoCaption}>Тебе подойдет игра</span>
@@ -47,7 +49,7 @@ export const GameInfoScreen = () => {
                 </div>
                 <footer className={styles.gameInfoFooter}>
                     <div className={styles.gameInfoDuration}>
-                        <img src={clockIcon} height={20} width={20} alt="" />
+                        <img src={clockIcon} height={16} width={16} alt="" />
                         <span>Примерная длительность {data.duration} мин.</span>
                     </div>
                     <div className={styles.gameInfoBottom}>
@@ -56,6 +58,6 @@ export const GameInfoScreen = () => {
                     </div>
                 </footer>
             </div>
-        </WhiteContainer >
+        </WhiteContainer>
     )
 }

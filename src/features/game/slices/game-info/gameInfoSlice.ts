@@ -1,25 +1,21 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialGameInfoState } from './gameInfoState'
 import { GetGameInfoByIdReq, GetGameInfoByIdRes } from '../../../../types/api/game.api.types'
+import { mockGame } from '../../utils/mock-data/gameMockData'
+import { Scene } from '../../../../types/entities'
+import { GameApi } from '../../api/game.api'
+import { AxiosResponse } from 'axios'
 
 export const getGameInfoById = createAsyncThunk(
     'game/get-by-id',
     async (req: GetGameInfoByIdReq) => {
-        return new Promise<GetGameInfoByIdRes>((rs, _) => {
-            setTimeout(() => {
-                rs({
-                    game: {
-                        id: 1,
-                        cover: "",
-                        duration: 5,
-                        title: "Игра такая-то",
-                        description: "Описание большое большое Описание большое большое Описание большое большое Описание большое большое Описание большое большое Описание большое большое "
-                    }
-                })
-            }, 3000)
-        })
-        // const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
-
+            // return new Promise<GetGameInfoByIdRes>((rs, _) => {
+            //     setTimeout(() => {
+            //         rs([mockGame])
+            //     }, 1550)
+            // })
+        const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
+        return res.data;
         // if (!res.data) {
         //     throw res;
         // }
@@ -31,10 +27,22 @@ export const getGameInfoById = createAsyncThunk(
 )
 
 export const gameInfoSlice = createSlice({
-    name: 'game-info',
+    name: 'game',
     initialState: initialGameInfoState,
     reducers: {
+        setCurrentSceneById: (state, action: PayloadAction<number>) => {
+            console.log(action.payload);
+            if(action.payload > state.data.scenes[state.data.scenes.length - 1].id) {
+                alert("Всё, игра закончилась")
+                return
+            }
 
+            state.current_scene_animated = false
+            state.current_scene = state.data.scenes.find(item => item.id == action.payload) as Scene
+        },
+        setCurrentSceneAnimated: (state, action: PayloadAction<boolean>) => {
+            state.current_scene_animated = action.payload
+        }
     },
     extraReducers(builder) {
         builder
@@ -43,7 +51,8 @@ export const gameInfoSlice = createSlice({
                 state.statuses.error = ""
             })
             .addCase(getGameInfoById.fulfilled, (state, action: PayloadAction<GetGameInfoByIdRes>) => {
-                state.data = action.payload.game
+                state.data = action.payload[0]
+                state.current_scene = action.payload[0].scenes[0]
                 state.statuses.loading = false
                 state.statuses.success = true
             })
@@ -55,7 +64,8 @@ export const gameInfoSlice = createSlice({
 })
 
 export const {
-
+    setCurrentSceneById,
+    setCurrentSceneAnimated
 } = gameInfoSlice.actions
 
 export const gameInfoReducer = gameInfoSlice.reducer

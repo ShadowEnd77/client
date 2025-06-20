@@ -38,4 +38,28 @@ export type Game = {
     cover: string
     description: string
     duration: number
+    scenes: Scene[]
 } & HasId
+
+export type SceneType = "choice" | "dialog"
+
+export type ScenePayload = {
+    dialogues: GameDialog[]
+    description?: string
+    choices?: GameChoice[]
+}
+
+export type GameChoice = {
+    next_scene_id: number
+} & HasText
+export type Scene = {
+    order: number
+    type: SceneType
+    payload: ScenePayload
+} & HasId
+
+export type GameDialog = {
+    image: string
+    voice: string
+    name: string
+} & HasText
