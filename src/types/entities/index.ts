@@ -35,13 +35,13 @@ export type ResultAnswer = {
 // GAME ENTITIES
 export type Game = {
     title: string
-    cover: string
+    cover_image: string
     description: string
     duration: number
     scenes: Scene[]
 } & HasId
 
-export type SceneType = "choice" | "dialog"
+export type SceneType = "choice" | "dialogue"
 
 export type ScenePayload = {
     dialogues: GameDialog[]

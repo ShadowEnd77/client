@@ -7,9 +7,6 @@ import { getGameInfoById } from './features/game/slices/game-info/gameInfoSlice'
 
 function App() {
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(getGameInfoById({id: 1}));
-  }, [])
   return (
     <main>
 

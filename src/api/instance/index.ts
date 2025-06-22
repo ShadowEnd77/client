@@ -1,12 +1,12 @@
 import axios, { AxiosError } from "axios"
-const ip = "http://m8y20l-185-247-185-62.ru.tuna.am"
+export const ip = "http://192.168.43.223:8000"
 
 const devMode = false
 const API_URL = devMode ? import.meta.env.VITE_API_DOMAIN : ip + "/api/v1/"
 
 const api = axios.create({
     baseURL: API_URL,
-    withCredentials: true,
+    withCredentials: !true,
     headers: {
         "Content-Type": 'application/json',
         "Accept": 'application/json',

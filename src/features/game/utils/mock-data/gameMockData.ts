@@ -3,7 +3,7 @@ import { Game } from "../../../../types/entities";
 export const mockGame: Game = {
   id: 1,
   title: "Путешествие в зачарованный лес",
-  cover: "https://example.com/forest-cover.jpg",
+  cover_image: "https://example.com/forest-cover.jpg",
   description: "Интерактивное приключение с загадками и моральными выборами",
   duration: 45,
   scenes: [

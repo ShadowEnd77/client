@@ -19,6 +19,7 @@ export const SurveyScreen = () => {
     const {
         answers_data,
         survey_passed,
+        title,
         questions,
         current_question_id,
         id,
@@ -61,7 +62,7 @@ export const SurveyScreen = () => {
     return (
         <WhiteContainer className={styles.section}>
             <header className={styles.header}>
-                <h1 className={`${styles.title}`}>Тестирование</h1>
+                <h1 className={`${styles.title}`}>{title}</h1>
                 <img src={logoIcon} height={20} width={63} alt="Логотип" />
             </header>
             <div className={styles.survey}>
@@ -102,12 +103,12 @@ export const SurveyScreen = () => {
                                     <Button
                                         onClick={() => onAnswer(currentQuestion?.options[1] as Answer)}
                                         classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
-                                        {currentQuestion?.options[1].text}
+                                        {currentQuestion?.options[1]?.text || "Кнопка"}
                                     </Button>
                                     <Button
                                         onClick={() => onAnswer(currentQuestion?.options[0] as Answer)}
-                                        classNames={{ button: `${styles.surveyButton}` }}>
-                                        {currentQuestion?.options[0].text}
+                                        classNames={{ button: `${styles.surveyButton}` || "Кнопка" }}>
+                                        {currentQuestion?.options[0]?.text}
                                     </Button>
                                 </div>
                             </div>

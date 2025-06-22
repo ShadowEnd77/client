@@ -3,7 +3,10 @@
     min-height: 600px;
     display: flex;
     flex-direction: column;
+    .title {
 
+        font-size: 28px;
+    }
     .header {
         display: flex;
         justify-content: space-between;

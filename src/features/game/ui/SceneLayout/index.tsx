@@ -24,7 +24,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     return (
         <div className={styles.sceneLayout}>
             {
-                scene.type == "dialog" ?
+                scene.type == "dialogue" ?
                     scene.payload.dialogues.map((dialog, index) => (
                         <GameSceneCard dialog={dialog} delayShow={!index ? 0.5 : index + 1} />
                     )) :

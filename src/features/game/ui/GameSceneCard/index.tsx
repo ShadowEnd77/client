@@ -3,6 +3,7 @@ import styles from './gameSceneCard.module.scss'
 import { GameDialog } from '../../../../types/entities'
 import previewImage from '../../../../assets/images/preview.jpg'
 import { motion } from "framer-motion"
+import {ip} from "../../../../api/instance";
 
 export type GameSceneCard = {
   delayShow: number
@@ -34,7 +35,7 @@ export const GameSceneCard: FC<GameSceneCard> = ({
             duration: 0.5
           }
         }}
-        style={{ backgroundImage: `url(${dialog.image})` }} 
+        style={{ backgroundImage: `url(${ip + dialog.image})` }}
         className={styles.gameSceneCover} 
       />
       
