@@ -37,12 +37,15 @@ export const getCities = createAsyncThunk(
         // return res.data;
         return new Promise<GetCitiesRes>((rs, _) => {
             setTimeout(() => {
-                rs(Array(20).fill(null).map((_, index) => {
-                    return {
-                        id: index + 1,
-                        name: `City label ${index + 1}`
-                    }
-                }))
+                // rs(Array(20).fill(null).map((_, index) => {
+                //     return {
+                //         id: index + 1,
+                //         name: `City label ${index + 1}`
+                //     }
+                // }))
+                rs([
+                    {id: 1, name: "Череповец"}
+                ])
             }, 1000)
         })
     },

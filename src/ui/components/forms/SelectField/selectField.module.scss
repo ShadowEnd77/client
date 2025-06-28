@@ -20,7 +20,7 @@
         box-shadow: var(--shadow-s);
         border-radius: var(--bradius-s);
         padding: 12px 10px;
-        max-height: 150px;
+        max-height: 130px;
         width: 100%;
         overflow: hidden;
         z-index: 2;
@@ -35,7 +35,7 @@
             @include scrollbar;
 
             max-height: inherit;
-            padding-bottom: 20px;
+            //padding-bottom: 20px;
             overflow-y: auto;
 
             .option {

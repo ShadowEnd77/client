@@ -17,6 +17,5 @@ export const validateToken = (token: string) => {
 
 export const checkUserToken = () => {
     const token = getToken()
-    return true
-    //return validateToken(token)
+    return validateToken(token)
 }

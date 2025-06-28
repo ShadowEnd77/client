@@ -9,17 +9,17 @@ import { AxiosResponse } from 'axios'
 export const getSurvey = createAsyncThunk(
     'survey/get',
     async () => {
-        // return new Promise<Survey>((rs, _) => {
-        //     setTimeout(() => {
-        //         rs(mockSurveys.surveys[0])
-        //     }, 1500)
-        // })
-        const res: AxiosResponse<GetSurveysRes> = await SurveyApi.getAll();
+        return new Promise<Survey>((rs, _) => {
+            setTimeout(() => {
+                rs(mockSurveys.surveys[0])
+            }, 1500)
+        })
+        // const res: AxiosResponse<GetSurveysRes> = await SurveyApi.getAll();
 
-        if (!res.data) {
-            throw res;
-        }
-        return res.data.surveys[0];
+        // if (!res.data) {
+        //     throw res;
+        // }
+        // return res.data.surveys[0];
 
         // storeToken(res.data.access_token);
 

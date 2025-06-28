@@ -9,20 +9,20 @@ import { AxiosResponse } from 'axios'
 export const getGameInfoById = createAsyncThunk(
     'game/get-by-id',
     async (req: GetGameInfoByIdReq) => {
-            // return new Promise<GetGameInfoByIdRes>((rs, _) => {
-            //     setTimeout(() => {
-            //         rs([mockGame])
-            //     }, 1550)
-            // })
-        const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
-        return res.data;
-        // if (!res.data) {
-        //     throw res;
-        // }
-
-        // storeToken(res.data.access_token);
-
+        return new Promise<GetGameInfoByIdRes>((rs, _) => {
+            setTimeout(() => {
+                rs([mockGame])
+            }, 1550)
+        })
+        // const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
         // return res.data;
+        // // if (!res.data) {
+        // //     throw res;
+        // // }
+
+        // // storeToken(res.data.access_token);
+
+        // // return res.data;
     },
 )
 
@@ -32,8 +32,8 @@ export const gameInfoSlice = createSlice({
     reducers: {
         setCurrentSceneById: (state, action: PayloadAction<number>) => {
             console.log(action.payload);
-            if(action.payload > state.data.scenes[state.data.scenes.length - 1].id) {
-                alert("Всё, игра закончилась")
+            if (action.payload > state.data.scenes[state.data.scenes.length - 1].id) {
+                alert("В разработке!")
                 return
             }
 

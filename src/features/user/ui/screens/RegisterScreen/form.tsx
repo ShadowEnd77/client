@@ -121,13 +121,13 @@ export const RegisterForm = () => {
                     placeholder={"Выбери свой город"}
                     htmlId={"register-city-input"}
                     options={getSelectOptions(cities.items, "id", "name")}
-                    asyncOptions={{
-                        is_loading: cities.statuses.loading,
-                        is_pag_loading: cities.pagination.loading,
-                        part: cities.pagination.part,
-                        limit: cities.pagination.limit,
-                        onLoad: fetchCities,
-                    }}
+                    // asyncOptions={{
+                    //     is_loading: cities.statuses.loading,
+                    //     is_pag_loading: cities.pagination.loading,
+                    //     part: cities.pagination.part,
+                    //     limit: cities.pagination.limit,
+                    //     onLoad: fetchCities,
+                    // }}
                     onSearch={(e) => setSearchCitiesValue(e.target.value)}
                     value={searchCitiesValue}
                     selectedValue={formik.values.city_id}
