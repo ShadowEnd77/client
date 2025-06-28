@@ -24,7 +24,7 @@ import i6_2 from '../../../../assets/game_1/scenes/scene_6/image_2.png'
 export const mockGame: Game = {
   id: 1,
   title: "Где я - там и выбор",
-  cover: cover,
+  cover_image: cover,
   description: "Интерактивное приключение с загадками и моральными выборами",
   duration: 2,
   scenes: [
@@ -32,7 +32,7 @@ export const mockGame: Game = {
     {
       id: 1,
       order: 1,
-      type: "dialog",
+      type: "dialogue",
       payload: {
         dialogues: [
           {
@@ -55,7 +55,7 @@ export const mockGame: Game = {
     {
       id: 2,
       order: 2,
-      type: "dialog",
+      type: "dialogue",
       payload: {
         dialogues: [
           {
@@ -109,7 +109,7 @@ export const mockGame: Game = {
     {
       id: 4,
       order: 4,
-      type: "dialog",
+      type: "dialogue",
       payload: {
         dialogues: [
           {
@@ -163,7 +163,7 @@ export const mockGame: Game = {
     // {
     //   id: 6,
     //   order: 6,
-    //   type: "dialog",
+    //   type: "dialogue",
     //   payload: {
     //     dialogues: [
     //       {
@@ -186,7 +186,7 @@ export const mockGame: Game = {
     // {
     //   id: 7,
     //   order: 7,
-    //   type: "dialog",
+    //   type: "dialogue",
     //   payload: {
     //     dialogues: [
     //       {
@@ -209,7 +209,7 @@ export const mockGame: Game = {
     // {
     //   id: 8,
     //   order: 8,
-    //   type: "dialog",
+    //   type: "dialogue",
     //   payload: {
     //     dialogues: [
     //       {
@@ -259,7 +259,7 @@ export const mockGame: Game = {
     // {
     //   id: 10,
     //   order: 10,
-    //   type: "dialog",
+    //   type: "dialogue",
     //   payload: {
     //     dialogues: [
     //       {

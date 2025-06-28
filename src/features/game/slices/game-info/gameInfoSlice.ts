@@ -1,17 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialGameInfoState } from './gameInfoState'
 import { GetGameInfoByIdReq, GetGameInfoByIdRes } from '../../../../types/api/game.api.types'
-import { mockGame } from '../../utils/mock-data/gameMockData'
+
 import { Scene } from '../../../../types/entities'
 import { GameApi } from '../../api/game.api'
 import { AxiosResponse } from 'axios'
+import { mockGame } from '../../utils/mock-data/gameMockData'
 
 export const getGameInfoById = createAsyncThunk(
     'game/get-by-id',
     async (req: GetGameInfoByIdReq) => {
         return new Promise<GetGameInfoByIdRes>((rs, _) => {
             setTimeout(() => {
-                rs([mockGame])
+                rs(mockGame)
             }, 1550)
         })
         // const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
