@@ -40,7 +40,7 @@
     --bradius-s: 10px;
     --bradius-xs: 6px;
     --btn-height: 56px;
-    --screen-padding: 25px;
+    --screen-padding: 30px;
 
     /*SHADOWS*/
     --shadow-s: 0 0 20px rgba(0, 0, 0, 0.05);
@@ -49,7 +49,7 @@
     --trans-dur: 0.3s;
 
     /*Z-INDEXES*/
-    --z-index-control: 10;
+    --z-index-control: 100;
 
     background: var(--bg-gradient) no-repeat;
     background-attachment: fixed;

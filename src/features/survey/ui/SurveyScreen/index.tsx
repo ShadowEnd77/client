@@ -5,7 +5,7 @@ import { Button } from '../../../../ui/components/buttons/Button'
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
 import { Loader } from '../../../../ui/components/service/Loader'
 import { logoIcon, smileIcon } from '../../../../ui/icons'
-import { answerTheQuestion, sendSurvey, getSurvey } from '../../slices/surveySlice'
+import { answerTheQuestion, sendSurvey, getSurvey, resetSendingSurveyStatus } from '../../slices/surveySlice'
 import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
 import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
@@ -44,11 +44,17 @@ export const SurveyScreen = () => {
     }
 
     useEffect(() => {
+        if (statuses.success) {
 
+        }
     }, [statuses.success])
 
     useEffect(() => {
         dispatch(getSurvey())
+
+        return () => {
+            dispatch(resetSendingSurveyStatus())
+        }
     }, [])
 
     if (questions.statuses.loading || !currentQuestion) {

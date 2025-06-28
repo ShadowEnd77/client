@@ -3,7 +3,7 @@ import styles from './gameSceneCard.module.scss'
 import { GameDialog } from '../../../../types/entities'
 import previewImage from '../../../../assets/images/preview.jpg'
 import { motion } from "framer-motion"
-import {ip} from "../../../../api/instance";
+import { ip } from "../../../../api/instance";
 
 export type GameSceneCard = {
   delayShow: number
@@ -15,7 +15,7 @@ export const GameSceneCard: FC<GameSceneCard> = ({
   dialog
 }) => {
   const [isAnimated, setIsAnimated] = useState(false)
-  
+
   // Сбрасываем анимацию при изменении dialog
   useEffect(() => {
     setIsAnimated(false)
@@ -26,24 +26,36 @@ export const GameSceneCard: FC<GameSceneCard> = ({
   return (
     <div key={dialog.text} className={styles.gameSceneCard}>
       <motion.div
+        initial={{ opacity: 0 }}
+        animate={isAnimated ? {
+          opacity: 1,
+          transition: {
+            delay: delayShow * 1.1,
+            duration: 0.5
+          }
+        } : {}}
+        style={{ backgroundImage: `url(${dialog.image})` }}
+        className={styles.gameSceneCoverBack}
+      />
+      <motion.div
         initial={{ scale: 0, opacity: 0 }}
-        animate={{
-          scale: 1, 
-          opacity: 1, 
+        animate={isAnimated ? {
+          scale: 1,
+          opacity: 1,
           transition: {
             delay: delayShow,
             duration: 0.5
           }
-        }}
-        style={{ backgroundImage: `url(${ip + dialog.image})` }}
-        className={styles.gameSceneCover} 
+        } : {}}
+        style={{ backgroundImage: `url(${dialog.image})` }}
+        className={styles.gameSceneCover}
       />
-      
+
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={isAnimated ? {
-          scale: 1, 
-          opacity: 1, 
+          scale: 1,
+          opacity: 1,
           transition: {
             delay: delayShow + 0.1,
             duration: 0.5

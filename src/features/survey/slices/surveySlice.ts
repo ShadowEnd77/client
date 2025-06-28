@@ -42,6 +42,13 @@ export const surveySlice = createSlice({
     name: 'survey',
     initialState: initialSurveyState,
     reducers: {
+        resetSendingSurveyStatus: (state) => {
+            state.sending_statuses = {
+                error: "",
+                success: null,
+                loading: false
+            }
+        },
         answerTheQuestion: (state, action: PayloadAction<Answer>) => {
             // Answer the current question 
             state.answers_data = [
@@ -122,6 +129,7 @@ export const surveySlice = createSlice({
 })
 
 export const {
+    resetSendingSurveyStatus,
     answerTheQuestion
 } = surveySlice.actions
 

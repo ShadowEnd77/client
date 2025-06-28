@@ -15,6 +15,8 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const dispatch = useAppDispatch();
     const { current_scene_animated, current_scene } = useAppSelector(state => state.game)
 
+    const currentSceneIsChoice = scene.type == "choice"
+
     useEffect(() => {
         setTimeout(() => {
             dispatch(setCurrentSceneAnimated(true))
@@ -26,16 +28,20 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
             {
                 scene.type == "dialogue" ?
                     scene.payload.dialogues.map((dialog, index) => (
-                        <GameSceneCard dialog={dialog} delayShow={!index ? 0.5 : index + 1} />
+                        <GameSceneCard
+                            dialog={dialog}
+                            delayShow={!index ? 0.5 : index + 1} />
                     )) :
                     <>
-                        <GameSceneCard dialog={scene.payload.dialogues[0]} delayShow={0.5} />
+                        <GameSceneCard
+                            dialog={scene.payload.dialogues[0]}
+                            delayShow={0.5} />
                         <ChoiceScene {...scene} />
                     </>
 
             }
             {
-                scene.type != "choice" &&
+                !currentSceneIsChoice &&
                 <aside className={styles.sceneControls}>
                     <ControlButton disabled>
                         <img style={{ scale: -1 }} src={arrowRightIcon} height={18} width={18} alt="" />

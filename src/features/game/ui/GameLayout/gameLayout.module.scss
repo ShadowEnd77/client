@@ -7,7 +7,8 @@
         position: absolute;
         left: var(--screen-padding);
         top: 60px;
-        translate: -40%;
+        translate: -30%;
+        z-index: var(--z-index-control);
         display: flex;
         flex-direction: column;
         row-gap: 10px;

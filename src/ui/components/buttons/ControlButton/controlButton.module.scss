@@ -1,6 +1,6 @@
 .controlButton {
     @include flex-center;
-    @include square(43px);
+    @include square(50px);
 
     border: 2px solid currentColor;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);

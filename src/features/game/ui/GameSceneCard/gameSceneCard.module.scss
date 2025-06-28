@@ -14,12 +14,28 @@
         flex-direction: column;
         row-gap: 10px;
     }
+    .gameSceneCoverBack {
+        background: center/cover no-repeat;
+        height: 100%;
+        inset: 0;
+        position: absolute;
+        z-index: 10;
+        
+        &::after {
+            content: "";
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            inset: 0;
+            backdrop-filter: blur(15px);
+        }
+    }
 
     .gameSceneCover {
-        background: center/cover no-repeat;
+        background: center/contain no-repeat;
         height: 100%;
         position: absolute;
         inset: 0;
+        z-index: 20;
     }
 
     .gameSceneDialog {
@@ -28,6 +44,7 @@
         padding: 25px 30px;
         border-radius: var(--bradius-s);
         font-size: var(--fz-l);
+        z-index: 30;
     }
 
     .gameSceneDialogAuthor {
