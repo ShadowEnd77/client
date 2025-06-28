@@ -51,8 +51,11 @@ export const gameInfoSlice = createSlice({
                 state.statuses.error = ""
             })
             .addCase(getGameInfoById.fulfilled, (state, action: PayloadAction<GetGameInfoByIdRes>) => {
-                state.data = action.payload[0]
-                state.current_scene = action.payload[0].scenes[0]
+                state.data = {
+                    ...action.payload,
+                    scenes: action.payload.scenes.sort((a, b) => a.order - b.order)
+                }
+                state.current_scene = action.payload.scenes[0]
                 state.statuses.loading = false
                 state.statuses.success = true
             })

@@ -11,7 +11,7 @@ type GameInfoSliceState = {
 export const initialGameInfoState: GameInfoSliceState = {
     current_scene_animated: false,
     data: {
-        cover: "",
+        cover_image: "",
         id: 0,
         title: "",
         description: "",

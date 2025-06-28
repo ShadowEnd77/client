@@ -81,6 +81,7 @@ export const surveySlice = createSlice({
             .addCase(getSurvey.fulfilled, (state, action: PayloadAction<Survey>) => {
                 state.questions.items = action.payload.questions
                 state.current_question_id = action.payload.questions[0].id
+                state.title = action.payload.title
                 state.questions.statuses = {
                     loading: false,
                     success: false,

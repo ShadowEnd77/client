@@ -16,10 +16,6 @@ export const GameLayout: FC<GameLayoutProps> = () => {
     const { current_scene, statuses } = useAppSelector(state => state.game)
 
 
-    useEffect(() => {
-        dispatch(getGameInfoById({ id: 1 }))
-    }, [])
-
     if (statuses.loading || !current_scene.id) {
         return <LoaderWidget
             widthLoader={50}

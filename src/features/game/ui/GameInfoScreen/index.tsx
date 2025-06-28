@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { getGameInfoById } from '../../slices/game-info/gameInfoSlice'
 import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
+import {ip} from "../../../../api/instance";
 
 
 export const GameInfoScreen = () => {
@@ -21,7 +22,7 @@ export const GameInfoScreen = () => {
     }
 
     useEffect(() => {
-        dispatch(getGameInfoById({ id: 1 }))
+        dispatch(getGameInfoById({id: 4, include_details: true}))
         
         //dispatch(getGameInfoById({game_id: params.id}))
     }, [])
@@ -36,7 +37,7 @@ export const GameInfoScreen = () => {
 
     return (
         <WhiteContainer className={styles.section}>
-            <div style={{ backgroundImage: `url(${data.cover})` }} className={styles.gameImage} />
+            <div style={{ backgroundImage: `url(${ip + data.cover_image})` }} className={styles.gameImage} />
             <div className={styles.gameInfo}>
                 <header className={styles.gameInfoHeader}>
                     <span className={styles.gameInfoCaption}>Тебе подойдет игра</span>
