@@ -3,7 +3,7 @@ import { api } from "../../../api/instance";
 import { AUTH_PATHS } from "../../../api/paths";
 //import { UserRegisterReq, UserRegisterRes } from "../../../types/api/user.api.types";
 import { GetGameInfoByIdReq, GetGameInfoByIdRes } from "../../../types/api/game.api.types";
-import {сonvertDataToGetParams} from "../../../utils/convertToQueryParams.ts";
+import {convertToQueryParams} from "../../../utils/convertToQueryParams.ts";
 
 export class GameApi {
     static async getAll(id: number, req: Omit<GetGameInfoByIdReq, "id">) {

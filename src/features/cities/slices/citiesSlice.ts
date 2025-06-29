@@ -13,7 +13,7 @@ const initialState: CitiesSliceState = {
     pagination: {
         loading: false,
         part: 1,
-        can_load_next: false,
+        is_out: false,
         limit: 20
     },
     statuses: {
@@ -35,6 +35,8 @@ export const getCities = createAsyncThunk(
         // storeToken(res.data.access_token);
 
         // return res.data;
+        console.log('Должны', req);
+
         return new Promise<GetCitiesRes>((rs, _) => {
             setTimeout(() => {
                 // rs(Array(20).fill(null).map((_, index) => {
@@ -43,9 +45,9 @@ export const getCities = createAsyncThunk(
                 //         name: `City label ${index + 1}`
                 //     }
                 // }))
-                rs([
-                    {id: 1, name: "Череповец"}
-                ])
+                rs(req.skip == 0 ? [
+                    { id: 1, name: "Череповец 1" }
+                ] : [])
             }, 1000)
         })
     },
@@ -56,7 +58,12 @@ const citiesSlice = createSlice({
     initialState,
     reducers: {
         resetPagination: state => {
-            state.pagination = initialState.pagination
+            state.pagination = {
+                loading: false,
+                part: 1,
+                is_out: false,
+                limit: 20
+            }
         }
     },
     extraReducers(builder) {
@@ -70,18 +77,20 @@ const citiesSlice = createSlice({
                 state.items = []
             })
             .addCase(getCities.fulfilled, (state, action: PayloadAction<GetCitiesRes>) => {
+                const isEmpty = action.payload.length == 0
+
                 state.items = [...state.items, ...action.payload]
                 state.statuses.success = true
+                state.pagination.loading = false
+                state.statuses.loading = false
 
-                if (state.pagination.loading) {
-                    state.pagination.loading = false
-                }
-                if (state.statuses.loading) {
-                    state.statuses.loading = false
+                state.pagination.is_out = isEmpty
+
+                if (!isEmpty && (action.payload.length < state.pagination.limit)) {
+                    state.pagination.is_out = true
                 }
 
-                // add real check from payload for next part
-                if (true) {
+                if (!isEmpty) {
                     state.pagination.part += 1;
                 }
             })

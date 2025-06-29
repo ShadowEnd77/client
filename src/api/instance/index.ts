@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios"
-export const ip = "http://192.168.43.223:8000"
 
-const devMode = false
-const API_URL = devMode ? import.meta.env.VITE_API_DOMAIN : ip + "/api/v1/"
+export const domain = import.meta.env.VITE_API_DOMAIN
+
+const API_URL = domain + "/api/v1/"
 
 const api = axios.create({
     baseURL: API_URL,

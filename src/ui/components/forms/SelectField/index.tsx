@@ -102,7 +102,7 @@ export const SelectField: FC<SelectFieldProps> = ({
                             <div className={styles.noMatch}>
                                 <p>{!asyncOptions?.is_loading ? "Ничего не найдено" : "Ищем города..."}</p>
                             </div> :
-                            <ul className={styles.list}>
+                            <ul className={`${styles.list} ${options.length < 2 ? styles.noPaddingBottom : ""}`}>
                                 {
                                     options.map((option) => (
                                         <SelectOption
@@ -116,7 +116,7 @@ export const SelectField: FC<SelectFieldProps> = ({
                                     asyncOptions &&
                                     <li>
                                         <ObserverContainer
-                                            disabled={asyncOptions.is_pag_loading || asyncOptions.is_loading}
+                                            disabled={asyncOptions?.disableObserving || asyncOptions.is_pag_loading || asyncOptions.is_loading}
                                             onInView={asyncOptions.onLoad}
                                         />
                                         {

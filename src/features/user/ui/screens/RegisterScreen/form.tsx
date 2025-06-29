@@ -45,8 +45,14 @@ export const RegisterForm = () => {
     });
 
     const fetchCities = () => {
+        let currentSkip = 0
+
+        if (cities.pagination.part > 1) {
+            currentSkip = (cities.pagination.part - 1) * cities.pagination.limit
+        }
+
         dispatch(getCities({
-            skip: cities.pagination.part * cities.pagination.limit,
+            skip: currentSkip,
             limit: cities.pagination.limit,
             query: searchCitiesValue
         }))
@@ -73,11 +79,15 @@ export const RegisterForm = () => {
     }
 
     useEffect(() => {
-        if (!cities.statuses.loading) {
-            dispatch(resetPagination())
+        dispatch(resetPagination())
+    }, [defferedSearchCitiesValue])
+
+    useEffect(() => {
+        if (cities.pagination.part == 1) {
             fetchCities()
         }
-    }, [defferedSearchCitiesValue])
+
+    }, [cities.pagination.part])
 
     return (
         <form autoComplete={"off"} onSubmit={formik.handleSubmit} action="" className={styles.form}>
@@ -114,20 +124,23 @@ export const RegisterForm = () => {
                 classNames={{
                     body: styles.schoolFields
                 }}
-                legendChildren={<h2 className={styles.fieldsGroupTitle}>Данные о школе</h2>}
+                legendChildren={
+                    <h2 className={styles.fieldsGroupTitle}>Данные о школе</h2>
+                }
             >
                 <SelectField
                     className={styles.ageSelect}
                     placeholder={"Выбери свой город"}
                     htmlId={"register-city-input"}
                     options={getSelectOptions(cities.items, "id", "name")}
-                    // asyncOptions={{
-                    //     is_loading: cities.statuses.loading,
-                    //     is_pag_loading: cities.pagination.loading,
-                    //     part: cities.pagination.part,
-                    //     limit: cities.pagination.limit,
-                    //     onLoad: fetchCities,
-                    // }}
+                    asyncOptions={{
+                        is_loading: cities.statuses.loading,
+                        is_pag_loading: cities.pagination.loading,
+                        part: cities.pagination.part,
+                        disableObserving: cities.pagination.is_out,
+                        limit: cities.pagination.limit,
+                        onLoad: fetchCities,
+                    }}
                     onSearch={(e) => setSearchCitiesValue(e.target.value)}
                     value={searchCitiesValue}
                     selectedValue={formik.values.city_id}

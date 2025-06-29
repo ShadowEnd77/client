@@ -8,7 +8,7 @@ export type HasClassName = { className?: string }
 
 export type Pagination = {
     part: number
-    can_load_next: boolean
+    is_out: boolean
     limit: number
     loading: boolean
 }

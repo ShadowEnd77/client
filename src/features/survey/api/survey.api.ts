@@ -3,7 +3,7 @@ import { api } from "../../../api/instance";
 import { AUTH_PATHS } from "../../../api/paths";
 import { UserRegisterReq, UserRegisterRes } from "../../../types/api/user.api.types";
 import { GetSurveysReq, GetSurveysRes } from "../../../types/api/survey.api.types";
-import { сonvertDataToGetParams } from "../../../utils/convertToQueryParams";
+import { convertToQueryParams } from "../../../utils/convertToQueryParams";
 
 export class SurveyApi {
     static async getAll() {

@@ -1,4 +1,4 @@
-export const сonvertDataToGetParams = (obj: Record<string, any>) => {
+export const convertToQueryParams = (obj: Record<string, any>) => {
     const queryString = Object.keys(obj)
         .map(key => {
             const val = obj[key]

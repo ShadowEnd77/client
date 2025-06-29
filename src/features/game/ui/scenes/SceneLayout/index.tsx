@@ -7,6 +7,7 @@ import { Scene } from '../../../../../types/entities'
 import { ChoiceScene } from '../ChoiceScene'
 import { setCurrentSceneAnimated, setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
+import { GameMatchesScene } from '../GameMatchesScene'
 
 type SceneLayoutProps = {
     scene: Scene
@@ -15,7 +16,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const dispatch = useAppDispatch();
     const { current_scene_animated, current_scene } = useAppSelector(state => state.game)
 
-    const currentSceneIsChoice = scene.type == "choice"
+    const currentSceneIsDialog = scene.type == "dialogue"
 
     const renderScene = () => {
         if (scene.type == "dialogue") {
@@ -43,9 +44,9 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
     return (
         <div className={styles.sceneLayout}>
-            {renderScene()}
+            {<GameMatchesScene />}
             {
-                !currentSceneIsChoice &&
+                currentSceneIsDialog &&
                 <aside className={styles.sceneControls}>
                     <ControlButton disabled>
                         <img style={{ scale: -1 }} src={arrowRightIcon} height={18} width={18} alt="" />

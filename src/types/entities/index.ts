@@ -13,7 +13,7 @@ export type User = {
 // CITIES ENTITIES
 export type City = HasId & HasName
 
-// SURVIES ENTITIES
+// SURVEYS ENTITIES
 export type Survey = {
     title: string;
     questions: Question[];

@@ -10,6 +10,7 @@ export type SelectAsyncOptions = {
     is_loading?: boolean
     is_pag_loading?: boolean
     limit?: number
+    disableObserving?: boolean
     part: number,
     onLoad: () => void
 }

@@ -23,7 +23,7 @@
         max-height: 130px;
         width: 100%;
         overflow: hidden;
-        z-index: 2;
+        z-index: var(--z-index-control);
 
         .loader {
             @include flex-center;
@@ -35,7 +35,7 @@
             @include scrollbar;
 
             max-height: inherit;
-            //padding-bottom: 20px;
+            padding-bottom: 20px;
             overflow-y: auto;
 
             .option {
@@ -52,6 +52,9 @@
                     background-color: var(--c-light-hover);
                 }
             }
+        }
+        .noPaddingBottom {
+            padding-bottom: 0;
         }
         .noMatch {
             color: var(--c-dark-opacity);
