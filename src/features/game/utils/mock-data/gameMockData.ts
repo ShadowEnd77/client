@@ -28,6 +28,39 @@ export const mockGame: Game = {
   description: "Интерактивное приключение с загадками и моральными выборами",
   duration: 2,
   scenes: [
+    {
+      id: 3,
+      order: 1,
+      
+      type: "choice",
+      
+      payload: {
+        description: "Пришло время сделать выбор! Выбери команду для Азота.",
+        dialogues: [
+          {
+            
+            image: i3_1,
+            voice: "https://example.com/voices/narrator3.mp3",
+            name: "",
+            text: "Азот должен сделать выбор"
+          }
+        ],
+        choices: [
+          {
+            text: "Я выберу свою команду — с кем мне комфортно работать",
+            next_scene_id: 4
+          },
+          {
+            text: "Все пошли к Бульдозеру — пойду тоже, чтобы не быть 'против'",
+            next_scene_id: 7
+          },
+          {
+            text: "Я просто подожду — может, всё само решится",
+            next_scene_id: 8
+          }
+        ]
+      }
+    },
     // 1. Введение (диалог)
     {
       id: 1,

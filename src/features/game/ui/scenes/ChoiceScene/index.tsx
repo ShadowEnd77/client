@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
-import { Scene } from '../../../../types/entities'
+import { Scene } from '../../../../../types/entities'
 import styles from './choiceScene.module.scss'
-import { useAppDispatch } from '../../../../store/hooks'
-import { setCurrentSceneById } from '../../slices/game-info/gameInfoSlice'
+import { useAppDispatch } from '../../../../../store/hooks'
+import { setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice'
 
 type ChoiceSceneProps = Scene
 
@@ -14,7 +14,7 @@ export const ChoiceScene: FC<ChoiceSceneProps> = ({
     return (
         <div className={styles.sceneChoiceBlock}>
             <header className={styles.sceneChoiceHeader}>
-                <span>Выбери пожалуйста</span>
+                <span>{payload.description || ""}</span>
             </header>
             <div className={styles.sceneChoiceListWrapper}>
                 <div className={styles.sceneChoicesList}>
@@ -28,6 +28,7 @@ export const ChoiceScene: FC<ChoiceSceneProps> = ({
                     Подсказка: Определись с выбором и нажми на одну из этих кнопок
                 </span>
             </div>
+            <div></div>
         </div>
     )
 }

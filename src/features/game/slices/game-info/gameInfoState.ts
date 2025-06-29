@@ -4,8 +4,15 @@ import { Game, Scene } from "../../../../types/entities"
 type GameInfoSliceState = {
     data: Game,
     statuses: ResponseStatus
-    current_scene: Scene 
+    current_scene: Scene
     current_scene_animated: boolean
+    modal_achievement: {
+        is_open: boolean
+        data: {
+            cover: string
+            title: string
+        }
+    }
 }
 
 export const initialGameInfoState: GameInfoSliceState = {
@@ -18,9 +25,16 @@ export const initialGameInfoState: GameInfoSliceState = {
         duration: 0,
         scenes: []
     },
+    modal_achievement: {
+        is_open: false,
+        data: {
+            cover: "",
+            title: ""
+        }
+    },
     current_scene: {
         id: 0,
-        type: "dialog",
+        type: "dialogue",
         order: 0,
         payload: {
             dialogues: []

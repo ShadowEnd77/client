@@ -7,6 +7,9 @@ import volumePath from '../../assets/icons/volume.svg'
 import fullsizeEnablePath from '../../assets/icons/fullscreen-enable.svg'
 import arrowLeftPath from '../../assets/icons/arrow-left.svg'
 import arrowRightPath from '../../assets/icons/arrow-right.svg'
+import starsPath from '../../assets/icons/stars.svg'
+import successPath from '../../assets/icons/success.svg'
+
 
 export const logoIcon = logoPath 
 export const arrowDownIcon = arrowDownPath 
@@ -17,3 +20,5 @@ export const volumeIcon = volumePath
 export const fullsizeEnableIcon = fullsizeEnablePath
 export const arrowLeftIcon = arrowLeftPath
 export const arrowRightIcon = arrowRightPath
+export const starsIcon = starsPath
+export const successIcon = successPath

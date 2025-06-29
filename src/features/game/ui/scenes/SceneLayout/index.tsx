@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from 'react'
 import styles from './sceneLayout.module.scss'
-import { ControlButton } from '../../../../ui/components/buttons/ControlButton'
-import { volumeIcon, fullsizeEnableIcon, arrowLeftIcon, arrowRightIcon } from '../../../../ui/icons'
+import { ControlButton } from '../../../../../ui/components/buttons/ControlButton'
+import { volumeIcon, fullsizeEnableIcon, arrowLeftIcon, arrowRightIcon } from '../../../../../ui/icons'
 import { GameSceneCard } from '../GameSceneCard'
-import { Scene } from '../../../../types/entities'
+import { Scene } from '../../../../../types/entities'
 import { ChoiceScene } from '../ChoiceScene'
-import { setCurrentSceneAnimated, setCurrentSceneById } from '../../slices/game-info/gameInfoSlice'
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { setCurrentSceneAnimated, setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice'
+import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 
 type SceneLayoutProps = {
     scene: Scene
@@ -17,6 +17,24 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
     const currentSceneIsChoice = scene.type == "choice"
 
+    const renderScene = () => {
+        if (scene.type == "dialogue") {
+            return scene.payload.dialogues.map((dialog, index) => (
+                <GameSceneCard
+                    dialog={dialog}
+                    delayShow={!index ? 0.5 : index + 1} />
+            ))
+        }
+        if (scene.type == "choice") {
+            return <>
+                <GameSceneCard
+                    dialog={scene.payload.dialogues[0]}
+                    delayShow={0.5} />
+                <ChoiceScene {...scene} />
+            </>
+        }
+    }
+
     useEffect(() => {
         setTimeout(() => {
             dispatch(setCurrentSceneAnimated(true))
@@ -25,21 +43,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
     return (
         <div className={styles.sceneLayout}>
-            {
-                scene.type == "dialogue" ?
-                    scene.payload.dialogues.map((dialog, index) => (
-                        <GameSceneCard
-                            dialog={dialog}
-                            delayShow={!index ? 0.5 : index + 1} />
-                    )) :
-                    <>
-                        <GameSceneCard
-                            dialog={scene.payload.dialogues[0]}
-                            delayShow={0.5} />
-                        <ChoiceScene {...scene} />
-                    </>
-
-            }
+            {renderScene()}
             {
                 !currentSceneIsChoice &&
                 <aside className={styles.sceneControls}>
@@ -51,7 +55,6 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                     </ControlButton>
                 </aside>
             }
-
         </div>
     )
 }
