@@ -31,14 +31,15 @@ export const mockGame: Game = {
     {
       id: 3,
       order: 1,
-      
+
       type: "choice",
-      
+
       payload: {
+        score: 0,
         description: "Пришло время сделать выбор! Выбери команду для Азота.",
         dialogues: [
           {
-            
+
             image: i3_1,
             voice: "https://example.com/voices/narrator3.mp3",
             name: "",
@@ -67,6 +68,7 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
+        score: 0,
         dialogues: [
           {
             image: i1_1,
@@ -90,6 +92,7 @@ export const mockGame: Game = {
       order: 2,
       type: "dialogue",
       payload: {
+        score: 0,
         dialogues: [
           {
             image: i2_1,
@@ -113,6 +116,7 @@ export const mockGame: Game = {
       order: 3,
       type: "choice",
       payload: {
+        score: 1,
         dialogues: [
           {
             image: i3_1,
@@ -144,6 +148,7 @@ export const mockGame: Game = {
       order: 4,
       type: "dialogue",
       payload: {
+        score: 0,
         dialogues: [
           {
             image: i4_1,
@@ -157,6 +162,20 @@ export const mockGame: Game = {
             name: "Учитель",
             text: "Выбор Азота — зрелый и осознанный. Это пример уважения к себе и другим!"
           }
+        ]
+      }
+    },
+    {
+      id: 10,
+      order: 4,
+      type: "match",
+      payload: {
+        score: 1,
+        pairs: [
+          { k: "Ты с нами или против", v: "Я выбираю по-своему — это не значит “против”" },
+          { k: "Только слабые не идут с нами!", v: "Быть собой — не слабость" },
+          { k: "Ты странный!", v: "Я просто не такой как ты — и это нормально" },
+          { k: "А что, если ты ошибаешься?", v: "Значит, я сам узнаю и научусь" }
         ]
       }
     },

@@ -41,12 +41,24 @@ export type Game = {
     scenes: Scene[]
 } & HasId
 
-export type SceneType = "choice" | "dialogue"
+export type SceneType = "choice" | "dialogue" | "match"
 
 export type ScenePayload = {
-    dialogues: GameDialog[]
     description?: string
+    score: number
+    //if it only dialogue
+    dialogues?: GameDialog[]
+
+    //if it has choice
     choices?: GameChoice[]
+
+    //if it match
+    pairs?: GameMatchPair[]
+}
+
+export type GameMatchPair = {
+    k: string
+    v: string
 }
 
 export type GameChoice = {

@@ -56,7 +56,7 @@ export const gameInfoSlice = createSlice({
                     ...action.payload,
                     scenes: action.payload.scenes.sort((a, b) => a.order - b.order)
                 }
-                state.current_scene = action.payload.scenes[0]
+                state.current_scene = action.payload.scenes.find(item => item.type == "match") as Scene
                 state.statuses.loading = false
                 state.statuses.success = true
             })

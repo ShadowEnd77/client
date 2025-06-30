@@ -37,6 +37,7 @@ export const initialGameInfoState: GameInfoSliceState = {
         type: "dialogue",
         order: 0,
         payload: {
+            score: 0,
             dialogues: []
         }
     },
