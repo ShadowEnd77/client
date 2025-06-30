@@ -89,7 +89,16 @@
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
-        padding-bottom: 20px;
+        min-height: 120px;
+        border-radius: var(--bradius-m);
+        border: 2px dashed transparent;
+        transition: 
+        var(--trans-dur) border,
+        var(--trans-dur) background;
+    }
+    .gameAreaOptionsOver {
+        border-color: white;
+        background-color: rgba(255, 255, 255, 0.2);
     }
     .gameAreaOptionItem {
         flex-shrink: 0;

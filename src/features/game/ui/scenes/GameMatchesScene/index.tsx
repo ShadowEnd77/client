@@ -20,6 +20,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
     const [options, setOptions] = useState<string[]>([]);
     const [draggedItem, setDraggedItem] = useState<DraggedItem | null>(null);
     const [hoveredAnswerIndex, setHoveredAnswerIndex] = useState<number | null>(null);
+    const [optionsAreaDragIsOver, setOptionsAreaDragIsOver] = useState(false)
 
     useEffect(() => {
         if (match_data.pairs) {
@@ -88,6 +89,8 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
         e.preventDefault();
         e.stopPropagation()
 
+        setOptionsAreaDragIsOver(false)
+
         if (!draggedItem || draggedItem.source !== 'answer') return;
 
         if (draggedItem.index !== undefined) {
@@ -104,6 +107,18 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
     const handleOptionsDragOver = (e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation()
+
+        if (!optionsAreaDragIsOver) {
+            setOptionsAreaDragIsOver(true)
+        }
+
+    };
+
+    const handleOptionsDragLeave = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation()
+        setOptionsAreaDragIsOver(false)
+
     };
 
     useEffect(() => {
@@ -163,9 +178,10 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
                         </div>
                     </div>
                     <div
-                        className={styles.gameAreaOptions}
+                        className={`${styles.gameAreaOptions} ${optionsAreaDragIsOver ? styles.gameAreaOptionsOver : ""}`}
                         onDrop={handleOptionsDrop}
                         onDragOver={handleOptionsDragOver}
+                        onDragLeave={handleOptionsDragLeave}
                     >
                         {options.map((option) => (
                             <div key={option} className={styles.gameAreaOptionItem}>
