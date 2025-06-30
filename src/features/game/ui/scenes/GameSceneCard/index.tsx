@@ -3,7 +3,6 @@ import styles from './gameSceneCard.module.scss'
 import { GameDialog } from '../../../../../types/entities'
 import previewImage from '../../../../assets/images/preview.jpg'
 import { motion } from "motion/react"
-import { ip } from "../../../../../api/instance";
 
 export type GameSceneCard = {
   delayShow: number
