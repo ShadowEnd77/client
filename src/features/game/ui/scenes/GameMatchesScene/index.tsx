@@ -4,6 +4,8 @@ import { GameMatchElement } from './GameMatchElement';
 import logo from '../../../../../assets/images/white-logo.svg';
 import miniGameBg from '../../../../../assets/images/mini-game-bg.png';
 import { ScenePayload } from '../../../../../types/entities';
+import { Button } from '../../../../../ui/components/buttons/Button';
+import { motion } from "motion/react"
 
 type GameMatchSceneProps = {
     match_data: ScenePayload;
@@ -16,30 +18,27 @@ type DraggedItem = {
 };
 
 export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
+    const [isAnimatedOnLoad, setIsAnimatedOnLoad] = useState(false)
+
     const [answers, setAnswers] = useState<(string | null)[]>([]);
     const [options, setOptions] = useState<string[]>([]);
     const [draggedItem, setDraggedItem] = useState<DraggedItem | null>(null);
     const [hoveredAnswerIndex, setHoveredAnswerIndex] = useState<number | null>(null);
     const [optionsAreaDragIsOver, setOptionsAreaDragIsOver] = useState(false)
 
-    useEffect(() => {
-        if (match_data.pairs) {
-            setAnswers(new Array(match_data.pairs.length).fill(null));
-            setOptions(match_data.pairs.map(pair => pair.v));
-        }
-    }, [match_data.pairs]);
-
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, text: string, source: 'options' | 'answer', index?: number) => {
+    const handleDragStart = (
+        e: React.DragEvent<HTMLDivElement>,
+        text: string,
+        source: 'options' | 'answer',
+        index?: number
+    ) => {
         e.dataTransfer.setData('text/plain', text); // Важно для Firefox
         e.dataTransfer.effectAllowed = 'move';
-
         setDraggedItem({ text, source, index });
-
     };
 
     const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
         setDraggedItem(null);
-
         e.currentTarget.classList.remove(styles.draggingSource);
     };
 
@@ -74,7 +73,10 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
             if (currentAnswer) {
                 setOptions(prev => [...prev, currentAnswer]);
             }
-        } else if (draggedItem.source === 'answer' && draggedItem.index !== undefined) {
+
+            return
+        }
+        if (draggedItem.source === 'answer' && draggedItem.index !== undefined) {
             setAnswers(prev => {
                 const newAnswers = [...prev];
                 const temp = newAnswers[draggedItem.index!];
@@ -111,29 +113,51 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
         if (!optionsAreaDragIsOver) {
             setOptionsAreaDragIsOver(true)
         }
-
     };
 
     const handleOptionsDragLeave = (e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation()
         setOptionsAreaDragIsOver(false)
-
     };
 
-    useEffect(() => {
-        console.log(answers);
+    const handleFinishMiniGame = () => {
+        
+    }
 
-    }, [answers])
+    useEffect(() => {
+        if (match_data.pairs) {
+            setAnswers(new Array(match_data.pairs.length).fill(null));
+            setOptions(match_data.pairs.map(pair => pair.v));
+        }
+    }, [match_data.pairs]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setIsAnimatedOnLoad(true)
+        }, 3000)
+    }, [])
 
     return (
         <section className={styles.game}>
             <div className={styles.gameLogo}>
                 <img src={logo} width={77} height={24} alt="" />
             </div>
-            <div className={styles.gameBackground}>
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    translate: "100%"
+                }}
+                animate={{
+                    opacity: 1,
+                    translate: 0,
+                    transition: {
+                        duration: 2
+                    }
+                }}
+                className={styles.gameBackground}>
                 <img src={miniGameBg} width={233} height={350} alt="" />
-            </div>
+            </motion.div>
             <div className={styles.gameInner}>
                 <header className={styles.gameHeader}>
                     <div className={styles.gameHeaderTitle}>
@@ -146,9 +170,22 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
                             <span className={styles.gameAreaSideCaption}>Фраза</span>
                             <ul className={styles.gameAreaMatchesList}>
                                 {match_data.pairs?.map((item, index) => (
-                                    <li key={item.k} className={styles.gameAreaMatchesItem}>
+                                    <motion.li
+                                        initial={{
+                                            opacity: 0,
+                                            translate: "0 -50px"
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            translate: 0,
+                                            transition: {
+                                                delay: index * 0.4
+                                            }
+                                        }}
+                                        key={item.k}
+                                        className={styles.gameAreaMatchesItem}>
                                         <GameMatchElement text={item.k} />
-                                    </li>
+                                    </motion.li>
                                 ))}
                             </ul>
                         </div>
@@ -156,7 +193,18 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
                             <span className={styles.gameAreaSideCaption}>Ответ</span>
                             <ul className={styles.gameAreaMatchesList}>
                                 {match_data.pairs?.map((_, index) => (
-                                    <li
+                                    <motion.li
+                                        initial={{
+                                            opacity: 0,
+                                            translate: "0 -50px"
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            translate: 0,
+                                            transition: !isAnimatedOnLoad ? {
+                                                delay: index * 0.3
+                                            } : {}
+                                        }}
                                         key={index}
                                         className={`${styles.gameAreaMatchesItem} ${hoveredAnswerIndex === index ? styles.gameMatchItemOver : ''}`}
                                         onDragOver={(e) => handleDragOver(e, index)}
@@ -172,26 +220,43 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
                                                 onDragEnd={handleDragEnd}
                                             />
                                         )}
-                                    </li>
+                                    </motion.li>
                                 ))}
                             </ul>
                         </div>
                     </div>
+                    {
+                        answers.every(answer => answer !== null) ?
+                            <Button classNames={{ button: styles.gameFinishButton }}>Завершить мини-игру</Button> :
+                            null
+                    }
+
                     <div
                         className={`${styles.gameAreaOptions} ${optionsAreaDragIsOver ? styles.gameAreaOptionsOver : ""}`}
                         onDrop={handleOptionsDrop}
                         onDragOver={handleOptionsDragOver}
                         onDragLeave={handleOptionsDragLeave}
                     >
-                        {options.map((option) => (
-                            <div key={option} className={styles.gameAreaOptionItem}>
+
+                        {options.map((option, index) => (
+                            <motion.div
+                                initial={{
+                                    scale: 0
+                                }}
+                                animate={{
+                                    scale: 1,
+                                    transition: !isAnimatedOnLoad ? {
+                                        delay: index * 0.4
+                                    } : {}
+                                }}
+                                key={option} className={styles.gameAreaOptionItem}>
                                 <GameMatchElement
                                     draggable
                                     text={option}
                                     onDragStart={(e) => handleDragStart(e, option, 'options')}
                                     onDragEnd={handleDragEnd}
                                 />
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>

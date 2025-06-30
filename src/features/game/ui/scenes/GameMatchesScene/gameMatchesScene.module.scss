@@ -62,6 +62,7 @@
     .gameArea {
         position: relative;
         flex-grow: 1;
+        row-gap: 20px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -89,12 +90,20 @@
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
-        min-height: 120px;
+        min-height: 126px;
         border-radius: var(--bradius-m);
         border: 2px dashed transparent;
+        align-items: flex-end;
         transition: 
         var(--trans-dur) border,
         var(--trans-dur) background;
+    }
+    .gameFinishButton {
+        font-size: var(--fz-m);
+        width: fit-content;
+        padding-inline: 20px;
+        height: 45px;
+        align-self: center;
     }
     .gameAreaOptionsOver {
         border-color: white;

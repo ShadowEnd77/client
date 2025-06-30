@@ -60,6 +60,7 @@ body {
     @include fluid-text($base-min, $base-max);
     @include scrollbar;
 
+    overflow-x: hidden;
     color: var(--c-dark-alt);
     font-family: var(--font-base);
     
