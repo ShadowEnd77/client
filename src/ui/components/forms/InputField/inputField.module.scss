@@ -1,7 +1,7 @@
 .wrapper {
     display: block;
     color: var(--c-dark-opacity);
-    border-radius: 100px;
+    border-radius: var(--bradius-m);
     border: var(--border);
     border-color: currentColor;
     height: var(--btn-height);
@@ -21,14 +21,18 @@
         &:not(:placeholder-shown)::placeholder {
             color: inherit;
         }
-        
+
         &:placeholder-shown::placeholder {
             color: var(--c-dark-opacity);
         }
     }
 }
 
-.wrapper.focused {
+label.wrapper.focused {
+    color: var(--c-accent);
+}
+
+.wrapper.hasValue {
     color: var(--c-dark-alt);
 }
 
@@ -38,5 +42,4 @@
 
 .wrapper.disabled {
     color: var(--c-dark-opacity);
-    background-color: aqua;
 }

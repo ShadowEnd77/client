@@ -122,7 +122,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
     };
 
     const handleFinishMiniGame = () => {
-        
+
     }
 
     useEffect(() => {
@@ -165,72 +165,72 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
                     </div>
                 </header>
                 <div className={styles.gameArea}>
-                    <div className={styles.gameAreaMatches}>
-                        <div className={styles.gameAreaMatchesSide}>
-                            <span className={styles.gameAreaSideCaption}>Фраза</span>
-                            <ul className={styles.gameAreaMatchesList}>
-                                {match_data.pairs?.map((item, index) => (
-                                    <motion.li
-                                        initial={{
-                                            opacity: 0,
-                                            translate: "0 -50px"
-                                        }}
-                                        animate={{
-                                            opacity: 1,
-                                            translate: 0,
-                                            transition: {
-                                                delay: index * 0.4
-                                            }
-                                        }}
-                                        key={item.k}
-                                        className={styles.gameAreaMatchesItem}>
-                                        <GameMatchElement text={item.k} />
-                                    </motion.li>
-                                ))}
-                            </ul>
+                    <div className={styles.gameAreaMain}>
+                        <div className={styles.gameAreaMatches}>
+                            <div className={styles.gameAreaMatchesSide}>
+                                <span className={styles.gameAreaSideCaption}>Фраза</span>
+                                <ul className={styles.gameAreaMatchesList}>
+                                    {match_data.pairs?.map((item, index) => (
+                                        <motion.li
+                                            initial={{
+                                                opacity: 0,
+                                                translate: "0 -50px"
+                                            }}
+                                            animate={{
+                                                opacity: 1,
+                                                translate: 0,
+                                                transition: {
+                                                    delay: index * 0.4
+                                                }
+                                            }}
+                                            key={item.k}
+                                            className={styles.gameAreaMatchesItem}>
+                                            <GameMatchElement text={item.k} />
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className={styles.gameAreaMatchesSide}>
+                                <span className={styles.gameAreaSideCaption}>Ответ</span>
+                                <ul className={styles.gameAreaMatchesList}>
+                                    {match_data.pairs?.map((_, index) => (
+                                        <motion.li
+                                            initial={{
+                                                opacity: 0,
+                                                translate: "0 -50px"
+                                            }}
+                                            animate={{
+                                                opacity: 1,
+                                                translate: 0,
+                                                transition: !isAnimatedOnLoad ? {
+                                                    delay: index * 0.3
+                                                } : {}
+                                            }}
+                                            key={index}
+                                            className={`${styles.gameAreaMatchesItem} ${hoveredAnswerIndex === index ? styles.gameMatchItemOver : ''}`}
+                                            onDragOver={(e) => handleDragOver(e, index)}
+                                            onDragLeave={handleDragLeave}
+                                            onDrop={(e) => handleDrop(e, index)}
+                                        >
+                                            {answers[index] && (
+                                                <GameMatchElement
+                                                    draggable
+                                                    text={answers[index]!}
+                                                    onDragStart={(e) => handleDragStart(e, answers[index]!, 'answer', index)}
+                                                    onDragEnd={handleDragEnd}
+                                                />
+                                            )}
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
-                        <div className="gameAreaMatchesSide">
-                            <span className={styles.gameAreaSideCaption}>Ответ</span>
-                            <ul className={styles.gameAreaMatchesList}>
-                                {match_data.pairs?.map((_, index) => (
-                                    <motion.li
-                                        initial={{
-                                            opacity: 0,
-                                            translate: "0 -50px"
-                                        }}
-                                        animate={{
-                                            opacity: 1,
-                                            translate: 0,
-                                            transition: !isAnimatedOnLoad ? {
-                                                delay: index * 0.3
-                                            } : {}
-                                        }}
-                                        key={index}
-                                        className={`${styles.gameAreaMatchesItem} ${hoveredAnswerIndex === index ? styles.gameMatchItemOver : ''}`}
-                                        onDragOver={(e) => handleDragOver(e, index)}
-                                        onDragLeave={handleDragLeave}
-                                        onDrop={(e) => handleDrop(e, index)}
-                                    >
-                                        {answers[index] && (
-                                            <GameMatchElement
-                                                draggable
-                                                text={answers[index]!}
-                                                onDragStart={(e) => handleDragStart(e, answers[index]!, 'answer', index)}
-
-                                                onDragEnd={handleDragEnd}
-                                            />
-                                        )}
-                                    </motion.li>
-                                ))}
-                            </ul>
-                        </div>
+                        {
+                            answers.every(answer => answer !== null) ?
+                                <Button classNames={{ button: styles.gameFinishButton }}>Продолжить</Button> :
+                                null
+                        }
                     </div>
-                    {
-                        answers.every(answer => answer !== null) ?
-                            <Button classNames={{ button: styles.gameFinishButton }}>Завершить мини-игру</Button> :
-                            null
-                    }
-
                     <div
                         className={`${styles.gameAreaOptions} ${optionsAreaDragIsOver ? styles.gameAreaOptionsOver : ""}`}
                         onDrop={handleOptionsDrop}

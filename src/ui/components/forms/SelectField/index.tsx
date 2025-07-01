@@ -6,6 +6,7 @@ import { SelectFieldOption, SelectFieldProps } from './selectField.types'
 import inputStyles from '../InputField/inputField.module.scss'
 import styles from './selectField.module.scss'
 import { SelectOption } from './option'
+import { AnimatePresence, motion } from 'motion/react'
 
 export const SelectField: FC<SelectFieldProps> = ({
     className,
@@ -78,7 +79,8 @@ export const SelectField: FC<SelectFieldProps> = ({
                 onClick={onLabelClick}
                 className={`
                 ${inputStyles.wrapper} 
-                ${isFocused || selectedValue || value ? inputStyles.focused : ""} 
+                ${isFocused ? inputStyles.focused : ""} 
+                ${selectedValue || value ? inputStyles.hasValue : ""} 
                 ${styles.controls}`
                 }>
                 <input
@@ -90,49 +92,72 @@ export const SelectField: FC<SelectFieldProps> = ({
                     className={inputStyles.input}
                     type="text"
                 />
-                <div className={styles.iconWrapper}>
-                    <img src={arrowDownIcon} height={19} width={19} />
+                <div
+                    className={styles.iconWrapper}>
+                    <motion.img
+                        initial={{
+                            rotateZ: 0
+                        }}
+                        animate={{
+                            rotateZ: menuIsOpened ? 180 : 0
+                        }}
+                        src={arrowDownIcon} height={19} width={19} />
                 </div>
             </label>
-            {
-                menuIsOpened &&
-                <div className={styles.menu}>
-                    {
-                        !options.length || asyncOptions?.is_loading ?
-                            <div className={styles.noMatch}>
-                                <p>{!asyncOptions?.is_loading ? "Ничего не найдено" : "Ищем города..."}</p>
-                            </div> :
-                            <ul className={`${styles.list} ${options.length < 2 ? styles.noPaddingBottom : ""}`}>
-                                {
-                                    options.map((option) => (
-                                        <SelectOption
-                                            selectedValue={selectedValue}
-                                            onSelect={() => onSelect(option)}
-                                            {...option}
-                                        />
-                                    ))
-                                }
-                                {
-                                    asyncOptions &&
-                                    <li>
-                                        <ObserverContainer
-                                            disabled={asyncOptions?.disableObserving || asyncOptions.is_pag_loading || asyncOptions.is_loading}
-                                            onInView={asyncOptions.onLoad}
-                                        />
-                                        {
-                                            asyncOptions.is_pag_loading &&
-                                            <div className={`${styles.loader}`}>
-                                                <Loader width={16} height={16} />
-                                                <span>Загружаем еще...</span>
-                                            </div>
-                                        }
+            <AnimatePresence>
+                {
+                    menuIsOpened &&
+                    <motion.div
+                        initial={{
+                            translate: "0 -20px",
+                            opacity: 0
+                        }}
+                        animate={{
+                            translate: 0,
+                            opacity: 1
+                        }}
+                        exit={{
+                            translate: "0 -20px",
+                            opacity: 0
+                        }}
+                        className={styles.menu}>
+                        {
+                            !options.length || asyncOptions?.is_loading ?
+                                <div className={styles.noMatch}>
+                                    <p>{!asyncOptions?.is_loading ? "Ничего не найдено" : "Ищем города..."}</p>
+                                </div> :
+                                <ul className={`${styles.list} ${options.length < 2 ? styles.noPaddingBottom : ""}`}>
+                                    {
+                                        options.map((option) => (
+                                            <SelectOption
+                                                selectedValue={selectedValue}
+                                                onSelect={() => onSelect(option)}
+                                                {...option}
+                                            />
+                                        ))
+                                    }
+                                    {
+                                        asyncOptions &&
+                                        <li>
+                                            <ObserverContainer
+                                                disabled={asyncOptions?.disableObserving || asyncOptions.is_pag_loading || asyncOptions.is_loading}
+                                                onInView={asyncOptions.onLoad}
+                                            />
+                                            {
+                                                asyncOptions.is_pag_loading &&
+                                                <div className={`${styles.loader}`}>
+                                                    <Loader width={16} height={16} />
+                                                    <span>Загружаем еще...</span>
+                                                </div>
+                                            }
 
-                                    </li>
-                                }
-                            </ul>
-                    }
-                </div>
-            }
+                                        </li>
+                                    }
+                                </ul>
+                        }
+                    </motion.div>
+                }
+            </AnimatePresence>
         </div>
     )
 }

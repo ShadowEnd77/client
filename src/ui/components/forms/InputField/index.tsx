@@ -29,7 +29,8 @@ export const InputField = <NameType,>(props: InputFieldProps<NameType>) => {
         <label
             className={`
                 ${styles.wrapper} 
-                ${(isFocused || props.value) ? styles.focused : ""}
+                ${isFocused ? styles.focused : ""}
+                ${props.value ? styles.hasValue: ""}
                 ${props.error ? styles.error : ""}
                 ${props.disabled ? styles.disabled : ""}
                 `}

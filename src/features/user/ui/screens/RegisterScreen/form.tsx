@@ -80,6 +80,10 @@ export const RegisterForm = () => {
 
     useEffect(() => {
         dispatch(resetPagination())
+
+        if (formik.values.city_id && !defferedSearchCitiesValue.length) {
+            registerFormSelect("city_id", 0)
+        }
     }, [defferedSearchCitiesValue])
 
     useEffect(() => {

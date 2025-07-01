@@ -32,6 +32,11 @@
         left: 30px;
         rotate: 10deg;
     }
+    .gameAreaMain {
+        display: flex;
+        flex-direction: column;
+        row-gap: 25px;
+    }
     .gameAreaMatches {
         display: grid;
         grid-template-columns: repeat(2, 1fr);

@@ -1,3 +1,5 @@
+@use './variables' as v;
+
 @function calcVW($screen-width, $px) {
     @return #{$px / $screen-width * 100}vw;
 }
@@ -7,7 +9,7 @@
 }
 
 @mixin fluid-text($min, $max) {
-    font-size: calc(clamp(#{$min}px, calcVW($screen, $max), #{$max}px) * var(--fz-scale));
+    font-size: calc(clamp(#{$min}px, calcVW(v.$screen, $max), #{$max}px) * var(--fz-scale));
 }
 
 @mixin flex-center($is-inline: false) {

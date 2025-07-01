@@ -27,7 +27,6 @@ export const SurveyScreen = () => {
     } = useAppSelector(state => state.survey)
 
     const { statuses } = useAppSelector(state => state.game)
-
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
 
     const onAnswer = (answer: Answer) => {
@@ -101,7 +100,16 @@ export const SurveyScreen = () => {
                                 </div>
                             </header>
                             <div className={styles.surveyDescription}>
-                                <p>{currentQuestion?.text}</p>
+                                <motion.p
+                                    initial={{
+                                        scale: 0
+                                    }}
+                                    animate={{
+                                        scale: 1
+                                    }} 
+                                    key={currentQuestion.id}>
+                                    {currentQuestion?.text}
+                                </motion.p>
                             </div>
                             <div className={styles.surveyControls}>
                                 <span className={styles.suggestion}>Выберите вариант ответа</span>
