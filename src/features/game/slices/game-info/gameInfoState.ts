@@ -11,10 +11,23 @@ type GameInfoSliceState = {
         data: GameAchievement
     }
     visited_scenes: number[]
+    passed_game: {
+        id: number
+        sertificate_url: string
+        title: string
+        cover_image: string
+    }
+    sending_statuses: ResponseStatus
 }
 
 export const initialGameInfoState: GameInfoSliceState = {
     current_scene_animated: false,
+    passed_game: {
+        id: 0,
+        sertificate_url: "",
+        title: "",
+        cover_image: ""
+    },
     data: {
         cover_image: "",
         id: 0,
@@ -46,6 +59,12 @@ export const initialGameInfoState: GameInfoSliceState = {
         success: null,
         error: "",
         loading: false
+    },
+    sending_statuses: {
+        success: null,
+        error: "",
+        loading: false
     }
+
 
 }

@@ -57,13 +57,19 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     }
 
     const handleNextScene = () => {
-        console.log(currentSceneIsDialog, (scene.payload.dialogues!.length > 1), scene.payload.achievement);
         dispatch(addToVisitedScenes(scene.id))
+        
         if (currentSceneIsDialog && (scene.payload.dialogues!.length > 1) && scene.payload.achievement) {
             dispatch(setAchievementData(scene.payload.achievement))
             dispatch(setIsOpenAchievement(true))
             return
         }
+        
+        if(scene.payload.next_scene_id == null) {
+            alert("finish")
+            return
+        }
+
         dispatch(setCurrentSceneById(scene.payload.next_scene_id!))
     }
 

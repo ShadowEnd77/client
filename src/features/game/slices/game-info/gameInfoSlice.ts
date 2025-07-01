@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialGameInfoState } from './gameInfoState'
-import { GetGameInfoByIdReq, GetGameInfoByIdRes } from '../../../../types/api/game.api.types'
+import { FinishGameReq, GetGameInfoByIdReq, GetGameInfoByIdRes } from '../../../../types/api/game.api.types'
 
-import { GameAchievement, Scene } from '../../../../types/entities'
+import { Game, GameAchievement, Scene } from '../../../../types/entities'
 import { GameApi } from '../../api/game.api'
 import { AxiosResponse } from 'axios'
 import { mockGame } from '../../utils/mock-data/gameMockData'
@@ -13,6 +13,32 @@ export const getGameInfoById = createAsyncThunk(
         return new Promise<GetGameInfoByIdRes>((rs, _) => {
             setTimeout(() => {
                 rs(mockGame)
+            }, 1550)
+        })
+        // const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
+        // return res.data;
+        // // if (!res.data) {
+        // //     throw res;
+        // // }
+
+        // // storeToken(res.data.access_token);
+
+        // // return res.data;
+    },
+)
+
+export const sendFinishGame = createAsyncThunk(
+    'game/send',
+    async (req: FinishGameReq & { game_data: Pick<Game, "cover_image" | "title"> }) => {
+        console.log(req);
+
+        return new Promise<Pick<Game, "id" | "cover_image" | "title">>((rs, _) => {
+            setTimeout(() => {
+                rs({
+                    id: 1,
+                    cover_image: "",
+                    title: ""
+                })
             }, 1550)
         })
         // const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
@@ -42,6 +68,9 @@ export const gameInfoSlice = createSlice({
         resetAchievementData: (state) => {
             state.modal_achievement.data = initialGameInfoState.modal_achievement.data
         },
+        resetPassedGameData: (state) => {
+            state.passed_game = initialGameInfoState.passed_game
+        },
         setIsOpenAchievement: (state, action: PayloadAction<boolean>) => {
             state.modal_achievement.is_open = action.payload
         },
@@ -51,20 +80,20 @@ export const gameInfoSlice = createSlice({
         },
         setCurrentSceneAnimated: (state, action: PayloadAction<boolean>) => {
             state.current_scene_animated = action.payload
-        }
+        },
+        // finishGame: (state) => {
+        //     state.passed_game.
+        // }
     },
     extraReducers(builder) {
         builder
+            // GET GAME INFO
             .addCase(getGameInfoById.pending, state => {
                 state.statuses.loading = true
                 state.statuses.error = ""
             })
             .addCase(getGameInfoById.fulfilled, (state, action: PayloadAction<GetGameInfoByIdRes>) => {
-                state.data = {
-                    ...action.payload,
-                }
-                console.log();
-
+                state.data = action.payload
                 state.current_scene = action.payload.scenes.find(item => item.payload.dialogues!.length == 1)!
                 state.statuses.loading = false
                 state.statuses.success = true
@@ -72,6 +101,26 @@ export const gameInfoSlice = createSlice({
             .addCase(getGameInfoById.rejected, state => {
                 state.statuses.loading = false
                 state.statuses.error = ""
+            })
+
+            // SEND GAME
+
+            .addCase(sendFinishGame.pending, state => {
+                state.sending_statuses.loading = true
+                state.sending_statuses.error = ""
+            })
+            .addCase(sendFinishGame.fulfilled, (state, action: PayloadAction<Pick<Game, "id" | "cover_image" | "title">>) => {
+                state.passed_game = {
+                    ...action.payload,
+                    sertificate_url: ""
+                }
+                state.sending_statuses.loading = false
+                state.sending_statuses.success = true
+                state.sending_statuses.error = ""
+            })
+            .addCase(sendFinishGame.rejected, state => {
+                state.sending_statuses.loading = false
+                state.sending_statuses.error = ""
             })
     },
 })

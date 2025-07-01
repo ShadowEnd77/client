@@ -152,7 +152,7 @@ export const mockGame: Game = {
       order: 4,
       type: "match",
       payload: {
-        next_scene_id: 3,
+        next_scene_id: null,
         achievement: null,
         score: 1,
         pairs: [

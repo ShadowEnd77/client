@@ -21,7 +21,7 @@ type DraggedItem = {
     index?: number;
 };
 
-export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload: match_data, scene_id }) => {
+export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id }) => {
     const dispatch = useAppDispatch()
     const [isAnimatedOnLoad, setIsAnimatedOnLoad] = useState(false)
 
@@ -127,21 +127,27 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload: match_data,
     };
 
     const handleFinishMiniGame = () => {
-        const matchIsCorrect = checkIsMatchCorrect(match_data.pairs!, answers)
-        
+        const matchIsCorrect = checkIsMatchCorrect(payload.pairs!, answers)
+
         if (matchIsCorrect) {
             alert("Всё верно указано!")
             dispatch(addToVisitedScenes(scene_id))
         }
-        dispatch(setCurrentSceneById(match_data.next_scene_id!))
+
+        if (payload.next_scene_id == null) {
+            alert("finish")
+            return
+        }
+
+        dispatch(setCurrentSceneById(payload.next_scene_id!))
     }
 
     useEffect(() => {
-        if (match_data.pairs) {
-            setAnswers(new Array(match_data.pairs.length).fill(null));
-            setOptions(match_data.pairs.map(pair => pair.v));
+        if (payload.pairs) {
+            setAnswers(new Array(payload.pairs.length).fill(null));
+            setOptions(payload.pairs.map(pair => pair.v));
         }
-    }, [match_data.pairs]);
+    }, [payload.pairs]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -181,7 +187,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload: match_data,
                             <div className={styles.gameAreaMatchesSide}>
                                 <span className={styles.gameAreaSideCaption}>Фраза</span>
                                 <ul className={styles.gameAreaMatchesList}>
-                                    {match_data.pairs?.map((item, index) => (
+                                    {payload.pairs?.map((item, index) => (
                                         <motion.li
                                             initial={{
                                                 opacity: 0,
@@ -204,7 +210,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload: match_data,
                             <div className={styles.gameAreaMatchesSide}>
                                 <span className={styles.gameAreaSideCaption}>Ответ</span>
                                 <ul className={styles.gameAreaMatchesList}>
-                                    {match_data.pairs?.map((_, index) => (
+                                    {payload.pairs?.map((_, index) => (
                                         <motion.li
                                             initial={{
                                                 opacity: 0,
