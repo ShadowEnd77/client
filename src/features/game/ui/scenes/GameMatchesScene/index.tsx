@@ -6,9 +6,13 @@ import miniGameBg from '../../../../../assets/images/mini-game-bg.png';
 import { ScenePayload } from '../../../../../types/entities';
 import { Button } from '../../../../../ui/components/buttons/Button';
 import { motion } from "motion/react"
+import { addToVisitedScenes, setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice';
+import { useAppDispatch } from '../../../../../store/hooks';
+import { checkIsMatchCorrect } from '../../../utils/helpers/checkIsMatchCorrect';
 
 type GameMatchSceneProps = {
-    match_data: ScenePayload;
+    payload: ScenePayload;
+    scene_id: number
 };
 
 type DraggedItem = {
@@ -17,7 +21,8 @@ type DraggedItem = {
     index?: number;
 };
 
-export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
+export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload: match_data, scene_id }) => {
+    const dispatch = useAppDispatch()
     const [isAnimatedOnLoad, setIsAnimatedOnLoad] = useState(false)
 
     const [answers, setAnswers] = useState<(string | null)[]>([]);
@@ -122,7 +127,13 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
     };
 
     const handleFinishMiniGame = () => {
-
+        const matchIsCorrect = checkIsMatchCorrect(match_data.pairs!, answers)
+        
+        if (matchIsCorrect) {
+            alert("Всё верно указано!")
+            dispatch(addToVisitedScenes(scene_id))
+        }
+        dispatch(setCurrentSceneById(match_data.next_scene_id!))
     }
 
     useEffect(() => {
@@ -227,7 +238,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ match_data }) => {
                         </div>
                         {
                             answers.every(answer => answer !== null) ?
-                                <Button classNames={{ button: styles.gameFinishButton }}>Продолжить</Button> :
+                                <Button onClick={handleFinishMiniGame} classNames={{ button: styles.gameFinishButton }}>Продолжить</Button> :
                                 null
                         }
                     </div>

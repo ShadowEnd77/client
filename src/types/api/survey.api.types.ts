@@ -1,19 +1,22 @@
 import { ResultAnswer, Survey } from "../entities"
 
+// Получение опросников
 export type GetSurveysReq = {
     skip?: number;
     limit?: number; 
 };
 
-// Типы для ответа опросов
 export type GetSurveysRes = {
     surveys: Survey[];
 };
 
+// Отправка ответов на опросник
 export type SendSurveyReq = {   
     survey_id: number
     user_id: string
     answers: ResultAnswer[]
 }
 
-export type SendSurveyResponse = any
+export type SendSurveyResponse = {
+    suggested_game: number
+}

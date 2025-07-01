@@ -1,15 +1,21 @@
 import React, { FC } from 'react'
-import { Scene } from '../../../../../types/entities'
+import { GameChoice, Scene } from '../../../../../types/entities'
 import styles from './choiceScene.module.scss'
 import { useAppDispatch } from '../../../../../store/hooks'
-import { setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice'
+import { addToVisitedScenes, setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice'
 
 type ChoiceSceneProps = Scene
 
 export const ChoiceScene: FC<ChoiceSceneProps> = ({
+    id,
     payload
 }) => {
     const dispatch = useAppDispatch()
+
+    const handleChoice = (next_scene_id: number) => {
+        dispatch(setCurrentSceneById(next_scene_id))
+        dispatch(addToVisitedScenes(id))
+    }
 
     return (
         <div className={styles.sceneChoiceBlock}>
@@ -19,7 +25,7 @@ export const ChoiceScene: FC<ChoiceSceneProps> = ({
             <div className={styles.sceneChoiceListWrapper}>
                 <div className={styles.sceneChoicesList}>
                     {payload.choices?.map(item => (
-                        <button onClick={() => dispatch(setCurrentSceneById(item.next_scene_id))} className={styles.sceneChoiceButton}>
+                        <button onClick={() => handleChoice(item.next_scene_id)} className={styles.sceneChoiceButton}>
                             {item.text}
                         </button>
                     ))}

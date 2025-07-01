@@ -1,5 +1,5 @@
 import { ResponseStatus } from "../../../../types/common/utilitarian.types"
-import { Game, Scene } from "../../../../types/entities"
+import { Game, GameAchievement, Scene } from "../../../../types/entities"
 
 type GameInfoSliceState = {
     data: Game,
@@ -8,11 +8,9 @@ type GameInfoSliceState = {
     current_scene_animated: boolean
     modal_achievement: {
         is_open: boolean
-        data: {
-            cover: string
-            title: string
-        }
+        data: GameAchievement
     }
+    visited_scenes: number[]
 }
 
 export const initialGameInfoState: GameInfoSliceState = {
@@ -28,7 +26,7 @@ export const initialGameInfoState: GameInfoSliceState = {
     modal_achievement: {
         is_open: false,
         data: {
-            cover: "",
+            cover_image: "",
             title: ""
         }
     },
@@ -37,10 +35,13 @@ export const initialGameInfoState: GameInfoSliceState = {
         type: "dialogue",
         order: 0,
         payload: {
+            achievement: null,
+            next_scene_id: null,
             score: 0,
             dialogues: []
         }
     },
+    visited_scenes: [],
     statuses: {
         success: null,
         error: "",

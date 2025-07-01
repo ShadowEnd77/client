@@ -83,7 +83,7 @@ export const SurveyScreen = () => {
                                 <Button isLoading={sending_statuses.loading} onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
                                     Отправить ответы
                                 </Button>
-                            </div>
+                            </div> 
                         </div>
                         : <>
                             <header className={styles.surveyHeader}>

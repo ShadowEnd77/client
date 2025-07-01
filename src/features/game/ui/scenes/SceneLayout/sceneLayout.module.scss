@@ -13,9 +13,14 @@
         display: flex;
         column-gap: 10px;
         z-index: var(--z-index-control);
-        
+
         img {
             @include square(18px);
         }
     }
+}
+.nextSceneButton {
+    aspect-ratio: unset;
+    padding-inline: 26px;
+    border: 2px solid currentColor;
 }

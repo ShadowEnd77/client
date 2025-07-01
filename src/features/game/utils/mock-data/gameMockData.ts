@@ -8,7 +8,7 @@ import i2_2 from '../../../../assets/game_1/scenes/scene_2/image_2.png'
 
 
 import i3_1 from '../../../../assets/game_1/scenes/scene_3/image_1.png'
-import i3_2 from '../../../../assets/game_1/scenes/scene_3/image_2.png'
+import i3_2 from '../../../../assets/game_1/scenes/scene_3/image_1.png'
 
 
 import i4_1 from '../../../../assets/game_1/scenes/scene_4/image_1.png'
@@ -28,40 +28,7 @@ export const mockGame: Game = {
   description: "Интерактивное приключение с загадками и моральными выборами",
   duration: 2,
   scenes: [
-    {
-      id: 3,
-      order: 1,
 
-      type: "choice",
-
-      payload: {
-        score: 0,
-        description: "Пришло время сделать выбор! Выбери команду для Азота.",
-        dialogues: [
-          {
-
-            image: i3_1,
-            voice: "https://example.com/voices/narrator3.mp3",
-            name: "",
-            text: "Азот должен сделать выбор"
-          }
-        ],
-        choices: [
-          {
-            text: "Я выберу свою команду — с кем мне комфортно работать",
-            next_scene_id: 4
-          },
-          {
-            text: "Все пошли к Бульдозеру — пойду тоже, чтобы не быть 'против'",
-            next_scene_id: 7
-          },
-          {
-            text: "Я просто подожду — может, всё само решится",
-            next_scene_id: 8
-          }
-        ]
-      }
-    },
     // 1. Введение (диалог)
     {
       id: 1,
@@ -69,7 +36,13 @@ export const mockGame: Game = {
       type: "dialogue",
       payload: {
         score: 0,
+        achievement: {
+          title: "Лучший игрок",
+          cover_image: i3_2
+        },
+        next_scene_id: 2,
         dialogues: [
+
           {
             image: i1_1,
             voice: "",
@@ -93,13 +66,18 @@ export const mockGame: Game = {
       type: "dialogue",
       payload: {
         score: 0,
+        achievement: {
+          title: "Лучший игрок",
+          cover_image: i3_2
+        },
+        next_scene_id: 3,
         dialogues: [
-          {
-            image: i2_1,
-            voice: "https://example.com/voices/narrator2.mp3",
-            name: "",
-            text: "Азот колеблется и переживает"
-          },
+          // {
+          //   image: i2_1,
+          //   voice: "https://example.com/voices/narrator2.mp3",
+          //   name: "",
+          //   text: "Азот колеблется и переживает"
+          // },
           {
             image: i2_2,
             voice: "https://example.com/voices/narrator2.mp3",
@@ -110,13 +88,15 @@ export const mockGame: Game = {
       }
     },
 
-    // 3. Солнечная тропа (диалог)
     {
       id: 3,
       order: 3,
       type: "choice",
       payload: {
         score: 1,
+        achievement: null,
+        next_scene_id: null,
+        description: "Помоги сделать выбор азоту",
         dialogues: [
           {
             image: i3_1,
@@ -132,11 +112,11 @@ export const mockGame: Game = {
           },
           {
             text: "Все пошли к Бульдозеру — пойду тоже, чтобы не быть 'против'",
-            next_scene_id: 7
+            next_scene_id: 4
           },
           {
             text: "Я просто подожду — может, всё само решится",
-            next_scene_id: 8
+            next_scene_id: 4
           }
         ]
       }
@@ -149,6 +129,8 @@ export const mockGame: Game = {
       type: "dialogue",
       payload: {
         score: 0,
+        achievement: null,
+        next_scene_id: 10,
         dialogues: [
           {
             image: i4_1,
@@ -170,6 +152,8 @@ export const mockGame: Game = {
       order: 4,
       type: "match",
       payload: {
+        next_scene_id: 3,
+        achievement: null,
         score: 1,
         pairs: [
           { k: "Ты с нами или против", v: "Я выбираю по-своему — это не значит “против”" },

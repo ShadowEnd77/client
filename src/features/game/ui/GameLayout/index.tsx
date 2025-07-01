@@ -16,9 +16,8 @@ type GameLayoutProps = {
 
 export const GameLayout: FC<GameLayoutProps> = () => {
     const dispatch = useAppDispatch()
-    //const { current_scene, statuses } = useAppSelector(state => state.game)
-    const current_scene = mockGame.scenes[1]
-    const [isOpen, setIsOpen] = useState(false)
+    const { current_scene, statuses, modal_achievement } = useAppSelector(state => state.game)
+
 
     // if (statuses.loading || !current_scene.id) {
     //     return <LoaderWidget
@@ -32,12 +31,13 @@ export const GameLayout: FC<GameLayoutProps> = () => {
         <div className={styles.gameLayout}>
             {
                 <AnimatePresence>
-                    {
-                        isOpen && <GameAchievementModal />
-                    }
+                    {modal_achievement.is_open && <GameAchievementModal onClose={() => {
+                        setTimeout(() => {
+                            dispatch(setCurrentSceneById(current_scene.payload.next_scene_id!))
+                        }, 500)
+                    }} />}
                 </AnimatePresence>
             }
-
             <aside className={styles.gameSettingsBar}>
                 <ControlButton disabled>
                     <img src={volumeIcon} height={18} width={18} alt="" />

@@ -43,9 +43,17 @@ export type Game = {
 
 export type SceneType = "choice" | "dialogue" | "match"
 
+export type GameAchievement = {
+    title: string
+    cover_image: string
+}
+
 export type ScenePayload = {
     description?: string
+    achievement: GameAchievement | null
+    next_scene_id: number | null
     score: number
+
     //if it only dialogue
     dialogues?: GameDialog[]
 
@@ -55,6 +63,7 @@ export type ScenePayload = {
     //if it match
     pairs?: GameMatchPair[]
 }
+
 
 export type GameMatchPair = {
     k: string
