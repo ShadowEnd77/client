@@ -3,6 +3,9 @@ import { City } from "../../../types/entities"
 import { GetCitiesReq, GetCitiesRes } from "../../../types/api/cities.api.types"
 import { HasPagination, HasResponseStatus } from "../../../types/common/utilitarian.types"
 import { USER_STRINGS } from "../../user/config"
+import { CONFIG } from "../../../config"
+import { CitiesApi } from "../api/cities.api"
+import { AxiosResponse } from "axios"
 
 type CitiesSliceState = {
     items: City[]
@@ -26,30 +29,25 @@ const initialState: CitiesSliceState = {
 export const getCities = createAsyncThunk(
     'cities/get',
     async (req: GetCitiesReq) => {
-        // const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
 
-        // if (!res.data) {
-        //     throw res;
-        // }
+        if (CONFIG.USE_MOCK_API) {
+            return new Promise<GetCitiesRes>((rs, _) => {
+                setTimeout(() => {
+                    rs(req.skip == 0 ? [
+                        { id: 1, name: "Череповец" },
+                        { id: 2, name: "Вологда" },
+                    ] : [])
+                }, CONFIG.MOCK_FETCH_DELAY)
+            })
+        }
+        const res: AxiosResponse<GetCitiesRes> = await CitiesApi.getAll(req);
 
-        // storeToken(res.data.access_token);
+        if (!res.data) {
+            throw res;
+        }
 
-        // return res.data;
-        console.log('Должны', req);
+        return res.data;
 
-        return new Promise<GetCitiesRes>((rs, _) => {
-            setTimeout(() => {
-                // rs(Array(20).fill(null).map((_, index) => {
-                //     return {
-                //         id: index + 1,
-                //         name: `City label ${index + 1}`
-                //     }
-                // }))
-                rs(req.skip == 0 ? [
-                    { id: 1, name: "Череповец 1" }
-                ] : [])
-            }, 1000)
-        })
     },
 )
 

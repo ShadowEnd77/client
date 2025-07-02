@@ -27,6 +27,7 @@ type AudioContextType = {
         error: string | null;
         volume: number;
         currentTrack: string | null;
+        duration: number,
     };
     getAllAudioInstances: () => Record<string, AudioInstance>;
     deleteInstances: () => void
@@ -51,6 +52,7 @@ export const AudioContext = createContext<AudioContextType>({
         error: string | null;
         volume: number;
         currentTrack: string | null;
+        duration: number,
     } {
         throw new Error('Function not implemented.');
     },
@@ -113,7 +115,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             [id]: newAudioInstance
         };
         //console.log("загружен ", id);
-        
+
         forceUpdate({});
 
         return newAudioInstance

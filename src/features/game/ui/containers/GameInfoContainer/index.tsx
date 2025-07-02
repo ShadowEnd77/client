@@ -12,14 +12,6 @@ export const GameInfoContainer = () => {
     const gameIsLoaded = data.id != 0 && Boolean(statuses.success) && !statuses.loading
 
     const handleNoGameInfoAccess = () => {
-        if (statuses.loading) {
-            return <LoaderWidget
-                widthLoader={50}
-                heightLoader={50}
-                text={"Загружаем информацию об игре..."}
-            />
-        }
-
         if (!survey_passed) {
             return <Navigate to={ROUTER.PATHS.HOME} />
         }
@@ -27,6 +19,12 @@ export const GameInfoContainer = () => {
         if (game_is_in_progress) {
             <Navigate to={ROUTER.PATHS.GAME_PROGRESS} />
         }
+
+        return <LoaderWidget
+            widthLoader={50}
+            heightLoader={50}
+            text={"Загружаем информацию об игре..."}
+        />
     }
 
     return (

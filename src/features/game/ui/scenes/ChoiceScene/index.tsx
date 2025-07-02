@@ -1,8 +1,9 @@
-import React, { FC } from 'react'
-import { GameChoice, Scene } from '../../../../../types/entities'
+import { FC } from 'react'
+import { Scene } from '../../../../../types/entities'
 import styles from './choiceScene.module.scss'
 import { useAppDispatch } from '../../../../../store/hooks'
 import { addToVisitedScenes, setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice'
+import { motion } from 'motion/react'
 
 type ChoiceSceneProps = Scene
 
@@ -24,10 +25,22 @@ export const ChoiceScene: FC<ChoiceSceneProps> = ({
             </header>
             <div className={styles.sceneChoiceListWrapper}>
                 <div className={styles.sceneChoicesList}>
-                    {payload.choices?.map(item => (
-                        <button onClick={() => handleChoice(item.next_scene_id)} className={styles.sceneChoiceButton}>
+                    {payload.choices?.map((item, index) => (
+                        <motion.button
+                            initial={{
+                                opacity: 0,
+                                translate: "0 -50px"
+                            }}
+                            animate={{
+                                opacity: 1,
+                                translate: 0,
+                                transition: {
+                                    delay: index * 0.5
+                                }
+                            }}
+                            key={item.next_scene_id} onClick={() => handleChoice(item.next_scene_id)} className={styles.sceneChoiceButton}>
                             {item.text}
-                        </button>
+                        </motion.button>
                     ))}
                 </div>
                 <span className={styles.sceneChoicesCaption}>

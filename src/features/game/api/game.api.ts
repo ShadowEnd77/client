@@ -1,15 +1,24 @@
 import { AxiosResponse } from "axios";
 import { api } from "../../../api/instance";
-import { AUTH_PATHS } from "../../../api/paths";
-//import { UserRegisterReq, UserRegisterRes } from "../../../types/api/user.api.types";
-import { GetGameInfoByIdReq, GetGameInfoByIdRes } from "../../../types/api/game.api.types";
-import {convertToQueryParams} from "../../../utils/convertToQueryParams.ts";
+import { API_PATHS } from "../../../api/paths";
+import { FinishGameReq, FinishGameRes, GetGameInfoByIdReq, GetGameInfoByIdRes } from "../../../types/api/game.api.types";
+import { convertToQueryParams } from "../../../utils/convertToQueryParams.ts";
 
 export class GameApi {
-    static async getAll(id: number, req: Omit<GetGameInfoByIdReq, "id">) {
-        const res: AxiosResponse<GetGameInfoByIdRes> = await api.get(`${AUTH_PATHS.GET_GAMES}${id}?include_details=true`)
+    static async getById(req: GetGameInfoByIdReq) {
+        const reqData: Omit<GetGameInfoByIdReq, "id"> = { ...req }
+        const res: AxiosResponse<GetGameInfoByIdRes> = await api.get(`${API_PATHS.GET_GAMES}/${req.id}${convertToQueryParams(reqData)}`)
+
         if (!res.data) throw res;
-        
+
+        return res
+    }
+
+    static async finishGame(req: FinishGameReq) {
+        const res: AxiosResponse<FinishGameRes> = await api.post(`${API_PATHS.FINISH_GAME}`, req)
+
+        if (!res.data) throw res;
+
         return res
     }
 }

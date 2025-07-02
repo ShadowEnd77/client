@@ -1,55 +1,55 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialGameInfoState } from './gameInfoState'
-import { FinishGameReq, GetGameInfoByIdReq, GetGameInfoByIdRes } from '../../../../types/api/game.api.types'
-
+import { FinishGameReq, FinishGameRes, GetGameInfoByIdReq, GetGameInfoByIdRes } from '../../../../types/api/game.api.types'
 import { Game, GameAchievement, Scene } from '../../../../types/entities'
 import { GameApi } from '../../api/game.api'
 import { AxiosResponse } from 'axios'
 import { mockGame } from '../../utils/mock-data/gameMockData'
+import { CONFIG } from '../../../../config'
 
 export const getGameInfoById = createAsyncThunk(
     'game/get-by-id',
     async (req: GetGameInfoByIdReq) => {
-        return new Promise<GetGameInfoByIdRes>((rs, _) => {
-            setTimeout(() => {
-                rs(mockGame)
-            }, 1550)
-        })
-        // const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
-        // return res.data;
-        // // if (!res.data) {
-        // //     throw res;
-        // // }
+        if (CONFIG.USE_MOCK_API) {
+            return new Promise<GetGameInfoByIdRes>((rs, _) => {
+                setTimeout(() => {
+                    rs(mockGame)
+                }, CONFIG.MOCK_FETCH_DELAY)
+            })
+        }
 
-        // // storeToken(res.data.access_token);
+        const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getById(req);
 
-        // // return res.data;
+        if (!res.data) {
+            throw res;
+        }
+
+        return res.data;
     },
 )
 
+type GameBaseData = Pick<Game, "cover_image" | "title" | "id">
 export const sendFinishGame = createAsyncThunk(
     'game/send',
-    async (req: FinishGameReq & { game_data: Pick<Game, "cover_image" | "title"> }) => {
-        console.log(req);
+    async (req: FinishGameReq & { game_data: GameBaseData }) => {
+        if (CONFIG.USE_MOCK_API) {
+            return new Promise<GameBaseData>((rs, _) => {
+                setTimeout(() => {
+                    rs(req.game_data)
+                }, CONFIG.MOCK_FETCH_DELAY)
+            })
+        }
 
-        return new Promise<Pick<Game, "id" | "cover_image" | "title">>((rs, _) => {
-            setTimeout(() => {
-                rs({
-                    id: 1,
-                    cover_image: "",
-                    title: ""
-                })
-            }, 1550)
-        })
-        // const res: AxiosResponse<GetGameInfoByIdRes> = await GameApi.getAll(req);
-        // return res.data;
-        // // if (!res.data) {
-        // //     throw res;
-        // // }
+        const res: AxiosResponse<FinishGameRes> = await GameApi.finishGame({ ...req });
 
-        // // storeToken(res.data.access_token);
+        if (!res.data) {
+            throw res;
+        }
 
-        // // return res.data;
+        return {
+            ...req.game_data,
+            id: res.data.game_id,
+        };
     },
 )
 
@@ -104,7 +104,7 @@ export const gameInfoSlice = createSlice({
             })
             .addCase(getGameInfoById.fulfilled, (state, action: PayloadAction<GetGameInfoByIdRes>) => {
                 state.data = action.payload
-                state.current_scene = action.payload.scenes.find(item => item.payload.dialogues!.length == 1)!
+                state.current_scene = action.payload.scenes[0]
                 state.statuses.loading = false
                 state.statuses.success = true
             })

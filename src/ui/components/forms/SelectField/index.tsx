@@ -124,9 +124,9 @@ export const SelectField: FC<SelectFieldProps> = ({
                         {
                             !options.length || asyncOptions?.is_loading ?
                                 <div className={styles.noMatch}>
-                                    <p>{!asyncOptions?.is_loading ? "Ничего не найдено" : "Ищем города..."}</p>
+                                    <p>{!asyncOptions?.is_loading ? "Ничего не найдено" : "Ищем совпадения..."}</p>
                                 </div> :
-                                <ul className={`${styles.list} ${options.length < 2 ? styles.noPaddingBottom : ""}`}>
+                                <ul className={`${styles.list} ${options.length < 3 ? styles.noPaddingBottom : ""}`}>
                                     {
                                         options.map((option) => (
                                             <SelectOption

@@ -12,5 +12,5 @@ export type FinishGameReq = {
     scene_ids: number[]
 }
 export type FinishGameRes = {
-    
+    game_id: number
 }

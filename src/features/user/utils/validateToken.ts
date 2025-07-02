@@ -1,5 +1,6 @@
 import { isExpired, decodeToken } from "react-jwt";
 import { getToken } from "./storeToken";
+import { CONFIG } from "../../../config";
 
 export const validateToken = (token: string) => {
     if (!token || isExpired(token)) {
@@ -17,6 +18,9 @@ export const validateToken = (token: string) => {
 
 export const checkUserToken = () => {
     const token = getToken()
-    //return validateToken(token)
-    return true
+
+    if (!CONFIG.AUTH_CHECK_ENABLED) {
+        return true
+    }
+    return validateToken(token)
 }

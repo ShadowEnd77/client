@@ -4,16 +4,17 @@ import { Button } from '../../../../ui/components/buttons/Button'
 import { clockIcon, logoIcon } from '../../../../ui/icons'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { useNavigate } from 'react-router'
+import { setGameIsInProgress } from '../../slices/game-info/gameInfoSlice'
 
 
 export const GameInfoScreen = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const { data, statuses } = useAppSelector(state => state.game)
-    //const params = useParams()
+    const { data } = useAppSelector(state => state.game)
 
     const handleStartPlay = () => {
         navigate("/game/progress")
+        dispatch(setGameIsInProgress(true))
     }
 
     return (

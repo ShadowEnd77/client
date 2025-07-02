@@ -4,7 +4,7 @@ import { Answer } from '../../../../types/entities'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
 import { logoIcon, smileIcon } from '../../../../ui/icons'
-import { answerTheQuestion, sendSurvey, getSurvey, resetSendingSurveyStatus } from '../../slices/surveySlice'
+import { answerTheQuestion, sendSurvey, resetSendingSurveyStatus } from '../../slices/surveySlice'
 import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
 import { motion } from "motion/react"

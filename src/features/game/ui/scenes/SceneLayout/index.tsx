@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styles from './sceneLayout.module.scss'
 import { ControlButton } from '../../../../../ui/components/buttons/ControlButton'
 import { arrowRightIcon } from '../../../../../ui/icons'
@@ -8,7 +8,7 @@ import { ChoiceScene } from '../ChoiceScene'
 import { addToVisitedScenes, finishGame, setAchievementData, setCurrentSceneAnimated, setCurrentSceneById, setIsOpenAchievement } from '../../../slices/game-info/gameInfoSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { GameMatchesScene } from '../GameMatchesScene'
-import { AudioContext } from '../../../../audio/AudioProvider'
+import { useAudio } from '../../../../audio/AudioProvider'
 
 type SceneLayoutProps = {
     scene: Scene
@@ -16,8 +16,8 @@ type SceneLayoutProps = {
 
 export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const dispatch = useAppDispatch();
-    const { current_scene_animated, data } = useAppSelector(state => state.game)
-    const { play, pause, loadTrack, onAudioEnd, setVolume } = useContext(AudioContext)
+    const { current_scene_animated } = useAppSelector(state => state.game)
+    const { play, pause, loadTrack, onAudioEnd, setVolume } = useAudio()
 
     const [currentVoiceId, setCurrentVoiceId] = useState<string | null>(null)
     const [currentDialogIndex, setCurrentDialogIndex] = useState(0)
@@ -26,10 +26,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const currentSceneIsDialog = scene.type == "dialogue"
     const dialogues = scene.payload.dialogues || []
 
-
     const playNextDialogAudio = () => {
-        console.log("next");
-
         setIsPlaying(false)
         if (currentDialogIndex < dialogues.length - 1) {
             setCurrentDialogIndex(prev => prev + 1)
@@ -66,7 +63,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                         key={`${scene.id}_${index}`}
                         scene_id={scene.id}
                         dialog={dialog}
-                        delayShow={!index ? 0.5 : index + 1}
+                        delayShow={!index ? 0.5 : 3}
                     />
                 ))
             }
@@ -101,14 +98,11 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
         }
     }
 
-
-
-
     // Загрузка аудио при изменении сцены
     useEffect(() => {
         setTimeout(() => {
             dispatch(setCurrentSceneAnimated(true))
-        }, 4000)
+        }, 3000)
 
         setCurrentDialogIndex(0)
         setCurrentVoiceId(null)
@@ -124,7 +118,6 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
             })
         }
 
-
         return () => {
             // Останавливаем все аудио при размонтировании
             dialogues.forEach((_, index) => {
@@ -134,16 +127,18 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
         }
     }, [scene.id])
 
-
     // Воспроизведение текущего диалога
     useEffect(() => {
-        console.log("index диалога изменился", currentDialogIndex);
+        if (!dialogues.length || !dialogues.some(item => item.voice !== "")) return
 
-        if (!dialogues.length) return
+        const dialog = dialogues[currentDialogIndex]
+
+        if (!dialog) {
+            return
+        }
 
         const audioId = `${scene.id}_${currentDialogIndex}`
-        const dialog = dialogues[currentDialogIndex]
-        const firstDialogNoVoice = !dialog.voice && !currentDialogIndex
+        const firstDialogNoVoice = !dialog?.voice && !currentDialogIndex
 
         if (firstDialogNoVoice) {
             if (!dialogues[currentDialogIndex + 1].voice) {
@@ -153,25 +148,21 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
             return
         }
 
-
         if (dialog.voice) {
-            console.log(audioId);
-
             setCurrentVoiceId(audioId)
             setVolume(audioId, 0.5)
 
             const cleanup = onAudioEnd(audioId, playNextDialogAudio)
-
             setIsPlaying(true)
-            play(audioId)
+
+            setTimeout(() => {
+                play(audioId)
+            }, !currentDialogIndex ? 500 : 0)
 
             return cleanup
         }
 
     }, [currentDialogIndex, scene.id])
-
-    console.log(current_scene_animated);
-
 
     return (
         <div className={styles.sceneLayout}>

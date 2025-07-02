@@ -1,12 +1,11 @@
 import styles from './gameAchievement.module.scss'
-import { fullsizeEnableIcon, starsIcon } from '../../../../../ui/icons'
+import { starsIcon } from '../../../../../ui/icons'
 import { Button } from '../../../../../ui/components/buttons/Button'
 import { successIcon } from '../../../../../ui/icons'
-import { ControlButton } from '../../../../../ui/components/buttons/ControlButton'
 import { motion } from "motion/react"
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { resetAchievementData, setIsOpenAchievement } from '../../../slices/game-info/gameInfoSlice'
-import { FC, MouseEvent, useEffect } from 'react'
+import { FC } from 'react'
 
 type GameAchievementModalProps = {
     onClose: () => void
@@ -27,7 +26,6 @@ export const GameAchievementModal: FC<GameAchievementModalProps> = ({
         <div className={styles.modal}>
             <div className={styles.modalInner}>
                 <motion.div
-
                     initial={{ backdropFilter: `blur(0)` }}
                     exit={{ backdropFilter: `blur(0)` }}
                     animate={{

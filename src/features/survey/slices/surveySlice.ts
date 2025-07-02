@@ -1,40 +1,51 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialSurveyState } from './surveyState'
-import { SendSurveyReq, SendSurveyRes } from '../../../types/api/survey.api.types'
+import { GetSurveysRes, SendSurveyReq, SendSurveyRes } from '../../../types/api/survey.api.types'
 import { Answer, Survey } from '../../../types/entities'
 import { mockSurveys } from '../utils/mock-data/surveys.mock'
+import { CONFIG } from '../../../config'
+import { AxiosResponse } from 'axios'
+import { SurveyApi } from '../api/survey.api'
 
 export const getSurvey = createAsyncThunk(
     'survey/get',
     async () => {
-        return new Promise<Survey>((rs, _) => {
-            setTimeout(() => {
-                rs(mockSurveys.surveys[0])
-            }, 1500)
-        })
-        // const res: AxiosResponse<GetSurveysRes> = await SurveyApi.getAll();
+        if (CONFIG.USE_MOCK_API) {
+            return new Promise<Survey>((rs, _) => {
+                setTimeout(() => {
+                    rs(mockSurveys.surveys[0])
+                }, CONFIG.MOCK_FETCH_DELAY)
+            })
+        }
+        const res: AxiosResponse<GetSurveysRes> = await SurveyApi.getAll({ skip: 0, limit: 1 });
 
-        // if (!res.data) {
-        //     throw res;
-        // }
-        // return res.data.surveys[0];
-
-        // storeToken(res.data.access_token);
-
-        // return res.data;
+        if (!res.data) {
+            throw res;
+        }
+        return res.data.surveys[0];
     },
 )
 
 export const sendSurvey = createAsyncThunk(
     'survey/send',
     async (req: SendSurveyReq) => {
-        return new Promise<SendSurveyRes>((rs) => {
-            setTimeout(() => {
-                rs({
-                    suggested_game: 1
-                })
-            }, 1000)
-        })
+        if (CONFIG.USE_MOCK_API) {
+            return new Promise<SendSurveyRes>((rs) => {
+                setTimeout(() => {
+                    rs({
+                        suggested_game: 1
+                    })
+                }, CONFIG.MOCK_FETCH_DELAY)
+            })
+        }
+
+        const res: AxiosResponse<SendSurveyRes> = await SurveyApi.sendAnswers(req);
+
+        if (!res.data) {
+            throw res;
+        }
+
+        return res.data
     },
 )
 

@@ -5,27 +5,30 @@ import { AxiosResponse } from 'axios'
 import { storeToken } from '../utils/storeToken'
 import { initialUserState } from './userState'
 import { USER_STRINGS } from '../config'
+import { CONFIG } from '../../../config'
 
 export const userRegister = createAsyncThunk(
     'user/register',
     async (req: UserRegisterReq) => {
-        return new Promise<UserRegisterRes>((rs, _) => {
-            setTimeout(() => {
-                rs({
-                    access_token: "access_token",
-                    uuid: "user id test"
-                })
-            }, 3000)
-        })
-        // const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
+        if (CONFIG.USE_MOCK_API) {
+            return new Promise<UserRegisterRes>((rs, _) => {
+                setTimeout(() => {
+                    rs({
+                        access_token: "access_token",
+                        uuid: "user id test"
+                    })
+                }, CONFIG.MOCK_FETCH_DELAY)
+            })
+        }
 
-        // if (!res.data) {
-        //     throw res;
-        // }
+        const res: AxiosResponse<UserRegisterRes> = await UserApi.register(req);
 
-        // storeToken(res.data.access_token);
+        if (!res.data) {
+            throw res;
+        }
 
-        // return res.data;
+        storeToken(res.data.access_token);
+        return res.data;
     },
 )
 
