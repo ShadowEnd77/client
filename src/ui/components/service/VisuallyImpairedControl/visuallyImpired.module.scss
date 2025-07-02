@@ -1,0 +1,10 @@
+.button {
+    @include square(40px);
+    z-index: 100;
+    right: 20px;
+    top: 20px; 
+    max-width: fit-content;
+    position: absolute;
+    background-color: var(--c-yellow);
+    border: 2px solid var(--c-light);
+}

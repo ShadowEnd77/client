@@ -1,17 +1,37 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { AppRouter } from './router'
-import { RegisterScreen } from './features/user/ui/screens/RegisterScreen';
-import { GameLayout } from './features/game/ui/GameLayout';
-import { useAppDispatch } from './store/hooks';
-import { getGameInfoById } from './features/game/slices/game-info/gameInfoSlice';
-import { GamePassed } from './features/game/ui/GamePassed';
+import { useAppSelector } from './store/hooks';
+import { VisuallyImpairedControl } from './ui/components/service/VisuallyImpairedControl';
+import { CONFIG } from './config';
 
 function App() {
-  const dispatch = useAppDispatch()
+  const { full_screen_mode, visual_impaired_mode } = useAppSelector(state => state.settings)
+  const documentElement = useRef(document.documentElement)
+
+  useEffect(() => {
+    if (documentElement.current) {
+      if (!full_screen_mode) {
+        document.exitFullscreen()
+        return
+      }
+      documentElement.current?.requestFullscreen()
+    }
+  }, [full_screen_mode])
+
+  useEffect(() => {
+    if (documentElement.current) {
+      if (!visual_impaired_mode) {
+        documentElement.current.style.setProperty('--fz-scale', `${1}`)
+        return
+      }
+      documentElement.current.style.setProperty('--fz-scale', `${CONFIG.VISUAL_IMPAIRED_VALUE}`)
+    }
+  }, [visual_impaired_mode])
+
   return (
     <main>
+      <VisuallyImpairedControl />
       <AppRouter />
-      {/* <GamePassed/> */}
     </main>
   )
 }

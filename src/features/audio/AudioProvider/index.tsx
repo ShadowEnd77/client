@@ -6,6 +6,7 @@ import React, {
     useRef,
     ReactNode,
 } from 'react';
+import { useAppSelector } from '../../../store/hooks';
 
 export type AudioInstance = {
     id: string;
@@ -77,6 +78,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
     initialTracks = {},
 }) => {
     const audioInstances = useRef<Record<string, AudioInstance>>({});
+    const { audio_muted } = useAppSelector(state => state.settings)
 
     const [_, forceUpdate] = useState({}); // Для принудительного ререндера
 
@@ -106,7 +108,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             ended: audio.ended,
             duration: audio.duration,
             isPlaying: false,
-            volume: audioInstances.current[id]?.volume || 0.5,
+            volume: !audio_muted ? audioInstances.current[id]?.volume || 0.5 : 0,
             error: null,
         }
 
@@ -206,6 +208,18 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
         return { ...audioInstances.current };
     };
 
+    useEffect(() => {
+        if (audioInstances.current) {
+            Object.entries(audioInstances.current).forEach(([id]) => {
+                if (id == "bg") {
+                    setVolume(id, audio_muted ? 0 : 0.3)
+                    return
+                }
+                setVolume(id, audio_muted ? 0 : 0.5);
+            });
+        }
+
+    }, [audio_muted])
     // Инициализация
     useEffect(() => {
         // Загрузка начальных треков

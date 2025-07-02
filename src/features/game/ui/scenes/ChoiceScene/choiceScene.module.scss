@@ -15,8 +15,6 @@
         border: 1px solid var(--c-accent);
         border-radius: var(--bradius-s);
     }
-    .sceneChoiceListWrapper {
-    }
     .sceneChoicesList {
         display: flex;
         gap: 15px;
@@ -28,6 +26,7 @@
         padding: 20px;
         border: 3px solid transparent;
         border-radius: 100px;
+        font-weight: 600;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
         transition: .3s border;
         &:hover {
