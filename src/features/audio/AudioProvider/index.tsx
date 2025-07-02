@@ -7,6 +7,7 @@ import React, {
     ReactNode,
 } from 'react';
 import { useAppSelector } from '../../../store/hooks';
+import { CONFIG } from '../../../config';
 
 export type AudioInstance = {
     id: string;
@@ -187,7 +188,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             return {
                 isPlaying: false,
                 error: `Audio instance ${id} not found`,
-                volume: 0.3,
+                volume: CONFIG.AUDIO_DIALOG_VOLUME,
                 ended: false,
                 duration: 0,
                 currentTrack: null,
@@ -212,10 +213,10 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
         if (audioInstances.current) {
             Object.entries(audioInstances.current).forEach(([id]) => {
                 if (id == "bg") {
-                    setVolume(id, audio_muted ? 0 : 0.3)
+                    setVolume(id, audio_muted ? 0 : CONFIG.AUDIO_BACKGROUND_VOLUME)
                     return
                 }
-                setVolume(id, audio_muted ? 0 : 0.5);
+                setVolume(id, audio_muted ? 0 : CONFIG.AUDIO_DIALOG_VOLUME);
             });
         }
 
@@ -223,7 +224,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
     // Инициализация
     useEffect(() => {
         // Загрузка начальных треков
-        Object.entries(initialTracks).forEach(([id, { path, volume = 0.5 }]) => {
+        Object.entries(initialTracks).forEach(([id, { path, volume = CONFIG.AUDIO_DIALOG_VOLUME }]) => {
             loadTrack(id, path);
             setVolume(id, volume);
         });
