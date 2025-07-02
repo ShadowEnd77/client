@@ -28,6 +28,8 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
 
     const playNextDialogAudio = () => {
+        console.log("next");
+
         setIsPlaying(false)
         if (currentDialogIndex < dialogues.length - 1) {
             setCurrentDialogIndex(prev => prev + 1)
@@ -100,40 +102,14 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     }
 
 
-    // Воспроизведение текущего диалога
-    useEffect(() => {
-        if (!dialogues.length) return
 
-        const audioId = `${scene.id}_${currentDialogIndex}`
-        const dialog = dialogues[currentDialogIndex]
-        console.log(dialog);
-
-        if (!dialog.voice && !currentDialogIndex) {
-            if (!dialogues[currentDialogIndex + 1].voice) {
-                return
-            }
-            setTimeout(playNextDialogAudio, 3000)
-            return
-        }
-
-        const cleanup = onAudioEnd(audioId, playNextDialogAudio)
-
-        if (dialog.voice) {
-            setCurrentVoiceId(audioId)
-            setVolume(audioId, 0.5)
-
-            setTimeout(() => {
-                play(audioId)
-                setIsPlaying(true)
-            }, 500)
-
-            return cleanup
-        }
-
-    }, [currentDialogIndex, scene.id])
 
     // Загрузка аудио при изменении сцены
     useEffect(() => {
+        setTimeout(() => {
+            dispatch(setCurrentSceneAnimated(true))
+        }, 4000)
+
         setCurrentDialogIndex(0)
         setCurrentVoiceId(null)
         setIsPlaying(false)
@@ -148,9 +124,6 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
             })
         }
 
-        setTimeout(() => {
-            dispatch(setCurrentSceneAnimated(true))
-        }, 4000)
 
         return () => {
             // Останавливаем все аудио при размонтировании
@@ -161,18 +134,43 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
         }
     }, [scene.id])
 
-    useEffect(() => {
-        // Загружаем все аудио для диалогов всех сцен
-        data.scenes.map(item => {
-            dialogues.forEach((dialog, index) => {
-                if (dialog.voice) {
-                    const audioId = `${item.id}_${index}`
-                    loadTrack(audioId, dialog.voice)
 
-                }
-            })
-        })
-    }, [])
+    // Воспроизведение текущего диалога
+    useEffect(() => {
+        console.log("index диалога изменился", currentDialogIndex);
+
+        if (!dialogues.length) return
+
+        const audioId = `${scene.id}_${currentDialogIndex}`
+        const dialog = dialogues[currentDialogIndex]
+        const firstDialogNoVoice = !dialog.voice && !currentDialogIndex
+
+        if (firstDialogNoVoice) {
+            if (!dialogues[currentDialogIndex + 1].voice) {
+                return
+            }
+            setTimeout(playNextDialogAudio, 3000)
+            return
+        }
+
+
+        if (dialog.voice) {
+            console.log(audioId);
+
+            setCurrentVoiceId(audioId)
+            setVolume(audioId, 0.5)
+
+            const cleanup = onAudioEnd(audioId, playNextDialogAudio)
+
+            setIsPlaying(true)
+            play(audioId)
+
+            return cleanup
+        }
+
+    }, [currentDialogIndex, scene.id])
+
+    console.log(current_scene_animated);
 
 
     return (
@@ -183,7 +181,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                 <aside className={styles.sceneControls}>
                     <ControlButton
                         classNames={{ button: styles.nextSceneButton }}
-                        disabled={!current_scene_animated || (dialogues.some(item => item.voice) && isPlaying)}
+                        disabled={!current_scene_animated || isPlaying || (!currentDialogIndex && dialogues.length > 1 && Boolean(dialogues[1].voice))}
                         onClick={handleNextScene}>
                         Далее
                         <img src={arrowRightIcon} height={18} width={18} alt="" />

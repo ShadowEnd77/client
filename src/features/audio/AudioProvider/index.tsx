@@ -112,7 +112,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             ...audioInstances.current,
             [id]: newAudioInstance
         };
-        console.log("загружен ", id);
+        //console.log("загружен ", id);
         
         forceUpdate({});
 
