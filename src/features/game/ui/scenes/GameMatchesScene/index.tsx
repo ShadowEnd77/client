@@ -6,7 +6,7 @@ import miniGameBg from '../../../../../assets/images/mini-game-bg.png';
 import { ScenePayload } from '../../../../../types/entities';
 import { Button } from '../../../../../ui/components/buttons/Button';
 import { motion } from "motion/react"
-import { addToVisitedScenes, setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice';
+import { addToVisitedScenes, finishGame, setCurrentSceneById } from '../../../slices/game-info/gameInfoSlice';
 import { useAppDispatch } from '../../../../../store/hooks';
 import { checkIsMatchCorrect } from '../../../utils/helpers/checkIsMatchCorrect';
 
@@ -135,7 +135,8 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
         }
 
         if (payload.next_scene_id == null) {
-            alert("finish")
+            dispatch(finishGame())
+            
             return
         }
 

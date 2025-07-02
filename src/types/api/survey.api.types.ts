@@ -17,6 +17,6 @@ export type SendSurveyReq = {
     answers: ResultAnswer[]
 }
 
-export type SendSurveyResponse = {
+export type SendSurveyRes = {
     suggested_game: number
 }

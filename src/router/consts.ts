@@ -3,6 +3,7 @@ export const ROUTER = {
         HOME: "/",
         SIGNUP: "/signup",
         GAME_INFO: "/game",
-        GAME_PROGRESS: "/game/progress"
+        GAME_PROGRESS: "/game/progress",
+        GAME_PASSED: "/game-passed"
     }
 }

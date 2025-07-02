@@ -1,23 +1,29 @@
 import { RegisterScreen } from "../features/user/ui/screens/RegisterScreen";
 import { ROUTER } from "./consts";
 import { AppRoute, AppRouteType } from "./types";
-import { SurveyScreen } from "../features/survey/ui/SurveyScreen";
-import { GameInfoScreen } from "../features/game/ui/GameInfoScreen";
-import { GameLayout } from "../features/game/ui/GameLayout";
+import { GameContainer } from "../features/game/ui/containers/GameContainer";
+import { GamePassedContainer } from "../features/game/ui/containers/GamePassedContainer";
+import { GameInfoContainer } from "../features/game/ui/containers/GameInfoContainer";
+import { SurveyContainer } from "../features/survey/containers/SurveyContainer";
+import { GameAudioContainer } from "../features/game/ui/containers/GameAudioContainer";
 
 export const routes: Record<AppRouteType, AppRoute[]> = {
     AUTH: [
         {
             path: ROUTER.PATHS.HOME,
-            Component: SurveyScreen,
+            Component: SurveyContainer,
         },
         {
             path: ROUTER.PATHS.GAME_INFO,
-            Component: GameInfoScreen,
+            Component: GameInfoContainer,
         },
         {
             path: ROUTER.PATHS.GAME_PROGRESS,
-            Component: GameLayout,
+            Component: GameAudioContainer,
+        },
+        {
+            path: ROUTER.PATHS.GAME_PASSED,
+            Component: GamePassedContainer,
         }
     ],
     NON_AUTH: [

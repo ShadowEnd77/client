@@ -2,12 +2,8 @@ import styles from './gameInfoScreen.module.scss'
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { clockIcon, logoIcon } from '../../../../ui/icons'
-import previewImage from '../../../../assets/images/preview.jpg'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router'
-import { getGameInfoById } from '../../slices/game-info/gameInfoSlice'
-import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
+import { useNavigate } from 'react-router'
 
 
 export const GameInfoScreen = () => {
@@ -18,20 +14,6 @@ export const GameInfoScreen = () => {
 
     const handleStartPlay = () => {
         navigate("/game/progress")
-    }
-
-    useEffect(() => {
-        dispatch(getGameInfoById({id: 4, include_details: true}))
-        
-        //dispatch(getGameInfoById({game_id: params.id}))
-    }, [])
-
-    if (statuses.loading || !data.id) {
-        return <LoaderWidget
-            widthLoader={50}
-            heightLoader={50}
-            text={"Подождите, загружаем информацию об игре..."}
-        />
     }
 
     return (

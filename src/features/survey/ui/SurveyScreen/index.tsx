@@ -3,14 +3,14 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { Answer } from '../../../../types/entities'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
-import { Loader } from '../../../../ui/components/service/Loader'
 import { logoIcon, smileIcon } from '../../../../ui/icons'
 import { answerTheQuestion, sendSurvey, getSurvey, resetSendingSurveyStatus } from '../../slices/surveySlice'
 import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
-import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
 import { motion } from "motion/react"
+import { getGameInfoById } from '../../../game/slices/game-info/gameInfoSlice'
 import { useNavigate } from 'react-router'
+import { ROUTER } from '../../../../router/consts'
 
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
@@ -22,11 +22,11 @@ export const SurveyScreen = () => {
         title,
         questions,
         current_question_id,
+        suggested_game,
         id,
         sending_statuses
     } = useAppSelector(state => state.survey)
 
-    const { statuses } = useAppSelector(state => state.game)
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
 
     const onAnswer = (answer: Answer) => {
@@ -39,30 +39,20 @@ export const SurveyScreen = () => {
             user_id: "",
             answers: answers_data
         }))
-        navigate("/game")
     }
 
     useEffect(() => {
-        if (statuses.success) {
-
+        if (sending_statuses.success) {
+            navigate(ROUTER.PATHS.GAME_INFO)
+            dispatch(getGameInfoById({ id: suggested_game, include_details: true }))
         }
-    }, [statuses.success])
+    }, [sending_statuses.success])
 
     useEffect(() => {
-        dispatch(getSurvey())
-
         return () => {
             dispatch(resetSendingSurveyStatus())
         }
     }, [])
-
-    if (questions.statuses.loading || !currentQuestion) {
-        return <LoaderWidget
-            widthLoader={50}
-            heightLoader={50}
-            text={"Подождите, загружаем опросник..."}
-        />
-    }
 
     return (
         <WhiteContainer className={styles.section}>
@@ -83,7 +73,7 @@ export const SurveyScreen = () => {
                                 <Button isLoading={sending_statuses.loading} onClick={onSubmit} classNames={{ button: `${styles.surveyButton}` }} >
                                     Отправить ответы
                                 </Button>
-                            </div> 
+                            </div>
                         </div>
                         : <>
                             <header className={styles.surveyHeader}>
@@ -106,8 +96,8 @@ export const SurveyScreen = () => {
                                     }}
                                     animate={{
                                         scale: 1
-                                    }} 
-                                    key={currentQuestion.id}>
+                                    }}
+                                    key={currentQuestion?.id}>
                                     {currentQuestion?.text}
                                 </motion.p>
                             </div>

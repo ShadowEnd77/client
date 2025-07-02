@@ -81,9 +81,19 @@ export const gameInfoSlice = createSlice({
         setCurrentSceneAnimated: (state, action: PayloadAction<boolean>) => {
             state.current_scene_animated = action.payload
         },
-        // finishGame: (state) => {
-        //     state.passed_game.
-        // }
+        setGameIsInProgress: (state, action: PayloadAction<boolean>) => {
+            state.game_is_in_progress = action.payload
+        },
+        finishGame: (state) => {
+            const { id, title, cover_image } = state.data
+
+            state.passed_game = {
+                id,
+                title,
+                cover_image,
+                sertificate_url: ""
+            }
+        }
     },
     extraReducers(builder) {
         builder
@@ -104,7 +114,6 @@ export const gameInfoSlice = createSlice({
             })
 
             // SEND GAME
-
             .addCase(sendFinishGame.pending, state => {
                 state.sending_statuses.loading = true
                 state.sending_statuses.error = ""
@@ -130,8 +139,10 @@ export const {
     setAchievementData,
     resetAchievementData,
     addToVisitedScenes,
+    setGameIsInProgress,
     setIsOpenAchievement,
-    setCurrentSceneAnimated
+    setCurrentSceneAnimated,
+    finishGame
 } = gameInfoSlice.actions
 
 export const gameInfoReducer = gameInfoSlice.reducer

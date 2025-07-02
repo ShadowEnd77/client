@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialSurveyState } from './surveyState'
-import { GetSurveysRes, SendSurveyReq } from '../../../types/api/survey.api.types'
+import { SendSurveyReq, SendSurveyRes } from '../../../types/api/survey.api.types'
 import { Answer, Survey } from '../../../types/entities'
 import { mockSurveys } from '../utils/mock-data/surveys.mock'
-import { SurveyApi } from '../api/survey.api'
-import { AxiosResponse } from 'axios'
 
 export const getSurvey = createAsyncThunk(
     'survey/get',
@@ -30,9 +28,11 @@ export const getSurvey = createAsyncThunk(
 export const sendSurvey = createAsyncThunk(
     'survey/send',
     async (req: SendSurveyReq) => {
-        return new Promise<any>((rs) => {
+        return new Promise<SendSurveyRes>((rs) => {
             setTimeout(() => {
-                rs(req)
+                rs({
+                    suggested_game: 1
+                })
             }, 1000)
         })
     },
@@ -89,10 +89,11 @@ export const surveySlice = createSlice({
                 state.questions.items = action.payload.questions
                 state.current_question_id = action.payload.questions[0].id
                 state.title = action.payload.title
+                state.id = action.payload.id
                 state.questions.statuses = {
                     loading: false,
-                    success: false,
-                    error: state.questions.statuses.error
+                    success: true,
+                    error: ""
                 }
             })
             .addCase(getSurvey.rejected, state => {
@@ -111,7 +112,8 @@ export const surveySlice = createSlice({
                     error: ""
                 }
             })
-            .addCase(sendSurvey.fulfilled, state => {
+            .addCase(sendSurvey.fulfilled, (state, action: PayloadAction<SendSurveyRes>) => {
+                state.suggested_game = action.payload.suggested_game
                 state.sending_statuses = {
                     success: true,
                     loading: false,

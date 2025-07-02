@@ -6,6 +6,8 @@ type GameInfoSliceState = {
     statuses: ResponseStatus
     current_scene: Scene
     current_scene_animated: boolean
+    game_is_in_progress: boolean
+    audio_is_loaded: boolean
     modal_achievement: {
         is_open: boolean
         data: GameAchievement
@@ -22,6 +24,8 @@ type GameInfoSliceState = {
 
 export const initialGameInfoState: GameInfoSliceState = {
     current_scene_animated: false,
+    game_is_in_progress: false,
+    audio_is_loaded: false,
     passed_game: {
         id: 0,
         sertificate_url: "",

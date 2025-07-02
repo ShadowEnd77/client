@@ -1,13 +1,14 @@
-import { FC, useEffect } from 'react'
+import { FC, useContext, useEffect } from 'react'
 import styles from './sceneLayout.module.scss'
 import { ControlButton } from '../../../../../ui/components/buttons/ControlButton'
 import { arrowRightIcon } from '../../../../../ui/icons'
 import { GameSceneCard } from '../GameSceneCard'
 import { Scene } from '../../../../../types/entities'
 import { ChoiceScene } from '../ChoiceScene'
-import { addToVisitedScenes, setAchievementData, setCurrentSceneAnimated, setCurrentSceneById, setIsOpenAchievement } from '../../../slices/game-info/gameInfoSlice'
+import { addToVisitedScenes, finishGame, setAchievementData, setCurrentSceneAnimated, setCurrentSceneById, setIsOpenAchievement } from '../../../slices/game-info/gameInfoSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { GameMatchesScene } from '../GameMatchesScene'
+import { AudioContext } from '../../../../audio/AudioProvider'
 
 type SceneLayoutProps = {
     scene: Scene
@@ -15,7 +16,7 @@ type SceneLayoutProps = {
 export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const dispatch = useAppDispatch();
     const { current_scene_animated } = useAppSelector(state => state.game)
-
+    const { } = useContext(AudioContext)
     const currentSceneIsDialog = scene.type == "dialogue"
 
     const renderScene = () => {
@@ -58,15 +59,15 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
     const handleNextScene = () => {
         dispatch(addToVisitedScenes(scene.id))
-        
+
         if (currentSceneIsDialog && (scene.payload.dialogues!.length > 1) && scene.payload.achievement) {
             dispatch(setAchievementData(scene.payload.achievement))
             dispatch(setIsOpenAchievement(true))
             return
         }
-        
-        if(scene.payload.next_scene_id == null) {
-            alert("finish")
+
+        if (scene.payload.next_scene_id == null) {
+            dispatch(finishGame())
             return
         }
 

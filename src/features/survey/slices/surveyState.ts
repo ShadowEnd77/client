@@ -11,6 +11,7 @@ type SurveySliceState = {
     current_question_id: number
     sending_statuses: ResponseStatus
     survey_passed: boolean
+    suggested_game: number
 } & HasId
 
 
@@ -32,5 +33,6 @@ export const initialSurveyState: SurveySliceState = {
     },
     answers_data: [],
     current_question_id: 0,
-    survey_passed: false
+    survey_passed: false,
+    suggested_game: 0
 }
