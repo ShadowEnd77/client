@@ -1,28 +1,50 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import styles from './gameSceneCard.module.scss'
 import { GameAchievement, GameDialog } from '../../../../../types/entities'
 import { motion } from "motion/react"
 import { successIcon } from '../../../../../ui/icons'
+import { AudioContext } from '../../../../audio/AudioProvider'
 
 export type GameSceneCard = {
   delayShow?: number
   dialog?: GameDialog
   achievement?: GameAchievement | null
+  scene_id: number
+  dialog_index?: number
+  audio_duration?: number,
 }
 
 export const GameSceneCard: FC<GameSceneCard> = ({
   delayShow = 0.5,
   dialog,
-  achievement
+  achievement,
+  audio_duration = 0,
+  scene_id
 }) => {
   const [isAnimated, setIsAnimated] = useState(false)
+  //const { loadTrack, getAudioState } = useContext(AudioContext)
 
   // Сбрасываем анимацию при изменении dialog
   useEffect(() => {
     setIsAnimated(false)
+
     const timer = setTimeout(() => setIsAnimated(true), 50)
+
     return () => clearTimeout(timer)
   }, [dialog])
+
+  // useEffect(() => {
+  //   const audioKey = `voice_${scene_id}_${dialog_index}`
+  //   const voice = loadTrack(audioKey, dialog?.voice!)
+
+  //   const timer = setTimeout(() => {
+  //     //play(audioKey)
+  //     console.log("start play music");
+
+  //   }, delayShow * 1000)
+
+  //   return () => clearTimeout(timer)
+  // }, [delayShow])
 
   return (
     <div key={dialog?.text} className={styles.gameSceneCard}>

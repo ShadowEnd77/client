@@ -7,11 +7,13 @@ import React, {
     ReactNode,
 } from 'react';
 
-type AudioInstance = {
+export type AudioInstance = {
     id: string;
     audio: HTMLAudioElement;
     isPlaying: boolean;
     volume: number;
+    duration: number;
+    ended: boolean;
     error: string | null;
 };
 
@@ -19,7 +21,7 @@ type AudioContextType = {
     play: (id: string) => void;
     pause: (id: string) => void;
     setVolume: (id: string, volume: number) => void;
-    loadTrack: (id: string, audioPath: string) => void;
+    loadTrack: (id: string, audioPath: string, loop?: boolean) => AudioInstance;
     getAudioState: (id: string) => {
         isPlaying: boolean;
         error: string | null;
@@ -28,6 +30,7 @@ type AudioContextType = {
     };
     getAllAudioInstances: () => Record<string, AudioInstance>;
     deleteInstances: () => void
+    onAudioEnd: (id: string, callback: () => void) => void;
 };
 
 export const AudioContext = createContext<AudioContextType>({
@@ -40,7 +43,7 @@ export const AudioContext = createContext<AudioContextType>({
     setVolume: function (id: string, volume: number): void {
         throw new Error('Function not implemented.');
     },
-    loadTrack: function (id: string, audioPath: string): void {
+    loadTrack: function (id: string, audioPath: string, loop?: boolean): AudioInstance {
         throw new Error('Function not implemented.');
     },
     getAudioState: function (id: string): {
@@ -55,6 +58,9 @@ export const AudioContext = createContext<AudioContextType>({
         throw new Error('Function not implemented.');
     },
     deleteInstances: function () {
+
+    },
+    onAudioEnd: function (id: string, callback: () => void) {
 
     }
 });
@@ -79,7 +85,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
         forceUpdate({});
     };
 
-    const loadTrack = (id: string, audioPath: string) => {
+    const loadTrack = (id: string, audioPath: string, loop?: boolean): AudioInstance => {
         // Если инстанс уже существует, очищаем его
         if (audioInstances.current[id]) {
             audioInstances.current[id].audio.pause();
@@ -87,26 +93,30 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
         }
 
         const audio = new Audio(audioPath);
-        audio.loop = true;
+        audio.loop = loop!
         audio.volume = audioInstances.current[id]?.volume || 0.5;
 
         audio.addEventListener('error', (e) => handleError(id, e));
 
+        const newAudioInstance = {
+            id,
+            audio,
+            ended: audio.ended,
+            duration: audio.duration,
+            isPlaying: false,
+            volume: audioInstances.current[id]?.volume || 0.5,
+            error: null,
+        }
+
         audioInstances.current = {
             ...audioInstances.current,
-            [id]: {
-                id,
-                audio,
-                isPlaying: false,
-                volume: audioInstances.current[id]?.volume || 0.5,
-                error: null,
-            }
+            [id]: newAudioInstance
         };
-
-        console.log(audioInstances.current[id]);
-
-
+        console.log("загружен ", id);
+        
         forceUpdate({});
+
+        return newAudioInstance
     };
 
     const play = (id: string) => {
@@ -117,7 +127,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             console.error(`Audio instance with id ${id} not found`);
             return;
         }
-
         instance.audio.play()
             .then(() => {
                 instance.isPlaying = true;
@@ -160,13 +169,23 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
         }
     };
 
+    const onAudioEnd = (id: string, callback: () => void) => {
+        const instance = audioInstances.current[id];
+        if (instance) {
+            instance.audio.addEventListener('ended', callback);
+            return () => instance.audio.removeEventListener('ended', callback);
+        }
+    };
+
     const getAudioState = (id: string) => {
         const instance = audioInstances.current[id];
         if (!instance) {
             return {
                 isPlaying: false,
                 error: `Audio instance ${id} not found`,
-                volume: 0.5,
+                volume: 0.3,
+                ended: false,
+                duration: 0,
                 currentTrack: null,
             };
         }
@@ -176,6 +195,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             error: instance.error,
             volume: instance.volume,
             currentTrack: instance.audio.src,
+            duration: instance.duration,
+            ended: instance.ended
         };
     };
 
@@ -194,8 +215,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
         return deleteInstances
     }, []);
 
-
-
     return (
         <AudioContext.Provider
             value={{
@@ -205,6 +224,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
                 setVolume,
                 loadTrack,
                 getAudioState,
+                onAudioEnd,
                 getAllAudioInstances,
             }}
         >

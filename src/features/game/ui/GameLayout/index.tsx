@@ -19,7 +19,7 @@ type GameLayoutProps = {
 export const GameLayout: FC<GameLayoutProps> = () => {
     const dispatch = useAppDispatch()
     const { current_scene, statuses, modal_achievement } = useAppSelector(state => state.game)
-    const { play, getAllAudioInstances, loadTrack } = useContext(AudioContext)
+    const { play, getAllAudioInstances, loadTrack, setVolume } = useContext(AudioContext)
 
     // if (statuses.loading || !current_scene.id) {
     //     return <LoaderWidget
@@ -41,8 +41,9 @@ export const GameLayout: FC<GameLayoutProps> = () => {
 
 
     useEffect(() => {
-        loadTrack('bg', bgAudio)
-        play('bg')
+        const bgTrack = loadTrack('bg', bgAudio, true)
+        setVolume(bgTrack.id, 0.3)
+        play(bgTrack.id)
     }, [])
 
     return (

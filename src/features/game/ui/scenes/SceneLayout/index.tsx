@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import styles from './sceneLayout.module.scss'
 import { ControlButton } from '../../../../../ui/components/buttons/ControlButton'
 import { arrowRightIcon } from '../../../../../ui/icons'
@@ -13,54 +13,36 @@ import { AudioContext } from '../../../../audio/AudioProvider'
 type SceneLayoutProps = {
     scene: Scene
 }
+
 export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const dispatch = useAppDispatch();
-    const { current_scene_animated } = useAppSelector(state => state.game)
-    const { } = useContext(AudioContext)
+    const { current_scene_animated, data } = useAppSelector(state => state.game)
+    const { play, pause, loadTrack, onAudioEnd, setVolume } = useContext(AudioContext)
+
+    const [currentVoiceId, setCurrentVoiceId] = useState<string | null>(null)
+    const [currentDialogIndex, setCurrentDialogIndex] = useState(0)
+    const [isPlaying, setIsPlaying] = useState(false)
+
     const currentSceneIsDialog = scene.type == "dialogue"
-
-    const renderScene = () => {
-        if (currentSceneIsDialog && scene.payload.dialogues && scene.payload.dialogues.length) {
-            if (scene.payload.dialogues.length > 1) {
-                return scene.payload.dialogues.map((dialog, index) => (
-                    <GameSceneCard
-                        dialog={dialog}
-                        delayShow={!index ? 0.5 : index + 1} />
-                ))
-            }
-            if (scene.payload.dialogues.length == 1) {
-                return (
-                    <>
-                        <GameSceneCard
-                            dialog={scene.payload.dialogues[0]}
-                        />
-                        <GameSceneCard
-                            achievement={scene.payload.achievement}
-                            delayShow={2}
-                        />
-                    </>
-                )
-            }
+    const dialogues = scene.payload.dialogues || []
 
 
-        }
-        if (scene.type == "choice" && scene.payload.dialogues) {
-            return <>
-                <GameSceneCard
-                    dialog={scene.payload.dialogues[0]}
-                    delayShow={0.5} />
-                <ChoiceScene {...scene} />
-            </>
-        }
-        if (scene.type == "match") {
-            return <GameMatchesScene scene_id={scene.id} payload={scene.payload} />
+    const playNextDialogAudio = () => {
+        setIsPlaying(false)
+        if (currentDialogIndex < dialogues.length - 1) {
+            setCurrentDialogIndex(prev => prev + 1)
         }
     }
 
     const handleNextScene = () => {
+        // Если есть активное аудио - останавливаем
         dispatch(addToVisitedScenes(scene.id))
 
-        if (currentSceneIsDialog && (scene.payload.dialogues!.length > 1) && scene.payload.achievement) {
+        if (currentVoiceId) {
+            pause(currentVoiceId)
+        }
+
+        if (currentSceneIsDialog && (dialogues.length > 1) && scene.payload.achievement) {
             dispatch(setAchievementData(scene.payload.achievement))
             dispatch(setIsOpenAchievement(true))
             return
@@ -74,25 +56,134 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
         dispatch(setCurrentSceneById(scene.payload.next_scene_id!))
     }
 
+    const renderScene = () => {
+        if (currentSceneIsDialog && dialogues.length) {
+            if (dialogues.length > 1) {
+                return dialogues.map((dialog, index) => (
+                    <GameSceneCard
+                        key={`${scene.id}_${index}`}
+                        scene_id={scene.id}
+                        dialog={dialog}
+                        delayShow={!index ? 0.5 : index + 1}
+                    />
+                ))
+            }
+            if (dialogues.length == 1) {
+                return (
+                    <>
+                        <GameSceneCard
+                            scene_id={scene.id}
+                            dialog={dialogues[0]}
+                        />
+                        <GameSceneCard
+                            scene_id={scene.id}
+                            achievement={scene.payload.achievement}
+                            delayShow={2}
+                        />
+                    </>
+                )
+            }
+        }
+        if (scene.type == "choice" && dialogues.length) {
+            return <>
+                <GameSceneCard
+                    scene_id={scene.id}
+                    dialog={dialogues[0]}
+                    delayShow={0.5}
+                />
+                <ChoiceScene {...scene} />
+            </>
+        }
+        if (scene.type == "match") {
+            return <GameMatchesScene scene_id={scene.id} payload={scene.payload} />
+        }
+    }
+
+
+    // Воспроизведение текущего диалога
     useEffect(() => {
+        if (!dialogues.length) return
+
+        const audioId = `${scene.id}_${currentDialogIndex}`
+        const dialog = dialogues[currentDialogIndex]
+        console.log(dialog);
+
+        if (!dialog.voice && !currentDialogIndex) {
+            if (!dialogues[currentDialogIndex + 1].voice) {
+                return
+            }
+            setTimeout(playNextDialogAudio, 3000)
+            return
+        }
+
+        const cleanup = onAudioEnd(audioId, playNextDialogAudio)
+
+        if (dialog.voice) {
+            setCurrentVoiceId(audioId)
+            setVolume(audioId, 0.5)
+
+            setTimeout(() => {
+                play(audioId)
+                setIsPlaying(true)
+            }, 500)
+
+            return cleanup
+        }
+
+    }, [currentDialogIndex, scene.id])
+
+    // Загрузка аудио при изменении сцены
+    useEffect(() => {
+        setCurrentDialogIndex(0)
+        setCurrentVoiceId(null)
+        setIsPlaying(false)
+
+        // Загружаем все аудио для диалогов
+        if (dialogues.length) {
+            dialogues.forEach((dialog, index) => {
+                if (dialog.voice) {
+                    const audioId = `${scene.id}_${index}`
+                    loadTrack(audioId, dialog.voice)
+                }
+            })
+        }
+
         setTimeout(() => {
             dispatch(setCurrentSceneAnimated(true))
-        }, 3000)
+        }, 4000)
+
+        return () => {
+            // Останавливаем все аудио при размонтировании
+            dialogues.forEach((_, index) => {
+                const audioId = `${scene.id}_${index}`
+                pause(audioId)
+            })
+        }
     }, [scene.id])
+
+    useEffect(() => {
+        // Загружаем все аудио для диалогов всех сцен
+        data.scenes.map(item => {
+            dialogues.forEach((dialog, index) => {
+                if (dialog.voice) {
+                    const audioId = `${item.id}_${index}`
+                    loadTrack(audioId, dialog.voice)
+
+                }
+            })
+        })
+    }, [])
+
 
     return (
         <div className={styles.sceneLayout}>
-
             {renderScene()}
             {
                 currentSceneIsDialog &&
                 <aside className={styles.sceneControls}>
-                    {/* <ControlButton disabled>
-                        <img style={{ scale: -1 }} src={arrowRightIcon} height={18} width={18} alt="" />
-                    </ControlButton> */}
                     <ControlButton
                         classNames={{ button: styles.nextSceneButton }}
-                        disabled={!current_scene_animated}
+                        disabled={!current_scene_animated || (dialogues.some(item => item.voice) && isPlaying)}
                         onClick={handleNextScene}>
                         Далее
                         <img src={arrowRightIcon} height={18} width={18} alt="" />

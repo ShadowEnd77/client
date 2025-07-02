@@ -19,6 +19,8 @@ import i5_2 from '../../../../assets/game_1/scenes/scene_5/image_2.png'
 
 import i6_1 from '../../../../assets/game_1/scenes/scene_6/image_1.png'
 import i6_2 from '../../../../assets/game_1/scenes/scene_6/image_2.png'
+import audio1 from "../../../../assets/audio/voice_1.mp3"
+import audio2 from "../../../../assets/audio/voice_2.mp3"
 
 
 export const mockGame: Game = {
@@ -42,16 +44,15 @@ export const mockGame: Game = {
         },
         next_scene_id: 2,
         dialogues: [
-
           {
             image: i1_1,
-            voice: "",
+            voice: audio1,
             name: "Учитель",
             text: "Сегодня командная игра. Главное — уважение к друг другу и работа в команде"
           },
           {
             image: i1_2,
-            voice: "https://example.com/voices/oldman1.mp3",
+            voice: audio2,
             name: "Бульдозер",
             text: "Давайте быстрее! Я предлагаю, чтобы я был капитаном. Мы точно победим. Кто со мной - не пожалееет!"
           }
@@ -80,7 +81,7 @@ export const mockGame: Game = {
           // },
           {
             image: i2_2,
-            voice: "https://example.com/voices/narrator2.mp3",
+            voice: audio2,
             name: "",
             text: "*Азот не хотел бы подчиняться Бульдозеру*"
           }
@@ -100,7 +101,7 @@ export const mockGame: Game = {
         dialogues: [
           {
             image: i3_1,
-            voice: "https://example.com/voices/narrator3.mp3",
+            voice: audio1,
             name: "",
             text: "Азот должен сделать выбор"
           }
@@ -134,13 +135,13 @@ export const mockGame: Game = {
         dialogues: [
           {
             image: i4_1,
-            voice: "https://example.com/voices/narrator4.mp3",
+            voice: "",
             name: "Азот",
             text: "Пусть мы и не побеждаем, но мне важно, чтобы мы уважали друг друга и слушали идеи."
           },
           {
             image: i4_2,
-            voice: "https://example.com/voices/shadow1.mp3",
+            voice: audio2,
             name: "Учитель",
             text: "Выбор Азота — зрелый и осознанный. Это пример уважения к себе и другим!"
           }
