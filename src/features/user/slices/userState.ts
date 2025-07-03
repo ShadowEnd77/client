@@ -8,12 +8,13 @@ type UserSliceState = {
     register: ResponseStatus
 }
 
-const defaultUserData: Omit<User, "uuid"> = {
+const defaultUserData: User = {
     age: 0,
     first_name: "",
     last_name: "",
     city_id: 0,
-    school: ""
+    school: "",
+    uuid: ""
 }
 
 export const initialUserState: UserSliceState = {

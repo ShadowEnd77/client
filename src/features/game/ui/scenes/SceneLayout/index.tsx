@@ -16,6 +16,7 @@ type SceneLayoutProps = {
 
 export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const dispatch = useAppDispatch();
+    const { audio_muted } = useAppSelector(state => state.settings)
     const { current_scene_animated } = useAppSelector(state => state.game)
     const { play, pause, loadTrack, onAudioEnd, setVolume } = useAudio()
 
@@ -150,7 +151,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
         if (dialog.voice) {
             setCurrentVoiceId(audioId)
-            setVolume(audioId, 0.5)
+            setVolume(audioId, audio_muted ? 0 : 0.5)
 
             const cleanup = onAudioEnd(audioId, playNextDialogAudio)
             setIsPlaying(true)

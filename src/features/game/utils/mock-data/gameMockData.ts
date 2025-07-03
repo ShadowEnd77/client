@@ -27,7 +27,7 @@ export const mockGame: Game = {
   id: 1,
   title: "Где я - там и выбор",
   cover_image: cover,
-  description: "Интерактивное приключение с загадками и моральными выборами",
+  description: "Интерактивное приключение с загадками и моральными выборами. Азоту предстоит сделать правильный",
   duration: 2,
   scenes: [
 
@@ -52,7 +52,7 @@ export const mockGame: Game = {
           },
           {
             image: i1_2,
-            voice: audio2,
+            voice: audio1,
             name: "Бульдозер",
             text: "Давайте быстрее! Я предлагаю, чтобы я был капитаном. Мы точно победим. Кто со мной - не пожалееет!"
           }
@@ -81,7 +81,7 @@ export const mockGame: Game = {
           // },
           {
             image: i2_2,
-            voice: audio2,
+            voice: audio1,
             name: "",
             text: "*Азот не хотел бы подчиняться Бульдозеру*"
           }
@@ -141,7 +141,7 @@ export const mockGame: Game = {
           },
           {
             image: i4_2,
-            voice: audio2,
+            voice: audio1,
             name: "Учитель",
             text: "Выбор Азота — зрелый и осознанный. Это пример уважения к себе и другим!"
           }
