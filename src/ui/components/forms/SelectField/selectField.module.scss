@@ -19,8 +19,8 @@
         top: calc(100% + 2px);
         box-shadow: var(--shadow-s);
         border-radius: var(--bradius-s);
-        padding: 12px 10px;
-        max-height: 130px;
+        padding: .8em .6em;
+        max-height: calc(6em * var(--fz-scale));
         width: 100%;
         overflow: hidden;
         z-index: var(--z-index-control);

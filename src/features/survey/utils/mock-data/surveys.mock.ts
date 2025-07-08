@@ -86,70 +86,7 @@ export const mockSurveys: GetSurveysRes = {
                         { id: 20, text: "Нет", order: 2 }
                     ]
                 },
-                {
-                    id: 11,
-                    text: "Я жду помощи от взрослых",
-                    options: [
-                        { id: 21, text: "Да", order: 1 },
-                        { id: 22, text: "Нет", order: 2 }
-                    ]
-                },
-                {
-                    id: 12,
-                    text: "Я могу отказать, когда меня о чем-то просят",
-                    options: [
-                        { id: 23, text: "Да", order: 1 },
-                        { id: 24, text: "Нет", order: 2 }
-                    ]
-                },
-                {
-                    id: 13,
-                    text: "Я не общаюсь со сверстниками, так как они меня обижают",
-                    options: [
-                        { id: 25, text: "Да", order: 1 },
-                        { id: 26, text: "Нет", order: 2 }
-                    ]
-                },
-                {
-                    id: 14,
-                    text: "Мне нетрудно просить других о помощи",
-                    options: [
-                        { id: 27, text: "Да", order: 1 },
-                        { id: 28, text: "Нет", order: 2 }
-                    ]
-                },
-                {
-                    id: 15,
-                    text: "Мне часто кажется, что я не справлюсь",
-                    options: [
-                        { id: 29, text: "Да", order: 1 },
-                        { id: 30, text: "Нет", order: 2 }
-                    ]
-                },
-                {
-                    id: 16,
-                    text: "Верю всему, что говорят по радио и телевидению",
-                    options: [
-                        { id: 31, text: "Да", order: 1 },
-                        { id: 32, text: "Нет", order: 2 }
-                    ]
-                },
-                {
-                    id: 17,
-                    text: "Я не доверяю незнакомым людям",
-                    options: [
-                        { id: 33, text: "Да", order: 1 },
-                        { id: 34, text: "Нет", order: 2 }
-                    ]
-                },
-                {
-                    id: 18,
-                    text: "Иногда я делаю не думая",
-                    options: [
-                        { id: 35, text: "Да", order: 1 },
-                        { id: 36, text: "Нет", order: 2 }
-                    ]
-                }]
+            ]
         },
         {
 

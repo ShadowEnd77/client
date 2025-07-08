@@ -16,7 +16,7 @@ import { userRegister } from '../../../slices/userSlice'
 
 type UserRegisterForm = Omit<UserRegisterReq, "password">
 type UserRegisterFormKeys = keyof UserRegisterForm
-type UserRegisterFormSelects = keyof Pick<UserRegisterForm, "age" | "city_id">
+type UserRegisterFormSelects = keyof Pick<UserRegisterForm, "age" | "city_id" | "gender">
 
 export const RegisterForm = () => {
     const dispatch = useAppDispatch()
@@ -32,6 +32,7 @@ export const RegisterForm = () => {
             last_name: '',
             school: '',
             age: 0,
+            gender: 0,
             city_id: 0
         },
         onSubmit: values => {
@@ -112,6 +113,16 @@ export const RegisterForm = () => {
                     name={"last_name"}
                     value={formik.values.last_name}
                     onChange={formik.handleChange}
+                />
+                <SelectField
+                    className={styles.ageSelect}
+                    readOnly
+                    placeholder={"Выбери свой пол"}
+                    htmlId={"register-gender-input"}
+                    options={STATIC_DATA.GENDER_OPTIONS}
+                    value={STATIC_DATA.GENDER_OPTIONS.find(item => item.value === formik.values.gender)?.label}
+                    selectedValue={formik.values.gender}
+                    onChange={(value) => registerFormSelect("gender", value)}
                 />
                 <SelectField
                     className={styles.ageSelect}

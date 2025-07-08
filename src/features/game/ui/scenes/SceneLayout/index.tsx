@@ -9,6 +9,7 @@ import { addToVisitedScenes, finishGame, setAchievementData, setCurrentSceneAnim
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { GameMatchesScene } from '../GameMatchesScene'
 import { useAudio } from '../../../../audio/AudioProvider'
+import { CONFIG } from '../../../../../config'
 
 type SceneLayoutProps = {
     scene: Scene
@@ -64,7 +65,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                         key={`${scene.id}_${index}`}
                         scene_id={scene.id}
                         dialog={dialog}
-                        delayShow={!index ? 0.5 : 3}
+                        delayShow={index == currentDialogIndex ? 0.5 : CONFIG.SCENE_DIALOG_CHANGE_DELAY / 1000}
                     />
                 ))
             }
@@ -78,7 +79,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                         <GameSceneCard
                             scene_id={scene.id}
                             achievement={scene.payload.achievement}
-                            delayShow={2}
+                            delayShow={CONFIG.SCENE_DIALOG_CHANGE_DELAY / 1000}
                         />
                     </>
                 )
@@ -103,7 +104,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     useEffect(() => {
         setTimeout(() => {
             dispatch(setCurrentSceneAnimated(true))
-        }, 3000)
+        }, CONFIG.SCENE_DIALOG_CHANGE_DELAY)
 
         setCurrentDialogIndex(0)
         setCurrentVoiceId(null)
@@ -140,16 +141,17 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
         const audioId = `${scene.id}_${currentDialogIndex}`
         const firstDialogNoVoice = !dialog?.voice && !currentDialogIndex
+        const secondDialogHasVoice = dialogues[1]?.voice
 
-        if (firstDialogNoVoice) {
-            if (!dialogues[currentDialogIndex + 1].voice) {
-                return
-            }
-            setTimeout(playNextDialogAudio, 3000)
-            return
+        if (firstDialogNoVoice && secondDialogHasVoice) {
+
+            new Promise(() => {
+                setTimeout(playNextDialogAudio, CONFIG.SCENE_DIALOG_CHANGE_DELAY)
+            })
+            return;
         }
 
-        if (dialog.voice) {
+        if (dialog?.voice) {
             setCurrentVoiceId(audioId)
             setVolume(audioId, audio_muted ? 0 : 0.5)
 
@@ -158,7 +160,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
 
             setTimeout(() => {
                 play(audioId)
-            }, !currentDialogIndex ? 500 : 0)
+            }, !currentDialogIndex ? 500 : (!dialogues[0]?.voice ? CONFIG.SCENE_DIALOG_CHANGE_DELAY : 0))
 
             return cleanup
         }

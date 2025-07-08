@@ -130,7 +130,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
         const matchIsCorrect = checkIsMatchCorrect(payload.pairs!, answers)
 
         if (matchIsCorrect) {
-            alert("Всё верно указано!")
+            //alert("Всё верно указано!")
             dispatch(addToVisitedScenes(scene_id))
         }
 

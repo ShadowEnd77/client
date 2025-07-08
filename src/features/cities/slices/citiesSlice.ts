@@ -36,6 +36,14 @@ export const getCities = createAsyncThunk(
                     rs(req.skip == 0 ? [
                         { id: 1, name: "Череповец" },
                         { id: 2, name: "Вологда" },
+                        { id: 3, name: "Москва" },
+                        { id: 4, name: "Санкт-Петербург" },
+                        { id: 5, name: "Новосибирск" },
+                        { id: 6, name: "Екатеринбург" },
+                        { id: 7, name: "Казань" },
+                        { id: 8, name: "Нижний Новгород" },
+                        { id: 9, name: "Краснодар" },
+                        { id: 10, name: "Сочи" }
                     ] : [])
                 }, CONFIG.MOCK_FETCH_DELAY)
             })

@@ -9,7 +9,7 @@ type SettingsSliceState = {
 const initialState: SettingsSliceState = {
     full_screen_mode: false,
     audio_muted: false,
-    visual_impaired_mode: !false
+    visual_impaired_mode: false
 };
 
 const settingsSlice = createSlice({

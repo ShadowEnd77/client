@@ -34,5 +34,5 @@ export const initialSurveyState: SurveySliceState = {
     answers_data: [],
     current_question_id: 0,
     survey_passed: false,
-    suggested_game: 0
+    suggested_game: 1
 }

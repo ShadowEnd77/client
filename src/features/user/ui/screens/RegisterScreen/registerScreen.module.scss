@@ -1,6 +1,6 @@
 .section {
-    max-width: 580px;
-    
+    max-width: calc(680px * var(--fz-scale)) ;
+
     .header {
         display: flex;
         justify-content: space-between;
@@ -16,9 +16,6 @@
         .personFields {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            .ageSelect {
-                grid-column: span 2;
-            }
         }
         .schoolFields {
             display: flex;
