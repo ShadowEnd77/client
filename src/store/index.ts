@@ -4,6 +4,7 @@ import { citiesReducer } from '../features/cities/slices/citiesSlice'
 import { surveyReducer } from '../features/survey/slices/surveySlice'
 import { gameInfoReducer } from '../features/game/slices/game-info/gameInfoSlice'
 import { settingsReducer } from '../features/settings/slices/settingsSlice'
+import { popupReducer } from '../features/settings/slices/popupSlice'
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         cities: citiesReducer,
         survey: surveyReducer,
         game: gameInfoReducer,
-        settings: settingsReducer
+        settings: settingsReducer,
+        popup: popupReducer
     },
 })
 

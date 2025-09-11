@@ -1,12 +1,23 @@
 import { useEffect, useRef } from 'react'
 import { AppRouter } from './router'
-import { useAppSelector } from './store/hooks';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import { VisuallyImpairedControl } from './ui/components/service/VisuallyImpairedControl';
 import { CONFIG } from './config';
+import Popup from './ui/components/service/Popup';
+import { openPopup } from './features/settings/slices/popupSlice';
 
 function App() {
+  const dispatch = useAppDispatch()
   const { full_screen_mode, visual_impaired_mode } = useAppSelector(state => state.settings)
+
   const documentElement = useRef(document.documentElement)
+  const { register } = useAppSelector(state => state.user)
+
+  useEffect(() => {
+    if (register.success) {
+      dispatch(openPopup({ text: "Вы успешно авторизовались" }))
+    }
+  }, [register.success])
 
   useEffect(() => {
     if (documentElement.current) {
@@ -28,8 +39,10 @@ function App() {
     }
   }, [visual_impaired_mode])
 
+
   return (
     <main>
+      <Popup />
       <VisuallyImpairedControl />
       <AppRouter />
     </main>

@@ -6,7 +6,7 @@
     --gameMatchElementHeight: 50px;
 
     .gameInner {
-        width: 75%;
+        width: 90%;
         max-width: 1100px;
         height: 100%;
         display: flex;
@@ -99,9 +99,9 @@
         border-radius: var(--bradius-m);
         border: 2px dashed transparent;
         align-items: flex-end;
-        transition: 
-        var(--trans-dur) border,
-        var(--trans-dur) background;
+        transition:
+            var(--trans-dur) border,
+            var(--trans-dur) background;
     }
     .gameFinishButton {
         font-size: var(--fz-m);
