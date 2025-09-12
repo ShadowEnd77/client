@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { Answer } from '../../../../types/entities'
 import { Button } from '../../../../ui/components/buttons/Button'
@@ -15,6 +15,7 @@ import { ROUTER } from '../../../../router/consts'
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const [buttonsDisabled, setButtonsDisabled] = useState(false)
 
     const {
         answers_data,
@@ -29,7 +30,21 @@ export const SurveyScreen = () => {
 
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
 
+    // Automatically lock the buttons for each new question
+    useEffect(() => {
+        setButtonsDisabled(true)
+        
+        const timer = setTimeout(() => {
+            setButtonsDisabled(false)
+        }, 7000) // 7 sec
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [current_question_id]) // It starts every time the question is changed
+
     const onAnswer = (answer: Answer) => {
+        setButtonsDisabled(true)
         dispatch(answerTheQuestion(answer))
     }
 
@@ -105,13 +120,17 @@ export const SurveyScreen = () => {
                                 <span className={styles.suggestion}>Выберите вариант ответа</span>
                                 <div className={styles.buttons}>
                                     <Button
+                                        disabled={buttonsDisabled}
                                         onClick={() => onAnswer(currentQuestion?.options[1] as Answer)}
-                                        classNames={{ button: `${styles.buttonNo} ${styles.surveyButton}` }}>
+                                        classNames={{ 
+                                            button: `${styles.buttonNo} ${styles.surveyButton} ${buttonsDisabled ? '' : styles.buttonNoActive}`
+                                        }}>
                                         {currentQuestion?.options[1]?.text || "Кнопка"}
                                     </Button>
                                     <Button
+                                        disabled={buttonsDisabled}
                                         onClick={() => onAnswer(currentQuestion?.options[0] as Answer)}
-                                        classNames={{ button: `${styles.surveyButton}` || "Кнопка" }}>
+                                        classNames={{ button: `${styles.surveyButton}` }}>
                                         {currentQuestion?.options[0]?.text}
                                     </Button>
                                 </div>
