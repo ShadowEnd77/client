@@ -4,12 +4,14 @@ type SettingsSliceState = {
     full_screen_mode: boolean;
     audio_muted: boolean;
     visual_impaired_mode: boolean;
+    music_muted: boolean;
 }
 
 const initialState: SettingsSliceState = {
     full_screen_mode: false,
     audio_muted: false,
-    visual_impaired_mode: false
+    visual_impaired_mode: false,
+    music_muted: false,
 };
 
 const settingsSlice = createSlice({
@@ -21,6 +23,9 @@ const settingsSlice = createSlice({
         },
         toggleAudioMuted: (state) => {
             state.audio_muted = !state.audio_muted;
+        },
+        toggleMusicMuted: (state) => {
+            state.music_muted = !state.music_muted;
         },
         toggleVisualImpairedMode: (state) => {
             state.visual_impaired_mode = !state.visual_impaired_mode;
@@ -41,6 +46,7 @@ const settingsSlice = createSlice({
 export const {
     toggleFullScreenMode,
     toggleAudioMuted,
+    toggleMusicMuted,
     toggleVisualImpairedMode,
     setFullScreenMode,
     setAudioMuted,
