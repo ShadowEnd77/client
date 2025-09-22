@@ -1,0 +1,18 @@
+.block {
+    &:not(:last-child) {
+        margin-bottom: 25px;
+    }
+    .legend {
+        position: relative;
+        .requiredSymbol {
+            position: absolute;
+            font-size: 28px;
+            right: -0.30em;
+            top: -0.18em;
+            height: 10px;
+            color: var(--c-red);
+        }
+    }
+    .body {
+    }
+}

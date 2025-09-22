@@ -1,0 +1,65 @@
+@use './variables' as v;
+
+@function calcVW($screen-width, $px) {
+    @return #{$px / $screen-width * 100}vw;
+}
+
+@function calcVH($screen-height, $px) {
+    @return #{$px / $screen-height * 100}vh;
+}
+
+@mixin fluid-text($min, $max) {
+    font-size: calc(clamp(#{$min}px, calcVW(v.$screen, $max), #{$max}px) * var(--fz-scale));
+}
+
+@mixin flex-center($is-inline: false) {
+    @if ($is-inline) {
+        display: inline-flex;
+    } @else {
+        display: flex;
+    }
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin abs-center() {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+}
+
+@mixin square($size) {
+    height: $size;
+    aspect-ratio: 1;
+}
+
+@mixin visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+@mixin scrollbar() {
+    &::-webkit-scrollbar {
+        width: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
+
+@mixin scrollbar-hidden() {
+    &::-webkit-scrollbar {
+        display: none;
+        width: 0;
+    }
+}

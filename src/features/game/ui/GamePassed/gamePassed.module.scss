@@ -1,0 +1,73 @@
+.section {
+    padding: 50px;
+    max-width: 1050px;
+    display: flex;
+    height: clamp(550px, 70vh, 600px);
+    column-gap: 40px;
+    .gameInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .gameCoverBlock {
+        max-width: 380px;
+        width: 100%;
+        background-color: gold;
+        border-radius: var(--bradius-m);
+    }
+    .gameInfoPassed {
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
+    }
+    .gameInfoHeader {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--c-gray);
+    }
+    .gameInfoTitle {
+        font-size: var(--fz-xxl);
+    }
+    .gameInfoDescription {
+        flex-grow: 1;
+    }
+    .gameInfoSertificate {
+        margin-bottom: 20px;
+        color: var(--c-dark-alt);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        column-gap: 8px;
+        text-decoration: underline;
+        svg path {
+            stroke: currentColor;
+        }
+    }
+    .gameInfoButtons {
+        display: flex;
+        column-gap: 10px;
+    }
+    .logoutButton {
+        background-color: transparent !important;
+        color: var(--c-dark-alt);
+        font-weight: 700;
+        width: 100%;
+        border-radius: var(--bradius-l);
+        border: 1px solid currentColor;
+    }
+    .gameCoverBlock {
+        position: relative;
+        background: center/cover no-repeat;
+    }
+    .gameCoverBlockLogo {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 16px;
+        border-radius: var(--bradius-s);
+        background-color: var(--c-light);
+    }
+}

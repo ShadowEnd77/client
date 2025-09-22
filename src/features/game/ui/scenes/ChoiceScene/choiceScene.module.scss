@@ -1,0 +1,43 @@
+.sceneChoiceBlock {
+    display: flex;
+    color: var(--c-light);
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .sceneChoiceHeader {
+        font-size: var(--fz-l);
+        font-weight: 600;
+        background-color: var(--c-light);
+        color: var(--c-dark-alt);
+        padding: 12px 20px;
+        text-align: center;
+        border: 1px solid var(--c-dark-alt);
+        border-radius: var(--bradius-s);
+    }
+    .sceneChoicesList {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+    .sceneChoiceButton {
+        font-size: var(--fz-l);
+        padding: 20px;
+        border: 3px solid transparent;
+        border-radius: 100px;
+        font-weight: 600;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        transition: .3s border;
+        &:hover {
+            border-color: var(--c-accent-alt);
+        }
+    }
+    .sceneChoicesCaption {
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        align-self: center;
+        color: var(--c-light);
+    }
+}

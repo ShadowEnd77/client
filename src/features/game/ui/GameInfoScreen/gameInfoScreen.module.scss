@@ -1,0 +1,63 @@
+.section {
+    max-width: 1100px;
+    padding: 0;
+    height: clamp(620px, calcVH(900, 680), 680px);
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    border: 4px solid var(--c-light);
+
+    .gameImage {
+        background: center/cover no-repeat;
+    }
+
+    .gameInfo {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .gameInfoText {
+            flex-grow: 1;
+        }
+        .gameInfoCaption {
+            @include fluid-text($h1-min, $h1-max);
+            font-weight: 700;
+        }
+        .gameInfoHeader {
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+            border-bottom: var(--border);
+            border-color: var(--c-gray);
+        }
+        .gameInfoTitle {
+            @include fluid-text($h2-min, $h2-max);
+            margin-bottom: 20px;
+        }
+        .gameInfoDescription {
+            color: var(--c-gray-dark-alt);
+        }
+        .gameInfoDuration {
+            display: flex;
+            font-size: var(--fz-s);
+            column-gap: 5px;
+            color: var(--c-gray-dark);
+            font-weight: 500;
+        }
+        .gameInfoFooter {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            row-gap: 8px;
+
+            .gameInfoBottom {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                column-gap: 20px;
+
+                .gameInfoButton {
+                    width: 330px;
+                }
+            }
+        }
+    }
+}
