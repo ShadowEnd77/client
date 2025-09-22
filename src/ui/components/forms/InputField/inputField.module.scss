@@ -1,0 +1,45 @@
+.wrapper {
+    display: block;
+    color: var(--c-dark-opacity);
+    border-radius: var(--bradius-m);
+    border: var(--border);
+    border-color: currentColor;
+    height: var(--btn-height);
+    padding-inline: 15px;
+    transition: color var(--trans-dur);
+
+    .input {
+        color: inherit;
+        font-weight: 500;
+        border: none;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-color: transparent;
+
+        &:not(:placeholder-shown)::placeholder {
+            color: inherit;
+        }
+
+        &:placeholder-shown::placeholder {
+            color: color-mix(in srgb, var(--c-dark-alt) 70%, grey 30%);
+        }
+    }
+}
+
+label.wrapper.focused {
+    color: var(--c-accent);
+}
+
+.wrapper.hasValue {
+    color: var(--c-dark-alt);
+}
+
+.wrapper.error {
+    color: var(--c-red);
+}
+
+.wrapper.disabled {
+    color: var(--c-dark-opacity);
+}

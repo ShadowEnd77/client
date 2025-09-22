@@ -1,0 +1,136 @@
+@import "./normalize.scss", "./fonts.scss", "./animations.scss";
+
+:root {
+    /*COLORS*/
+    --c-light: white;
+    --c-light-hover: #fbfbfb;
+    --c-gray-dark: #929292;
+    --c-gray-dark-alt: #585858;
+    --c-gray: #e7e7e7;
+    --c-dark: black;
+    --c-dark-opacity: rgba(0, 0, 0, 0.2);
+    --c-dark-alt: #2f2f2f;
+    --c-accent: #003087;
+    --c-accent-alt: #4fcd32;
+    --c-brand-first-lt: #efffeb;
+    --c-brand-second-lt: #94b6f5;
+    --c-brand-third-lt: #b8f7aa;
+    --c-red: #dd5745;
+    --c-yellow: #FBC411;
+    --bg-gradient: linear-gradient(
+        35deg,
+        var(--c-brand-third-lt) 0%,
+        var(--c-brand-second-lt) 70%,
+        var(--c-brand-first-lt) 100%
+    );
+
+        /*Цветовые схемы*/
+    &.theme-1 { // Цветовая схема №1: Чёрный по белому
+      --c-light: #fff;
+      --c-dark-alt: #000;
+    }
+    &.theme-2 { // Цветовая схема №2: Белый по чёрному
+      --c-light: #000;
+      --c-dark-alt: #fff;
+    }
+    &.theme-3 { // Цветовая схема №3: Тёмно-синий по голубому
+      --c-light: #b6e0fe;
+      --c-dark-alt: #003087;
+    }
+    &.theme-4 { // Цветовая схема №4: Коричневый по бежевому
+      --c-light: #ffdaa2;
+      --c-dark-alt: #6b3e26;
+    }
+    &.theme-5 { // Цветовая схема №5: Зелёный по тёмно-коричневому
+      --c-light: #3e2723;
+      --c-dark-alt: #4fcd32;
+    }
+
+    /*FONTS*/
+    --fz-scale: 1;
+    --fz-xs: calc(12px * var(--fz-scale));
+    --fz-s: calc(14px * var(--fz-scale));
+    --fz-m: calc(16px * var(--fz-scale));
+    --fz-l: calc(18px * var(--fz-scale));
+    --fz-xl: calc(20px * var(--fz-scale));
+    --fz-xxl: calc(22px * var(--fz-scale));
+    --font-base: "Raleway", sans-serif;
+
+    /*BLOCKS*/
+    --border: 1px solid var(--c-dark-alt);
+    --bradius-l: 30px;
+    --bradius-m: 20px;
+    --bradius-s: 10px;
+    --bradius-xs: 6px;
+    --btn-height: 56px;
+    --screen-padding: 30px;
+
+    /*SHADOWS*/
+    --shadow-s: 0 0 20px rgba(0, 0, 0, 0.05);
+
+    /*TRANSITIONS*/
+    --trans-dur: 0.3s;
+
+    /*Z-INDEXES*/
+    --z-index-control: 100;
+    --z-index-modal: 1000;
+
+    background: var(--bg-gradient) no-repeat;
+    background-attachment: fixed;
+}
+
+body {
+    @include scrollbar;
+
+    overflow-x: hidden;
+    font-size: var(--fz-m);
+    color: var(--c-dark-alt);
+    font-family: var(--font-base);
+    line-height: 1.4;
+
+}
+
+input,
+button,
+a {
+    transition-duration: var(--trans-dur);
+}
+
+#root {
+    height: 100vh;
+}
+main {
+    @include flex-center;
+
+    height: 100%;
+    padding: var(--screen-padding);
+    min-height: inherit;
+    overflow-y: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    line-height: 1.2;
+}
+
+h1 {
+    @include fluid-text($h1-min, $h1-max);
+}
+
+h2 {
+    @include fluid-text($h2-min, $h2-max);
+
+    &:not(:last-child) {
+        margin-bottom: #{28 / $h2-max}em;
+    }
+}
+
+h3 {
+    @include fluid-text($h3-min, $h3-max);
+}
+
+h4 {
+    @include fluid-text($h4-min, $h4-max);
+}

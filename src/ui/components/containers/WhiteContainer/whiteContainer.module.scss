@@ -1,0 +1,9 @@
+.block {
+    @include scrollbar-hidden;
+    background: var(--c-light);
+    padding: 50px 60px;
+    border-radius: var(--bradius-l);
+    width: 100%;
+    overflow-y: auto;
+    max-height: 100vh;
+}

@@ -1,0 +1,26 @@
+.sceneLayout {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    column-gap: 20px;
+
+    .sceneControls {
+        position: absolute;
+        right: calc(var(--screen-padding) * 2);
+        translate: 0 -20%;
+        bottom: 0;
+        display: flex;
+        column-gap: 10px;
+        z-index: var(--z-index-control);
+
+        img {
+            @include square(18px);
+        }
+    }
+}
+.nextSceneButton {
+    aspect-ratio: unset;
+    padding-inline: 26px;
+    border: 2px solid currentColor;
+}

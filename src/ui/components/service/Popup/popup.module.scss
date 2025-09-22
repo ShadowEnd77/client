@@ -1,0 +1,31 @@
+.popupOverlay {
+    @include flex-center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.popupContent {
+    @include flex-center;
+    column-gap: 10px;
+    background-color: var(--c-light);
+    color: var(--c-dark);
+    padding: 15px;
+    font-size: var(--fz-l);
+    font-weight: 500;
+    border-radius: var(--bradius-s);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition:
+        transform var(--trans-dur) ease-out,
+        opacity var(--trans-dur) ease-out;
+
+    &.isOpen {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

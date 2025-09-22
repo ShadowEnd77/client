@@ -1,0 +1,18 @@
+.element {
+    @include flex-center;
+
+    background-color: var(--c-light);
+    padding-inline: 30px;
+    color: var(--c-dark-alt);
+    height: 100%;
+    border-radius: calc(var(--bradius-s) - 2px);
+    font-size: var(--fz-l);
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
+
+}
+
+.dragable {
+    cursor: grab;
+}

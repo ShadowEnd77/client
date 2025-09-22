@@ -1,0 +1,47 @@
+import { useAppSelector } from '../../../../../store/hooks'
+import { ConditionalContainer } from '../../../../../ui/components/containers/ConditionalContainer'
+import { GameLayout } from '../../GameLayout'
+import { Navigate } from 'react-router'
+import { ROUTER } from '../../../../../router/consts'
+import { AudioProvider } from '../../../../audio/AudioProvider'
+import { LoaderWidget } from '../../../../../ui/components/service/LoaderWidget'
+
+export const GameContainer = () => {
+    const { survey_passed } = useAppSelector(state => state.survey)
+    const { passed_game, data, game_is_in_progress } = useAppSelector(state => state.game)
+
+    const isPassedGame = passed_game.id != 0
+    const gameIsLoaded = data.id != 0
+
+    const handleNoGameAccess = () => {
+        if (!survey_passed) {
+            return <Navigate to={ROUTER.PATHS.HOME} />
+        }
+
+        if (isPassedGame) {
+            return <Navigate to={ROUTER.PATHS.GAME_PASSED} />
+        }
+
+        if (!gameIsLoaded && gameIsLoaded) {
+            return <Navigate to={ROUTER.PATHS.GAME_INFO} />
+        }
+
+        return <LoaderWidget
+            widthLoader={50}
+            heightLoader={50}
+            text={"Загружаем игровые детали..."}
+        />
+    }
+
+    return (
+        <ConditionalContainer
+            condition={!isPassedGame && gameIsLoaded && survey_passed && game_is_in_progress}
+            trueElement={
+                <AudioProvider>
+                    <GameLayout />
+                </AudioProvider>
+            }
+            falseElement={handleNoGameAccess()}
+        />
+    )
+}

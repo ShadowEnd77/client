@@ -1,0 +1,55 @@
+.section {
+    max-width: calc(680px * var(--fz-scale)) ;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 30px;
+        margin-bottom: 30px;
+    }
+    .form {
+        .personFields,
+        .schoolFields {
+            gap: 15px;
+        }
+        .personFields {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .schoolFields {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    .fieldsGroupTitle {
+        @include fluid-text($h4-min, $h4-max);
+        margin-bottom: 0.8em;
+    }
+    .bottom {
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 20px;
+        .checkboxWrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            span {
+                font-size: var(--fz-s);
+            }
+        }
+        .checkbox {
+            @include flex-center();
+            border-radius: 3px;
+            height: 16px;
+            aspect-ratio: 1;
+            border: var(--border);
+            border-color: var(--c-dark-opacity);
+        }
+    }
+}
+.blue {
+    color: green;
+    background-color: blue;
+}
