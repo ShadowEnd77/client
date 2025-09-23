@@ -17,6 +17,7 @@ import i_6_a from '/game_1/6_a.jpg'
 import i_7_1 from '/game_1/7_1.jpg'
 import i_7_a from '/game_1/7_a.jpg'
 
+
 import a_1_1 from '/game_1/aud_1_1.mp3'
 import a_1_2 from '/game_1/aud_1_2.mp3'
 import a_2_2 from '/game_1/aud_2_2.mp3'
@@ -30,7 +31,7 @@ import a_7_1 from '/game_1/aud_7_1.mp3'
 
 
 export const mockGame: Game = {
-  id: 1,
+  id: 3,
   title: "Где я - там и выбор",
   cover_image: cover,
   description: "Интерактивное приключение с загадками и моральными выборами. Азоту предстоит сделать правильный",
@@ -41,23 +42,23 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-        score: 0,
-        achievement: null,
-        next_scene_id: 2,
-        dialogues: [
-          {
-            image: i_1_1,
-            voice: a_1_1,
-            name: "Учитель",
-            text: "Сегодня командная игра. Главное — уважение к друг другу и работа в команде"
-          },
-          {
-            image: i_1_2,
-            voice: a_1_2,
-            name: "Бульдозер",
-            text: "Давайте быстрее! Я предлагаю, чтобы я был капитаном. Мы точно победим. Кто со мной - не пожалееет!"
-          }
-        ]
+          score: 0,
+          achievement: null,
+          next_scene_id: 2,
+          dialogues: [
+            {
+              image: i_1_1,
+              voice: a_1_1,
+              name: "Учитель",
+              text: "Сегодня командная игра. Главное — уважение к друг другу и работа в команде"
+            },
+            {
+              image: i_1_2,
+              voice: a_1_2,
+              name: "Бульдозер",
+              text: "Давайте быстрее! Я предлагаю, чтобы я был капитаном. Мы точно победим. Кто со мной - не пожалееет!"
+            }
+          ]
       }
     },
     {

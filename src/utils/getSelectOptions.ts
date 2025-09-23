@@ -5,10 +5,8 @@ export const getSelectOptions = <ListElementType>(
     valueKey: keyof ListElementType,
     labelKey: keyof ListElementType
 ): SelectFieldOption[] => {
-    return items.map((element) => {
-        return {
-            value: parseInt(element[valueKey] as string),
-            label: String(element[labelKey])
-        }
-    })
+    return items.map((element) => ({
+        value: Number(element[valueKey]),
+        label: String(element[labelKey])
+    }))
 }

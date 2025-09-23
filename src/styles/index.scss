@@ -24,6 +24,28 @@
         var(--c-brand-first-lt) 100%
     );
 
+        /*Цветовые схемы*/
+    &.theme-1 { // Цветовая схема №1: Чёрный по белому
+      --c-light: #fff;
+      --c-dark-alt: #000;
+    }
+    &.theme-2 { // Цветовая схема №2: Белый по чёрному
+      --c-light: #000;
+      --c-dark-alt: #fff;
+    }
+    &.theme-3 { // Цветовая схема №3: Тёмно-синий по голубому
+      --c-light: #b6e0fe;
+      --c-dark-alt: #003087;
+    }
+    &.theme-4 { // Цветовая схема №4: Коричневый по бежевому
+      --c-light: #ffdaa2;
+      --c-dark-alt: #6b3e26;
+    }
+    &.theme-5 { // Цветовая схема №5: Зелёный по тёмно-коричневому
+      --c-light: #3e2723;
+      --c-dark-alt: #4fcd32;
+    }
+
     /*FONTS*/
     --fz-scale: 1;
     --fz-xs: calc(12px * var(--fz-scale));
@@ -64,8 +86,8 @@ body {
     font-size: var(--fz-m);
     color: var(--c-dark-alt);
     font-family: var(--font-base);
-    
     line-height: 1.4;
+
 }
 
 input,

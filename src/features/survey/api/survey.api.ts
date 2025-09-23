@@ -12,7 +12,8 @@ export class SurveyApi {
         return res
     }
     static async sendAnswers(req: SendSurveyReq) {
-        const res: AxiosResponse<SendSurveyRes> = await api.post(`${API_PATHS.SUBMIT_SURVEY}}`, req)
+        console.log('SurveyApi.sendAnswers payload:', req); // доб
+        const res: AxiosResponse<SendSurveyRes> = await api.post(`${API_PATHS.SUBMIT_SURVEY}`, req)
         if (!res.data) throw res;
 
         return res

@@ -3,11 +3,13 @@ export const addToStorage = (storageName: string, val: any) => {
 }
 
 export const getFromStorage = (storageName: string) => {
-    const stored = localStorage.getItem(storageName) || ''
-
-    if (!stored) {
-        return ''
+    const stored = localStorage.getItem(storageName);
+    if (!stored || stored === 'undefined' || stored === 'null') {
+        return '';
     }
-
-    return JSON.parse(stored)
+    try {
+        return JSON.parse(stored);
+    } catch {
+        return '';
+    }
 }

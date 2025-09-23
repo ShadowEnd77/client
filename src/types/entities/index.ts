@@ -5,14 +5,19 @@ export type User = {
     uuid: string
     first_name: string
     last_name: string
+    middle_name: string
     age: number
     gender: number
     city_id: number
     school: string
+    // school_id: number
 }
 
 // CITIES ENTITIES
 export type City = HasId & HasName
+
+// SCHOOLS ENTITIES
+export type School = HasId & HasName
 
 // SURVEYS ENTITIES
 export type Survey = {
@@ -22,6 +27,7 @@ export type Survey = {
 
 export type Question = {
     options: Answer[];
+    voice: string;
 } & HasId & HasText;
 
 export type Answer = {

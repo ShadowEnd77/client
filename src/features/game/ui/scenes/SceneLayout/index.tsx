@@ -54,20 +54,25 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
             return
         }
 
+        setCurrentDialogIndex(0)
         dispatch(setCurrentSceneById(scene.payload.next_scene_id!))
     }
 
     const renderScene = () => {
         if (currentSceneIsDialog && dialogues.length) {
             if (dialogues.length > 1) {
-                return dialogues.map((dialog, index) => (
-                    <GameSceneCard
-                        key={`${scene.id}_${index}`}
-                        scene_id={scene.id}
-                        dialog={dialog}
-                        delayShow={index == currentDialogIndex ? 0.5 : CONFIG.SCENE_DIALOG_CHANGE_DELAY / 1000}
-                    />
-                ))
+                return (
+                    <>
+                        {dialogues.slice(0, currentDialogIndex + 1).map((dialog, index) => (
+                            <GameSceneCard
+                                key={`${scene.id}_${index}`}
+                                scene_id={scene.id}
+                                dialog={dialog}
+                                delayShow={index === currentDialogIndex ? 0.5 : CONFIG.SCENE_DIALOG_CHANGE_DELAY / 1000}
+                            />
+                        ))}
+                    </>
+                )
             }
             if (dialogues.length == 1) {
                 return (
@@ -76,11 +81,13 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                             scene_id={scene.id}
                             dialog={dialogues[0]}
                         />
-                        <GameSceneCard
-                            scene_id={scene.id}
-                            achievement={scene.payload.achievement}
-                            delayShow={CONFIG.SCENE_DIALOG_CHANGE_DELAY / 1000}
-                        />
+                        {!isPlaying && (
+                            <GameSceneCard
+                                scene_id={scene.id}
+                                achievement={scene.payload.achievement}
+                                delayShow={CONFIG.SCENE_DIALOG_CHANGE_DELAY / 1000}
+                            />
+                        )}
                     </>
                 )
             }

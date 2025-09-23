@@ -5,5 +5,7 @@ export type GetCitiesReq = {
     limit: number
     query?: string
 }
-
-export type GetCitiesRes = City[]
+//export type GetCitiesRes = City[]
+export type GetCitiesRes = {
+    cities: City[]
+}

@@ -10,12 +10,16 @@ import { SurveyApi } from '../api/survey.api'
 export const getSurvey = createAsyncThunk(
     'survey/get',
     async () => {
-        return new Promise<Survey>((rs, _) => {
-            setTimeout(() => {
-                rs(mockSurveys.surveys[0])
-            }, CONFIG.MOCK_FETCH_DELAY)
-        })
-       
+        if (CONFIG.USE_MOCK_API) {
+            return new Promise<Survey>((rs) => {
+                setTimeout(() => {
+                    rs(mockSurveys.surveys[0])
+                }, CONFIG.MOCK_FETCH_DELAY)
+            })
+        } else {
+            const res = await SurveyApi.getAll({});
+            return res.data.surveys[0];
+        }
     },
 )
 

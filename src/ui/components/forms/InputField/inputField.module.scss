@@ -23,7 +23,7 @@
         }
 
         &:placeholder-shown::placeholder {
-            color: var(--c-dark-opacity);
+            color: color-mix(in srgb, var(--c-dark-alt) 70%, grey 30%);
         }
     }
 }

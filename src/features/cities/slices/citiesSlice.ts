@@ -33,7 +33,7 @@ export const getCities = createAsyncThunk(
         if (CONFIG.USE_MOCK_API) {
             return new Promise<GetCitiesRes>((rs, _) => {
                 setTimeout(() => {
-                    rs(req.skip == 0 ? [
+                    rs({cities: req.skip == 0 ? [
                         { id: 1, name: "Череповец" },
                         { id: 2, name: "Вологда" },
                         { id: 3, name: "Москва" },
@@ -44,7 +44,8 @@ export const getCities = createAsyncThunk(
                         { id: 8, name: "Нижний Новгород" },
                         { id: 9, name: "Краснодар" },
                         { id: 10, name: "Сочи" }
-                    ] : [])
+                    ] : []
+                })
                 }, CONFIG.MOCK_FETCH_DELAY)
             })
         }
@@ -53,8 +54,8 @@ export const getCities = createAsyncThunk(
         if (!res.data) {
             throw res;
         }
-
-        return res.data;
+        //return res.data;
+    return { cities: res.data.cities ?? res.data };
 
     },
 )
@@ -83,17 +84,18 @@ const citiesSlice = createSlice({
                 state.items = []
             })
             .addCase(getCities.fulfilled, (state, action: PayloadAction<GetCitiesRes>) => {
-                const isEmpty = action.payload.length == 0
+                const cities = action.payload.cities;
+                const isEmpty = cities.length === 0;
 
-                state.items = [...state.items, ...action.payload]
-                state.statuses.success = true
-                state.pagination.loading = false
-                state.statuses.loading = false
+                state.items = [...state.items, ...cities];
+                state.statuses.success = true;
+                state.pagination.loading = false;
+                state.statuses.loading = false;
 
-                state.pagination.is_out = isEmpty
+                state.pagination.is_out = isEmpty;
 
-                if (!isEmpty && (action.payload.length < state.pagination.limit)) {
-                    state.pagination.is_out = true
+                if (!isEmpty && (cities.length < state.pagination.limit)) {
+                    state.pagination.is_out = true;
                 }
 
                 if (!isEmpty) {

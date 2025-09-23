@@ -8,12 +8,14 @@ type UserSliceState = {
     register: ResponseStatus
 }
 
-const defaultUserData: User = {
+export const defaultUserData: User = {
     age: 0,
     first_name: "",
     last_name: "",
+    middle_name: "",
+    gender: 0,
     city_id: 0,
-    school: "",
+    school_id: 0,
     uuid: ""
 }
 

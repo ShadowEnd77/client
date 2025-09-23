@@ -3,17 +3,15 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'node:path'
 
 export default defineConfig({
-
   plugins: [react()],
-  // server: {
-  //   proxy: {
-  //     '/api': {
-  //       target: 'https://m8y20l-185-247-185-62.ru.tuna.am',
-  //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/api/, ''),
-  //     },
-  //   },
-  // },
+  server: {
+    proxy: {
+      '/content': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {

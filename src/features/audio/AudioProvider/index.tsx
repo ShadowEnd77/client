@@ -79,7 +79,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
     initialTracks = {},
 }) => {
     const audioInstances = useRef<Record<string, AudioInstance>>({});
-    const { audio_muted } = useAppSelector(state => state.settings)
+    // --- ИЗМЕНЕНИЕ 1: Получаем оба состояния ---
+    const { audio_muted, music_muted } = useAppSelector(state => state.settings)
 
     const [_, forceUpdate] = useState({}); // Для принудительного ререндера
 
@@ -91,7 +92,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
     };
 
     const loadTrack = (id: string, audioPath: string, loop?: boolean): AudioInstance => {
-        // Если инстанс уже существует, очищаем его
         if (audioInstances.current[id]) {
             audioInstances.current[id].audio.pause();
             audioInstances.current[id].audio.removeEventListener('error', (e) => handleError(id, e));
@@ -99,8 +99,13 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
 
         const audio = new Audio(audioPath);
         audio.loop = loop!
-        audio.volume = audioInstances.current[id]?.volume || 0.5;
+        
+        // Определяем начальную громкость в зависимости от типа трека
+        const initialVolume = id === 'bg'
+          ? (music_muted ? 0 : CONFIG.AUDIO_BACKGROUND_VOLUME)
+          : (audio_muted ? 0 : CONFIG.AUDIO_DIALOG_VOLUME);
 
+        audio.volume = audioInstances.current[id]?.volume || initialVolume;
         audio.addEventListener('error', (e) => handleError(id, e));
 
         const newAudioInstance = {
@@ -109,7 +114,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             ended: audio.ended,
             duration: audio.duration,
             isPlaying: false,
-            volume: !audio_muted ? audioInstances.current[id]?.volume || 0.5 : 0,
+            volume: audio.volume,
             error: null,
         }
 
@@ -117,17 +122,13 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             ...audioInstances.current,
             [id]: newAudioInstance
         };
-        //console.log("загружен ", id);
 
         forceUpdate({});
-
         return newAudioInstance
     };
 
     const play = (id: string) => {
         const instance = audioInstances.current[id];
-        console.log(audioInstances.current);
-
         if (!instance) {
             console.error(`Audio instance with id ${id} not found`);
             return;
@@ -143,7 +144,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
                 instance.isPlaying = false;
                 forceUpdate({});
             });
-
     };
 
     const pause = (id: string) => {
@@ -173,7 +173,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             forceUpdate({});
         }
     };
-
+    
     const onAudioEnd = (id: string, callback: () => void) => {
         const instance = audioInstances.current[id];
         if (instance) {
@@ -181,6 +181,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
             return () => instance.audio.removeEventListener('ended', callback);
         }
     };
+
 
     const getAudioState = (id: string) => {
         const instance = audioInstances.current[id];
@@ -194,7 +195,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
                 currentTrack: null,
             };
         }
-
         return {
             isPlaying: instance.isPlaying,
             error: instance.error,
@@ -209,26 +209,33 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({
         return { ...audioInstances.current };
     };
 
+    // --- ИЗМЕНЕНИЕ 2: Этот useEffect теперь отвечает ТОЛЬКО за озвучку ---
     useEffect(() => {
         if (audioInstances.current) {
             Object.entries(audioInstances.current).forEach(([id]) => {
-                if (id == "bg") {
-                    setVolume(id, audio_muted ? 0 : CONFIG.AUDIO_BACKGROUND_VOLUME)
-                    return
+                // Игнорируем фоновую музыку
+                if (id !== "bg") {
+                    setVolume(id, audio_muted ? 0 : CONFIG.AUDIO_DIALOG_VOLUME);
                 }
-                setVolume(id, audio_muted ? 0 : CONFIG.AUDIO_DIALOG_VOLUME);
             });
         }
+    }, [audio_muted]); // Зависит только от audio_muted
 
-    }, [audio_muted])
-    // Инициализация
+    // --- ИЗМЕНЕНИЕ 3: Этот новый useEffect отвечает ТОЛЬКО за музыку ---
     useEffect(() => {
-        // Загрузка начальных треков
-        Object.entries(initialTracks).forEach(([id, { path, volume = CONFIG.AUDIO_DIALOG_VOLUME }]) => {
-            loadTrack(id, path);
-            setVolume(id, volume);
-        });
+        // Проверяем, существует ли инстанс фоновой музыки
+        if (audioInstances.current['bg']) {
+             // Используем громкость из конфига или значение по умолчанию из GameLayout (0.3)
+            const musicVolume = CONFIG.AUDIO_BACKGROUND_VOLUME || 0.3;
+            setVolume('bg', music_muted ? 0 : musicVolume);
+        }
+    }, [music_muted]); // Зависит только от music_muted
 
+    useEffect(() => {
+        Object.entries(initialTracks).forEach(([id, { path, volume }]) => {
+            loadTrack(id, path);
+            if(volume) setVolume(id, volume);
+        });
         return deleteInstances
     }, []);
 

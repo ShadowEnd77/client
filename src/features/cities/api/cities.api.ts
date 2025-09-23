@@ -6,7 +6,7 @@ import { GetCitiesReq, GetCitiesRes } from "../../../types/api/cities.api.types"
 
 export class CitiesApi {
     static async getAll(req: GetCitiesReq) {
-        const res: AxiosResponse<GetCitiesRes> = await api.get(`${API_PATHS.GET_GAMES}${convertToQueryParams(req)}`)
+        const res: AxiosResponse<GetCitiesRes> = await api.get(`${API_PATHS.GET_CITIES}${convertToQueryParams(req)}`)
 
         if (!res.data) throw res;
 
