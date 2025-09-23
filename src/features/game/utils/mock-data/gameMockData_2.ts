@@ -1,5 +1,5 @@
 import { Game } from "../../../../types/entities";
-import cover from '../../../../assets/game_2/cover_1.png';
+//import cover from '../../../../assets/game_2/1_1.png';
 import i_1_1 from '/game_2/1_1.jpg';
 import i_1_2 from '/game_2/1_2.jpg';
 import i_2_1 from '/game_2/2_1.jpg';
@@ -10,7 +10,7 @@ import i_5_1 from '/game_2/5_1.jpg';
 import i_5_2 from '/game_2/5_2.jpg';
 import i_6_1 from '/game_2/6_1.jpg';
 import i_6_2 from '/game_2/6_2.jpg';
-import i_6_a from '/game_2/6_a.jpg';
+import i_6_a from '/game_2/6_2.jpg'; //НАЙТИ ФАЙЛ 6_А !!!!!!!!!!
 import i_7_1 from '/game_2/7_1.jpg';
 import i_7_2 from '/game_2/7_2.jpg';
 import i_7_a from '/game_2/7_a.jpg';
@@ -23,23 +23,31 @@ import i_10_2 from '/game_2/10_2.jpg';
 import i_11_1 from '/game_2/11_1.jpg';
 import i_11_a from '/game_2/11_a.jpg';
 
-// import a_1_1 from '/game_2/aud_1_1.mp3'
-// import a_1_2 from '/game_2/aud_1_2.mp3'
-// import a_2_2 from '/game_2/aud_2_2.mp3'
-// import a_4_1 from '/game_2/aud_4_1.mp3'
-// import a_4_2 from '/game_2/aud_4_2.mp3'
-// import a_5_1 from '/game_2/aud_5_1.mp3'
-// import a_5_2 from '/game_2/aud_5_2.mp3'
-// import a_6_1 from '/game_2/aud_6_1.mp3'
-// import a_6_2 from '/game_2/aud_6_2.mp3'
-// import a_7_1 from '/game_2/aud_7_1.mp3'
+import a_1_1 from '/game_2/aud_1_1.mp3'
+import a_1_2 from '/game_2/aud_1_2.mp3'
+import a_1_3 from '/game_2/aud_1_3.mp3'
+import a_1_4 from '/game_2/aud_1_4.mp3'
+import a_1_5 from '/game_2/aud_1_5.mp3'
+import a_2_1 from '/game_2/aud_2_1.mp3'
+import a_2_2 from '/game_2/aud_2_2.mp3'
+import a_2_3 from '/game_2/aud_2_3.mp3'
+import a_2_4 from '/game_2/aud_2_4.mp3'
+import a_3_1 from '/game_2/aud_3_1.mp3'
+import a_3_2 from '/game_2/aud_3_2.mp3'
+import a_4_1 from '/game_2/aud_4_1.mp3'
+import a_4_2 from '/game_2/aud_4_2.mp3'
+import a_4_3 from '/game_2/aud_4_3.mp3'
+import a_5_1 from '/game_2/aud_5_1.mp3'
+import a_5_2 from '/game_2/aud_5_2.mp3'
+import a_5_3 from '/game_2/aud_5_3.mp3'
+import a_end from '/game_2/aud_end.mp3'
 
 
-export const mockGame_2: Game = {
+export const mockGame: Game = {
   id: 2,
-  title: "Высоко — не значит круто",
-  cover_image: cover,
-  description: "Интерактивное приключение с загадками и моральными выборами. Азоту предстоит сделать правильный",
+  title: "Не вестись — это выбор",
+  cover_image: i_1_1,
+  description: "Прямо по сути. Дети это поймут, а взрослые — одобрят",
   duration: 3,
   scenes: [
     {
@@ -55,13 +63,13 @@ export const mockGame_2: Game = {
               image: i_1_1,
               voice: a_1_1,
               name: "",
-              text: "Азот приходит домой."
+              text: "Азот приходит домой. На экране телефона — сообщения в школьном чате."
             },
             {
               image: i_1_2,
               voice: a_1_2,
               name: "Школьный чат 5Б",
-              text: "— Ха-ха, Азот опять как бот ответил у доски!\n— Сними, как он читает — и выложим!\n— Он даже не обидится, он всё схавает."
+              text: "— Ха-ха, Азот опять как бот ответил у доски!\n— Снимем, как он читает — и выложим!\n— Он даже не обидится, он всё схавает."
             }
           ]
       }
@@ -77,13 +85,13 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_2_1,
-            voice: "",
+            voice: a_1_3,
             name: "",
             text: "Азот читает. На экране появляется новое сообщение."
           },
           {
             image: i_2_2,
-            voice: a_2_2,
+            voice: a_1_4,
             name: "",
             text: "— Азот, слабо ответить им что-нибудь?"
           }
@@ -101,9 +109,9 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_3_1,
-            voice: "",
-            name: "",
-            text: "Азот недоумевает — он не понимает, чем заслужил такое отношение."
+            voice: a_1_5,
+            name: "Мысли Азота",
+            text: "Они издеваются? Или просто шутят?.. Почему никто не останавливает их?"
           }
         ]
       }
@@ -156,13 +164,13 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_5_1,
-            voice: a_5_1,
+            voice: a_2_1,
             name: "",
             text: "Азот пишет грубое сообщение."
           },
           {
             image: i_5_2,
-            voice: a_5_2,
+            voice: a_2_2,
             name: "",
             text: "Через секунду в ответ — шквал гифок и скринов. Его слова перекручивают."
           }
@@ -183,13 +191,13 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_6_1,
-            voice: a_6_1,
-            name: "",
-            text: "Азот спрашивает себя, стало ли ему легче, ведь именно этого от него и ждали."
+            voice: a_2_3,
+            name: "Азот",
+            text: "Стало ли мне легче? Они ведь этого и ждали..."
           },
           {
             image: i_6_2,
-            voice: a_6_2,
+            voice: a_2_4,
             name: "",
             text: "Он удаляет сообщение, чувствует тревогу и злость."
           }
@@ -210,13 +218,13 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_7_1,
-            voice: a_7_1,
+            voice: a_3_1,
             name: "",
             text: "Азот ничего не отвечает. Смотрит на экран, глубоко дышит."
           },
           {
             image: i_7_2,
-            voice: a_7_2,
+            voice: a_3_2, 
             name: "Одноклассник",
             text: "— Азот, молодец, что не вёлся. Я потом им написал, чтобы не перегибали."
           }
@@ -234,13 +242,13 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_8_1,
-            voice: a_8_1,
+            voice: a_4_1,
             name: "",
             text: "Азот публикует оскорбительную картинку."
           },
           {
             image: i_8_2,
-            voice: a_8_2,
+            voice: a_4_2,
             name: "Чат",
             text: "— О, он с нами теперь! Лови скрин!"
           }
@@ -261,9 +269,9 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_9_1,
-            voice: a_9_1,
+            voice: a_4_3,
             name: "",
-            text: "Азот думает, не поняли ли они, или всё же провоцируют."
+            text: "Они не поняли. Или поняли, но специально провоцируют?"
           }
         ]
       }
@@ -279,15 +287,15 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_10_1,
-            voice: a_10_1,
-            name: "",
+            voice: a_5_1,
+            name: "Азот",
             text: "— Я не обязан читать это. Я выхожу."
           },
           {
             image: i_10_2,
-            voice: a_10_2,
-            name: "Чат",
-            text: "Он покидает чат. Через 10 минут — сообщение от одноклассницы."
+            voice: a_5_2,
+            name: "",
+            text: "Азот покидает чат. Через 10 минут — сообщение от одноклассницы."
           }
         ]
       }
@@ -306,7 +314,7 @@ export const mockGame_2: Game = {
         dialogues: [
           {
             image: i_11_1,
-            voice: a_11_1,
+            voice: a_5_3,
             name: "Одноклассница",
             text: "— Азот, ты всё правильно сделал. Если что — я с тобой. "
           }
@@ -314,23 +322,23 @@ export const mockGame_2: Game = {
       }
     },
     // В сценарии другой тип мини-игры
-    // {
-    //   id: 12,
-    //   order: 1,
-    //   type: "match",
-    //   payload: {
-    //     next_scene_id: 13,
-    //     achievement: null,
-    //     score: 1,
-    //     pairs: [
-    //       { k: "Мне неприятно — я ухожу" },
-    //       { k: "Вы глупые"},
-    //       { k: "Я выбираю не участвовать в этом" },
-    //       { k: "Сам ты бот!" },
-    //       { k: "Я не с вами. Мне важнее моё настроение" }
-    //     ]
-    //   }
-    // },
+    {
+      id: 12,
+      order: 1,
+      type: "match",
+      payload: {
+        next_scene_id: 13,
+        achievement: null,
+        score: 1,
+        pairs: [
+          { k: "Мне неприятно — я ухожу", v: "Мир" },
+          { k: "Вы глупые", v: "Конфликт" },
+          { k: "Я выбираю не участвовать в этом", v: "Мир" },
+          { k: "Сам ты бот!", v: "Конфликт" },
+          { k: "Я не с вами. Мне важнее моё настроение", v: "Мир" }
+        ]
+      }
+    },
     {
       id: 13,
       order: 1,
@@ -339,15 +347,15 @@ export const mockGame_2: Game = {
         score: 0,
         achievement: {
           title: "Ты выбрал себя, а не конфликт",
-          cover_image:
+          cover_image: ''
         },
         next_scene_id: null,
         dialogues: [
           {
-            image: ,
-            voice: ,
+            image: i_11_a,
+            voice: a_end,
             name: "Азот",
-            text: "— Раньше я думал, что надо огрызаться или терпеть. А теперь знаю: я могу просто выйти. Я могу выбрать. И быть сильным — значит не вестись"
+            text: "— Раньше я думал, что надо огрызаться или терпеть. А теперь знаю: я могу просто выйти. Я могу выбрать. И быть сильным — значит не вестись."
           }
         ]
       }

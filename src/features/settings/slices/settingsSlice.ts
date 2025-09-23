@@ -11,7 +11,7 @@ type SettingsSliceState = {
 
 const initialState: SettingsSliceState = {
     full_screen_mode: false,
-    audio_muted: false,
+    audio_muted: true,
     visual_impaired_mode: false,
     music_muted: false,
     font_size: 'small',

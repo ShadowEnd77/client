@@ -3,6 +3,7 @@ import { ROUTER } from '../../../../../router/consts'
 import { useAppSelector } from '../../../../../store/hooks'
 import { ConditionalContainer } from '../../../../../ui/components/containers/ConditionalContainer'
 import { GamePassed } from '../../GamePassed'
+import { AudioProvider } from '../../../../audio/AudioProvider'
 
 export const GamePassedContainer = () => {
     const { passed_game} = useAppSelector(state => state.game)
@@ -12,7 +13,11 @@ export const GamePassedContainer = () => {
     return (
         <ConditionalContainer
             condition={isPassedGame}
-            trueElement={<GamePassed />}
+            trueElement={
+                <AudioProvider>
+                    <GamePassed />
+                </AudioProvider>
+            }
             falseElement={<Navigate to={ROUTER.PATHS.GAME_PROGRESS} />}
         />
     )

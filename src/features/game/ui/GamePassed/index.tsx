@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
+import { useAudio } from '../../../audio/AudioProvider';
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer';
 import styles from './gamePassed.module.scss';
+import game_end from '../../../../assets/audio/game_end.mp3'
 import { logoIcon, successIcon } from '../../../../ui/icons';
 import { Button } from '../../../../ui/components/buttons/Button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
@@ -9,6 +11,8 @@ import { storeToken } from '../../../user/utils/storeToken';
 import { initialUserState } from '../../../user/slices/userState';
 
 export const GamePassed = () => {
+    const { loadTrack, play, pause } = useAudio();
+    const audio_muted = useAppSelector(state => state.settings.audio_muted);
     const dispatch = useAppDispatch()
     const {
         id,
@@ -24,6 +28,19 @@ export const GamePassed = () => {
     useEffect(() => {
         //alert(id)
     }, [])
+
+    useEffect(() => {
+        const audioId = 'game_end';
+        loadTrack(audioId, game_end);
+        if (!audio_muted) {
+            play(audioId);
+        } else {
+            pause(audioId);
+        }
+        return () => {
+            pause(audioId);
+        }
+    }, [audio_muted]);
 
     const handleLogout = () => {
         addToStorage('user_data', initialUserState.data);
