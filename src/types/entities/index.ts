@@ -27,6 +27,7 @@ export type Survey = {
 
 export type Question = {
     options: Answer[];
+    voice: string;
 } & HasId & HasText;
 
 export type Answer = {

@@ -1,4 +1,5 @@
-import { SurveyScreen } from '../../ui/SurveyScreen'
+import { SurveyInfoScreen } from '../../ui/SurveyInfoScreen'
+import { AudioProvider } from '../../../audio/AudioProvider'
 import { Navigate } from 'react-router'
 import { ROUTER } from '../../../../router/consts'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
@@ -36,7 +37,11 @@ export const SurveyContainer = () => {
     return (
         <ConditionalContainer
             condition={surveyIsLoaded && !gameIsLoaded}
-            trueElement={<SurveyScreen />}
+            trueElement={
+                <AudioProvider>
+                    <SurveyInfoScreen />
+                </AudioProvider>
+            }
             falseElement={handleNoSurveyAccess()}
         />
     )

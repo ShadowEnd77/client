@@ -48,7 +48,7 @@ export const GameLayout = () => {
                 </AnimatePresence>
             }
             <aside className={styles.gameSettingsBar}>
-                {/* --- Первая кнопка: Управление общими звуками --- */}
+                {/* --- Первая кнопка: Управление общими звуками ---
                 <ControlButton onClick={() => dispatch(toggleAudioMuted())}>
                     {
                         audio_muted ?
@@ -66,7 +66,7 @@ export const GameLayout = () => {
                                 <path d="M18 9C18 9 18.5 9.9 18.5 12C18.5 14.1 18 15 18 15" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" />
                             </svg>
                     }
-                </ControlButton>
+                </ControlButton> */}
 
                 {/* --- Вторая кнопка: Управление музыкой --- */}
                 <ControlButton onClick={() => dispatch(toggleMusicMuted())}>

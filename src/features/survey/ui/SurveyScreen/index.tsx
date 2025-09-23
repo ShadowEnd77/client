@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useAudio } from '../../../audio/AudioProvider'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { Answer } from '../../../../types/entities'
 import { Button } from '../../../../ui/components/buttons/Button'
@@ -7,6 +8,7 @@ import { logoIcon, smileIcon } from '../../../../ui/icons'
 import { answerTheQuestion, sendSurvey, resetSendingSurveyStatus } from '../../slices/surveySlice'
 import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
+import end from '../../../../../public/survey/end.mp3'
 import { motion } from "motion/react"
 import { getGameInfoById } from '../../../game/slices/game-info/gameInfoSlice'
 import { useNavigate } from 'react-router'
@@ -16,6 +18,8 @@ export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [buttonsDisabled, setButtonsDisabled] = useState(false)
+    const { loadTrack, play, pause } = useAudio();
+    const audio_muted = useAppSelector(state => state.settings.audio_muted)
 
     const {
         answers_data,
@@ -27,9 +31,41 @@ export const SurveyScreen = () => {
         id,
         sending_statuses
     } = useAppSelector(state => state.survey)
-    const user_id = useAppSelector(state => state.user.data.uuid) // доб
+    const user_id = useAppSelector(state => state.user.data.uuid)
 
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
+    // Воспроизведение озвучки вопроса
+    useEffect(() => {
+        if (!currentQuestion || !currentQuestion.voice) return;
+        const audioId = `q_${currentQuestion.id}`;
+        loadTrack(audioId, currentQuestion.voice);
+        if (!audio_muted) {
+            play(audioId);
+        } else {
+            pause(audioId);
+        }
+        return () => {
+            pause(audioId);
+        }
+    }, [currentQuestion?.voice, audio_muted, currentQuestion?.id])
+
+    // Воспроизведение озвучки завершения опроса
+    useEffect(() => {
+        const endAudioId = 'survey_end';
+        if (survey_passed) {
+            loadTrack(endAudioId, end);
+            if (!audio_muted) {
+                play(endAudioId);
+            } else {
+                pause(endAudioId);
+            }
+        } else {
+            pause(endAudioId);
+        }
+        return () => {
+            pause(endAudioId);
+        }
+    }, [survey_passed, audio_muted]);
 
     // Automatically lock the buttons for each new question
     useEffect(() => {

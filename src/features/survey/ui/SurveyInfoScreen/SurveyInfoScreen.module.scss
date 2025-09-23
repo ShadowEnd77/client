@@ -1,0 +1,55 @@
+.section {
+    max-width: 650px;
+    min-height: 600px;
+    padding: 0;
+    display: grid;
+    border: 4px solid var(--c-light);
+
+    .surveyInfo {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .surveyInfoText {
+            flex-grow: 1;
+        }
+        .surveyInfoCaption {
+            @include fluid-text($h1-min, $h1-max);
+            font-weight: 700;
+        }
+        .surveyInfoHeader {
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+            border-bottom: var(--border);
+            border-color: var(--c-gray);
+        }
+        .surveyInfoTitle {
+            @include fluid-text($h2-min, $h2-max);
+            margin-bottom: 20px;
+        }
+        .surveyInfoDuration {
+            display: flex;
+            font-size: var(--fz-s);
+            column-gap: 5px;
+            color: var(--c-gray-dark);
+            font-weight: 500;
+        }
+        .surveyInfoFooter {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            row-gap: 8px;
+
+            .surveyInfoBottom {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                column-gap: 20px;
+
+                .surveyInfoButton {
+                    width: 330px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+.button { 
+  @include square(70px); 
+  @include flex-center; 
+  z-index: 100; 
+  right: 100px; 
+  box-shadow: 0 0 18px var(--c-light-hover);
+  border: 3px solid var(--c-light);
+  top: 20px; 
+  max-width: fit-content; 
+  position: absolute; 
+  color: var(--с-dark-alt);
+  background-color: var(--c-light); 
+
+  svg { 
+    @include square(60px);
+  } 
+}

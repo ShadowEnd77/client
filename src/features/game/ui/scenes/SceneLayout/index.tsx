@@ -38,7 +38,6 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const handleNextScene = () => {
         // Если есть активное аудио - останавливаем
         dispatch(addToVisitedScenes(scene.id))
-        setCurrentDialogIndex(0)
 
         if (currentVoiceId) {
             pause(currentVoiceId)
@@ -55,6 +54,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
             return
         }
 
+        setCurrentDialogIndex(0)
         dispatch(setCurrentSceneById(scene.payload.next_scene_id!))
     }
 

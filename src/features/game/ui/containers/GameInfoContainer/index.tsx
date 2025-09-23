@@ -4,6 +4,7 @@ import { useAppSelector } from '../../../../../store/hooks'
 import { ConditionalContainer } from '../../../../../ui/components/containers/ConditionalContainer'
 import { LoaderWidget } from '../../../../../ui/components/service/LoaderWidget'
 import { GameInfoScreen } from '../../GameInfoScreen'
+import { AudioProvider } from '../../../../audio/AudioProvider'
 
 export const GameInfoContainer = () => {
     const { survey_passed } = useAppSelector(state => state.survey)
@@ -30,7 +31,11 @@ export const GameInfoContainer = () => {
     return (
         <ConditionalContainer
             condition={gameIsLoaded && survey_passed && !game_is_in_progress}
-            trueElement={<GameInfoScreen />}
+            trueElement={
+                <AudioProvider>
+                    <GameInfoScreen />
+                </AudioProvider>
+            }
             falseElement={handleNoGameInfoAccess()}
         />
     )
