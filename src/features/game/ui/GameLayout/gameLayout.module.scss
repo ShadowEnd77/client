@@ -17,7 +17,9 @@
             width: 22px;
         }
         svg path {
-            stroke: white;
+            stroke: currentColor;
+            //stroke: white;
         }
     }
+    
 }

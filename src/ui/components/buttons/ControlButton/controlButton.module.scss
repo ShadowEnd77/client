@@ -1,7 +1,12 @@
 .controlButton {
     @include flex-center;
     @include square(50px);
-
+    color: var(--c-light);
+    background-color: var(--c-accent-alt);
     border: 2px solid currentColor;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 4px rgba(27, 14, 14, 0.3);
+    svg { 
+    @include square(26px);
+    fill: --c-light;
+  } 
 }

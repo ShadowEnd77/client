@@ -69,7 +69,8 @@ export const GameLayout = () => {
                 </ControlButton> */}
 
                 {/* --- Вторая кнопка: Управление музыкой --- */}
-                <ControlButton onClick={() => dispatch(toggleMusicMuted())}>
+                <ControlButton 
+                onClick={() => dispatch(toggleMusicMuted())}>
                     {
                         music_muted ?
                         // Иконка выключенной музыки
