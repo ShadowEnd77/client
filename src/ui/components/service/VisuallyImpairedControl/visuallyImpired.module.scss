@@ -27,16 +27,16 @@
 }
 
 .button {
-  @include square(70px);
+  @include square(50px);
   @include flex-center;
-  box-shadow: 0 0 18px var(--c-light-hover);
-  border: 3px solid var(--c-light);
+  //box-shadow: 0 0 18px var(--c-light-hover);
+  border: 2px solid var(--c-light);
   max-width: fit-content;
-  color: var(--c-dark-alt);
-  background-color: var(--c-light);
+  color: var(--c-light);
+  background-color: var(--c-accent-alt);
 
   svg {
-    @include square(70px);
+    @include square(50px);
   }
 }
 

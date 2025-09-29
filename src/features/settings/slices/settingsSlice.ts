@@ -7,6 +7,7 @@ type SettingsSliceState = {
     music_muted: boolean;
     font_size: 'small' | 'medium' | 'large';
     theme_mode: 'Цветовая схема №1' | 'Цветовая схема №2' | 'Цветовая схема №3' | 'Цветовая схема №4' | 'Цветовая схема №5';
+    visual_impaired_panel_open: boolean;
 }
 
 const initialState: SettingsSliceState = {
@@ -15,7 +16,8 @@ const initialState: SettingsSliceState = {
     visual_impaired_mode: false,
     music_muted: false,
     font_size: 'small',
-    theme_mode: 'Цветовая схема №1'
+    theme_mode: 'Цветовая схема №1',
+    visual_impaired_panel_open: false 
 };
 
 const settingsSlice = createSlice({
@@ -33,6 +35,16 @@ const settingsSlice = createSlice({
         },
         toggleVisualImpairedMode: (state) => {
             state.visual_impaired_mode = !state.visual_impaired_mode;
+        },
+         toggleVisualImpairedPanel: (state) => {
+            state.visual_impaired_panel_open = !state.visual_impaired_panel_open;
+        },
+        
+        closeVisualImpairedPanel: (state) => {
+            state.visual_impaired_panel_open = false;
+        },
+        openVisualImpairedPanel: (state) => {
+            state.visual_impaired_panel_open = true;
         },
         setFullScreenMode: (state, action: PayloadAction<boolean>) => {
             state.full_screen_mode = action.payload;
@@ -58,6 +70,8 @@ export const {
     toggleAudioMuted,
     toggleMusicMuted,
     toggleVisualImpairedMode,
+    closeVisualImpairedPanel,
+    openVisualImpairedPanel,
     setFullScreenMode,
     setAudioMuted,
     setVisualImpairedMode,

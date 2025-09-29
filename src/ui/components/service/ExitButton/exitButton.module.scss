@@ -1,17 +1,17 @@
 .button { 
-  @include square(70px); 
+  @include square(50px); 
   @include flex-center; 
   z-index: 100; 
-  left: 20px; 
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); 
+  left: 15px; 
+  //box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); 
   top: 20px; 
   max-width: fit-content; 
   position: absolute; 
-  color: var(--с-dark-alt);
-  background-color: var(--c-light); 
+  color: var(--c-light);
+  background-color: var(--c-accent-alt); 
   border: 2px solid var(--c-light);
 
   svg { 
-    @include square(55px);
+    @include square(30px);
   } 
 }
