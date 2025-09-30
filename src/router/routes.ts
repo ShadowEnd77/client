@@ -5,6 +5,7 @@ import { GameContainer } from "../features/game/ui/containers/GameContainer";
 import { GamePassedContainer } from "../features/game/ui/containers/GamePassedContainer";
 import { GameInfoContainer } from "../features/game/ui/containers/GameInfoContainer";
 import { SurveyContainer } from "../features/survey/containers/SurveyContainer";
+import { EndSurveyContainer } from "../features/survey/containers/EndSurveyContainer";
 import { GameAudioContainer } from "../features/game/ui/containers/GameAudioContainer";
 
 export const routes: Record<AppRouteType, AppRoute[]> = {
@@ -22,10 +23,20 @@ export const routes: Record<AppRouteType, AppRoute[]> = {
             Component: GameAudioContainer,
         },
         {
+            path: ROUTER.PATHS.END_SURVEY,
+            Component: EndSurveyContainer,
+        },
+        {
             path: ROUTER.PATHS.GAME_PASSED,
             Component: GamePassedContainer,
         }
-    ],
+
+        // {
+        //     path: ROUTER.PATHS.HOME,
+        //     Component: SurveyContainer,
+        // },
+        
+    ],  
     NON_AUTH: [
         {
             path: ROUTER.PATHS.SIGNUP,
