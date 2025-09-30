@@ -3,6 +3,8 @@ import styles from './gameLayout.module.scss'
 import { ControlButton } from '../../../../ui/components/buttons/ControlButton'
 // Предполагается, что эти иконки используются в других местах или будут использоваться
 import { fullScreenDisableIcon, fullScreenEnableIcon, volumeDisableIcon, volumeEnableIcon } from '../../../../ui/icons'
+// Предполагается, что эти иконки используются в других местах или будут использоваться
+import { fullScreenDisableIcon, fullScreenEnableIcon, volumeDisableIcon, volumeEnableIcon } from '../../../../ui/icons'
 import { SceneLayout } from '../scenes/SceneLayout'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { finishGame, setCurrentSceneById } from '../../slices/game-info/gameInfoSlice'
@@ -12,10 +14,14 @@ import { useAudio } from '../../../audio/AudioProvider'
 import bgAudio from '../../../../assets/audio/bg.mp3';
 // Добавляем toggleMusicMuted в импорт
 import { toggleAudioMuted, toggleFullScreenMode, toggleMusicMuted } from '../../../settings/slices/settingsSlice'
+// Добавляем toggleMusicMuted в импорт
+import { toggleAudioMuted, toggleFullScreenMode, toggleMusicMuted } from '../../../settings/slices/settingsSlice'
 
 export const GameLayout = () => {
     const dispatch = useAppDispatch()
 
+    // Получаем full_screen_mode и music_muted из состояния
+    const { full_screen_mode, audio_muted, music_muted } = useAppSelector(state => state.settings)
     // Получаем full_screen_mode и music_muted из состояния
     const { full_screen_mode, audio_muted, music_muted } = useAppSelector(state => state.settings)
     const { current_scene, modal_achievement } = useAppSelector(state => state.game)
@@ -32,11 +38,16 @@ export const GameLayout = () => {
     }
 
     // Обновляем useEffect для управления громкостью музыки через music_muted
+    // Обновляем useEffect для управления громкостью музыки через music_muted
     useEffect(() => {
         const bgTrack = loadTrack('bg', bgAudio, true)
         // Громкость фоновой музыки теперь зависит от music_muted
         setVolume(bgTrack.id, music_muted ? 0 : 0.3)
+        // Громкость фоновой музыки теперь зависит от music_muted
+        setVolume(bgTrack.id, music_muted ? 0 : 0.3)
         play(bgTrack.id)
+        // Добавляем music_muted в массив зависимостей, чтобы громкость менялась при клике
+    }, [music_muted])
         // Добавляем music_muted в массив зависимостей, чтобы громкость менялась при клике
     }, [music_muted])
 
@@ -67,6 +78,8 @@ export const GameLayout = () => {
                       
                     }
                 </ControlButton>
+
+                {/* Закомментированный блок для полноэкранного режима */}
 
                 {/* Закомментированный блок для полноэкранного режима */}
                 {/* <ControlButton onClick={() => dispatch(toggleFullScreenMode())}>
