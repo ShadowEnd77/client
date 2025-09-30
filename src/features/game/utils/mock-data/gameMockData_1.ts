@@ -31,7 +31,7 @@ import a_7_1 from '/game_1/aud_7_1.mp3'
 
 
 export const mockGame: Game = {
-  id: 3,
+  id: 1,
   title: "Где я - там и выбор",
   cover_image: cover,
   description: "Интерактивное приключение с загадками и моральными выборами. Азоту предстоит сделать правильный",

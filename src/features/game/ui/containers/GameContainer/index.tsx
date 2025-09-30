@@ -19,7 +19,7 @@ export const GameContainer = () => {
         }
 
         if (isPassedGame) {
-            return <Navigate to={ROUTER.PATHS.GAME_PASSED} />
+            return <Navigate to={ROUTER.PATHS.GAME_PASSED} /> //END_SURVEY, was GAME_PASSED
         }
 
         if (!gameIsLoaded && gameIsLoaded) {

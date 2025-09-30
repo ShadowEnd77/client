@@ -8,6 +8,7 @@ type SettingsSliceState = {
     font_size: 'small' | 'medium' | 'large';
     theme_mode: 'Цветовая схема №1' | 'Цветовая схема №2' | 'Цветовая схема №3' | 'Цветовая схема №4' | 'Цветовая схема №5';
     visual_impaired_panel_open: boolean;
+    isEndSurvey: boolean;
 }
 
 const initialState: SettingsSliceState = {
@@ -17,7 +18,8 @@ const initialState: SettingsSliceState = {
     music_muted: false,
     font_size: 'small',
     theme_mode: 'Цветовая схема №1',
-    visual_impaired_panel_open: false 
+    visual_impaired_panel_open: false,
+    isEndSurvey: false
 };
 
 const settingsSlice = createSlice({
@@ -61,6 +63,9 @@ const settingsSlice = createSlice({
         setThemeMode: (state, action: PayloadAction<'Цветовая схема №1' | 'Цветовая схема №2' | 'Цветовая схема №3' | 'Цветовая схема №4' | 'Цветовая схема №5'>) => {
             state.theme_mode = action.payload;
         },
+        setSurvey: (state) => {
+            state.isEndSurvey = !state.isEndSurvey;
+        },
         resetSettings: () => initialState
     }
 });
@@ -77,6 +82,7 @@ export const {
     setVisualImpairedMode,
     setFontSize,
     setThemeMode,
+    setSurvey,
     resetSettings
 } = settingsSlice.actions;
 

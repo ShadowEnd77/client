@@ -37,7 +37,7 @@ import a_6_1 from '/game_3/aud_6_1.mp3'
 
 
 export const mockGame: Game = {
-  id: 1,
+  id: 3,
   title: "Высоко — не значит круто",
   cover_image: cover,
   description: "Немного дерзкое и разговорное. Подходит для подросткового мышления: ты можешь быть крутым, даже не залезая.",

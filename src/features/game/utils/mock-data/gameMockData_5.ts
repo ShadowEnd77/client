@@ -17,7 +17,7 @@ import a_end from '/game_5/aud_end.mp3'
 
 
 export const mockGame: Game = {
-  id: 3,
+  id: 5,
   title: "Когда не хочется молчать",
   cover_image: cover,
   description: "Живое и интригующее — сразу говорит о конфликте и внутреннем напряжении. Ребёнок захочет узнать, что будет дальше",

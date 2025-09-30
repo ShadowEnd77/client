@@ -43,7 +43,7 @@ import a_2_3 from '/game_4/aud_2_3.mp3'
 
 
 export const mockGame: Game = {
-  id: 1,
+  id: 4,
   title: "Кажется, что-то не так…",
   cover_image: cover,
   description: "Звучит интригующе, эмоционально. Внутренний голос — главный герой.",

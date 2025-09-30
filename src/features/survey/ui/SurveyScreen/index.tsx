@@ -11,11 +11,12 @@ import styles from './surveyScreen.module.scss'
 import end from '../../../../../public/survey/end.mp3'
 import { motion } from "motion/react"
 import { getGameInfoById } from '../../../game/slices/game-info/gameInfoSlice'
-import { useNavigate } from 'react-router'
+import { Route, Router, useNavigate } from 'react-router'
 import { ROUTER } from '../../../../router/consts'
 
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
+    const isEndSurvey = useAppSelector(state => state.settings.isEndSurvey)
     const navigate = useNavigate()
     const [buttonsDisabled, setButtonsDisabled] = useState(false)
     const { loadTrack, play, pause } = useAudio();
@@ -99,6 +100,10 @@ export const SurveyScreen = () => {
             navigate(ROUTER.PATHS.GAME_INFO)
             dispatch(getGameInfoById({ id: suggested_game, include_details: true }))
         }
+        if (isEndSurvey){
+            navigate(ROUTER.PATHS.GAME_PASSED)
+        }
+            
     }, [sending_statuses.success])
 
     useEffect(() => {

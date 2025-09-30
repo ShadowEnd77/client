@@ -1,0 +1,54 @@
+.card {
+    border-radius: var(--bradius-l);
+    border: 1px solid var(--c-dark-alt);
+    min-width: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .cover {
+        @include square(100%);
+        background: top/cover no-repeat;
+        border-top-left-radius: var(--bradius-l);
+        border-top-right-radius: var(--bradius-l);
+    }
+
+    .info{
+        flex: 1;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+
+        .title{
+            @include fluid-text($h2-min, $h2-max);
+            font-weight: 600;
+            min-height: 120px;
+        }
+
+        .SelectionDuration {
+            display: flex;
+            font-size: var(--fz-s);
+            column-gap: 5px;
+            color: var(--c-gray-dark);
+            font-weight: 500;
+            padding-bottom: 10px;
+        }
+
+        .SelectionBottom{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 25px;
+
+            .gameInfoSertificate{
+                display: flex;
+                font-size: var(--fz-s);
+                column-gap: 5px;
+                color: var(--c-gray-dark);
+                font-weight: 500;
+            }
+        }
+
+    }
+
+
+}

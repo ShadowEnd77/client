@@ -9,11 +9,13 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { addToStorage } from '../../../../utils/localStorageExplorer';
 import { storeToken } from '../../../user/utils/storeToken';
 import { initialUserState } from '../../../user/slices/userState';
+import { useNavigate } from 'react-router'
 
 export const GamePassed = () => {
     const { loadTrack, play, pause } = useAudio();
     const audio_muted = useAppSelector(state => state.settings.audio_muted);
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
     const {
         id,
         sertificate_url,
@@ -48,6 +50,10 @@ export const GamePassed = () => {
         window.location.reload();
     };
 
+    const HandleSelectGames = () => {
+        navigate("/game/selection");
+    };
+
     return (
         <WhiteContainer className={styles.section}>
             <div className={styles.gameInfo}>
@@ -73,7 +79,7 @@ export const GamePassed = () => {
                         </span>
                     </a>
                     <div className={styles.gameInfoButtons}>
-                        <Button>Другие игры</Button>
+                        <Button onClick={HandleSelectGames}>Другие игры</Button>
                         <button className={styles.logoutButton} onClick={handleLogout} >Выйти из аккаунта</button>
                     </div>
                 </div>

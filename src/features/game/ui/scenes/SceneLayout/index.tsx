@@ -182,7 +182,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                 <aside className={styles.sceneControls}>
                     <ControlButton
                         classNames={{ button: styles.nextSceneButton }}
-                        disabled={!current_scene_animated || isPlaying || (!currentDialogIndex && dialogues.length > 1 && Boolean(dialogues[1].voice))}
+                        // disabled={!current_scene_animated || isPlaying || (!currentDialogIndex && dialogues.length > 1 && Boolean(dialogues[1].voice))}
                         onClick={handleNextScene}>
                         Далее
                         <img src={arrowRightIcon} height={18} width={18} alt="" />
