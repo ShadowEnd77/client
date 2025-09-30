@@ -17,6 +17,7 @@ import i_6_a from '/game_1/6_a.jpg'
 import i_7_1 from '/game_1/7_1.jpg'
 import i_7_a from '/game_1/7_a.jpg'
 
+import t_game_1 from '../../../../assets/audio/t_game_1.mp3'
 
 import a_1_1 from '/game_1/aud_1_1.mp3'
 import a_1_2 from '/game_1/aud_1_2.mp3'
@@ -33,6 +34,7 @@ import a_7_1 from '/game_1/aud_7_1.mp3'
 export const mockGame: Game = {
   id: 1,
   title: "Где я - там и выбор",
+  t_voice: t_game_1,
   cover_image: cover,
   description: "Интерактивное приключение с загадками и моральными выборами. Азоту предстоит сделать правильный",
   duration: 3,

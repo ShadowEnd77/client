@@ -23,6 +23,8 @@ import i_10_2 from '/game_2/10_2.jpg';
 import i_11_1 from '/game_2/11_1.jpg';
 import i_11_a from '/game_2/11_a.jpg';
 
+import t_game_2 from '../../../../assets/audio/t_game_2.mp3'
+
 import a_1_1 from '/game_2/aud_1_1.mp3'
 import a_1_2 from '/game_2/aud_1_2.mp3'
 import a_1_3 from '/game_2/aud_1_3.mp3'
@@ -46,6 +48,7 @@ import a_end from '/game_2/aud_end.mp3'
 export const mockGame: Game = {
   id: 2,
   title: "Не вестись — это выбор",
+  t_voice: t_game_2,
   cover_image: i_1_1,
   description: "Прямо по сути. Дети это поймут, а взрослые — одобрят",
   duration: 3,

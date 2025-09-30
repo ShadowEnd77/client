@@ -19,6 +19,8 @@ import i_9_1 from '/game_4/9_1.jpg';
 import i_9_a from '/game_4/9_a.jpg';
 import i_10_1 from '/game_4/10_1.jpg';
 
+import t_game_4 from '../../../../assets/audio/t_game_4.mp3'
+
 import a_1_1 from '/game_4/aud_1_1.mp3'
 import a_1_2 from '/game_4/aud_1_2.mp3'
 import a_1_3 from '/game_4/aud_1_3.mp3'
@@ -45,6 +47,7 @@ import a_2_3 from '/game_4/aud_2_3.mp3'
 export const mockGame: Game = {
   id: 4,
   title: "Кажется, что-то не так…",
+  t_voice: t_game_4,
   cover_image: cover,
   description: "Звучит интригующе, эмоционально. Внутренний голос — главный герой.",
   duration: 3,

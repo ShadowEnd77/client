@@ -42,6 +42,7 @@ export type ResultAnswer = {
 // GAME ENTITIES
 export type Game = {
     title: string
+    t_voice: string
     cover_image: string
     description: string
     duration: number
