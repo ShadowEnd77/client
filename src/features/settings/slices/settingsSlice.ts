@@ -35,6 +35,9 @@ const settingsSlice = createSlice({
         toggleMusicMuted: (state) => {
             state.music_muted = !state.music_muted;
         },
+        toggleMusicMuted: (state) => {
+            state.music_muted = !state.music_muted;
+        },
         toggleVisualImpairedMode: (state) => {
             state.visual_impaired_mode = !state.visual_impaired_mode;
         },
@@ -73,6 +76,7 @@ const settingsSlice = createSlice({
 export const {
     toggleFullScreenMode,
     toggleAudioMuted,
+    toggleMusicMuted,
     toggleMusicMuted,
     toggleVisualImpairedMode,
     closeVisualImpairedPanel,
