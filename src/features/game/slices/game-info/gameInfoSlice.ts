@@ -7,8 +7,8 @@ import { AxiosResponse } from 'axios'
 //import { mockGame } from '../../utils/mock-data/gameMockData_1' // 1 игра МЕНЯТЬ КОГДА НАДО
 //import { mockGame } from '../../utils/mock-data/gameMockData_3' // 2 игра
 //import { mockGame } from '../../utils/mock-data/gameMockData_4' // 3 игра
-import { mockGame } from '../../utils/mock-data/gameMockData_2' // 4 игра
-//import { mockGame } from '../../utils/mock-data/gameMockData_5' // 5 игра СЕЙЧАС НЕТ КАРТИНОК, ТОЛЬКО ОЗВУЧКА И ТЕКСТ!!!!!
+//import { mockGame } from '../../utils/mock-data/gameMockData_2' // 4 игра
+import { mockGame } from '../../utils/mock-data/gameMockData_5' // 5 игра
 import { CONFIG } from '../../../../config'
 
 export const getGameInfoById = createAsyncThunk(
