@@ -22,6 +22,7 @@ import i_10_1 from '/game_2/10_1.jpg';
 import i_10_2 from '/game_2/10_2.jpg';
 import i_11_1 from '/game_2/11_1.jpg';
 import i_11_a from '/game_2/11_a.jpg';
+import i_12_1 from '/game_2/12_1.jpg';
 
 import t_game_2 from '../../../../assets/audio/t_game_2.mp3'
 
@@ -350,12 +351,12 @@ export const mockGame: Game = {
         score: 0,
         achievement: {
           title: "Ты выбрал себя, а не конфликт",
-          cover_image: ''
+          cover_image: i_11_a
         },
         next_scene_id: null,
         dialogues: [
           {
-            image: i_11_a,
+            image: i_12_1,
             voice: a_end,
             name: "Азот",
             text: "— Раньше я думал, что надо огрызаться или терпеть. А теперь знаю: я могу просто выйти. Я могу выбрать. И быть сильным — значит не вестись."

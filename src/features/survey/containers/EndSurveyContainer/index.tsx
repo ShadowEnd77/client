@@ -7,16 +7,13 @@ import { ConditionalContainer } from '../../../../ui/components/containers/Condi
 import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
 import { useEffect } from 'react'
 import { getSurvey } from '../../slices/surveySlice'
-import { SurveyScreen } from '../../ui/SurveyScreen'
-import { createSlice } from '@reduxjs/toolkit'
-import { stat } from 'fs'
 import { setSurvey } from '../../../../features/settings/slices/settingsSlice'
+
 export const EndSurveyContainer = () => {
     const dispatch = useAppDispatch()
     const { id } = useAppSelector(state => state.survey) 
     //const { data } = useAppSelector(state => state.game)
     
-    const {isEndSurvey} = useAppSelector(state => state.settings)
     const surveyIsLoaded = id != 0
     const gameIsLoaded = 0
    
@@ -24,15 +21,17 @@ export const EndSurveyContainer = () => {
         if (gameIsLoaded) {
             return <Navigate to={ROUTER.PATHS.END_SURVEY} />
         }
-        useEffect(() => {
-        dispatch(setSurvey());
-    }, [dispatch]);
+
         return <LoaderWidget
             widthLoader={50}
             heightLoader={50}
             text={"Загружаем информацию о тестировании..."}
         />
     }
+
+    useEffect(() => {
+        dispatch(setSurvey());
+    }, [dispatch]);
 
     useEffect(() => {
         if (!id) {

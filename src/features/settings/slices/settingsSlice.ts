@@ -64,7 +64,7 @@ const settingsSlice = createSlice({
             state.theme_mode = action.payload;
         },
         setSurvey: (state) => {
-            state.isEndSurvey = !state.isEndSurvey;
+            state.isEndSurvey = true
         },
         resetSettings: () => initialState
     }
