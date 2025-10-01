@@ -17,6 +17,8 @@ import i_7_2 from "/game_3/7_2.jpg";
 import i_7_a from '/game_3/7_a.jpg'; // achievement image
 import i_8_1 from '/game_3/8_1.jpg';
 
+import t_game_3 from '../../../../assets/audio/t_game_3.mp3'
+
 import a_1_1 from '/game_3/aud_1_1.mp3'
 import a_1_2 from '/game_3/aud_1_2.mp3'
 import a_1_3 from '/game_3/aud_1_3.mp3'
@@ -37,8 +39,9 @@ import a_6_1 from '/game_3/aud_6_1.mp3'
 
 
 export const mockGame: Game = {
-  id: 1,
+  id: 3,
   title: "Высоко — не значит круто",
+  t_voice: t_game_3,
   cover_image: cover,
   description: "Немного дерзкое и разговорное. Подходит для подросткового мышления: ты можешь быть крутым, даже не залезая.",
   duration: 3,

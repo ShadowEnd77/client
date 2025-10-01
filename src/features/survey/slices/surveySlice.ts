@@ -81,6 +81,19 @@ export const surveySlice = createSlice({
                 state.current_question_id = state.questions.items[answeredCount].id;
                 return;
             }
+        },
+        // <--- ДОБАВЛЕНО: Новый редьюсер для сброса опроса
+        resetSurvey: (state) => {
+            state.answers_data = [];
+            state.survey_passed = false;
+            state.sending_statuses = initialSurveyState.sending_statuses;
+            
+            // Возвращаем итератор к первому вопросу, если вопросы загружены
+            if (state.questions.items.length > 0) {
+                state.current_question_id = state.questions.items[0].id;
+            } else {
+                state.current_question_id = initialSurveyState.current_question_id;
+            }
         }
     },
     extraReducers(builder) {
@@ -140,7 +153,8 @@ export const surveySlice = createSlice({
 
 export const {
     resetSendingSurveyStatus,
-    answerTheQuestion
+    answerTheQuestion,
+    resetSurvey // <--- ДОБАВЛЕНО: Экспортируем новое действие
 } = surveySlice.actions
 
 export const surveyReducer = surveySlice.reducer

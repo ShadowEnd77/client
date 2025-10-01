@@ -22,6 +22,9 @@ import i_10_1 from '/game_2/10_1.jpg';
 import i_10_2 from '/game_2/10_2.jpg';
 import i_11_1 from '/game_2/11_1.jpg';
 import i_11_a from '/game_2/11_a.jpg';
+import i_12_1 from '/game_2/12_1.jpg';
+
+import t_game_2 from '../../../../assets/audio/t_game_2.mp3'
 
 import a_1_1 from '/game_2/aud_1_1.mp3'
 import a_1_2 from '/game_2/aud_1_2.mp3'
@@ -46,6 +49,7 @@ import a_end from '/game_2/aud_end.mp3'
 export const mockGame: Game = {
   id: 2,
   title: "Не вестись — это выбор",
+  t_voice: t_game_2,
   cover_image: i_1_1,
   description: "Прямо по сути. Дети это поймут, а взрослые — одобрят",
   duration: 3,
@@ -55,23 +59,23 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: null,
-          next_scene_id: 2,
-          dialogues: [
-            {
-              image: i_1_1,
-              voice: a_1_1,
-              name: "",
-              text: "Азот приходит домой. На экране телефона — сообщения в школьном чате."
-            },
-            {
-              image: i_1_2,
-              voice: a_1_2,
-              name: "Школьный чат 5Б",
-              text: "— Ха-ха, Азот опять как бот ответил у доски!\n— Снимем, как он читает — и выложим!\n— Он даже не обидится, он всё схавает."
-            }
-          ]
+        score: 0,
+        achievement: null,
+        next_scene_id: 2,
+        dialogues: [
+          {
+            image: i_1_1,
+            voice: a_1_1,
+            name: "",
+            text: "Азот приходит домой. На экране телефона — сообщения в школьном чате."
+          },
+          {
+            image: i_1_2,
+            voice: a_1_2,
+            name: "Школьный чат 5Б",
+            text: "— Ха-ха, Азот опять как бот ответил у доски!\n— Снимем, как он читает — и выложим!\n— Он даже не обидится, он всё схавает."
+          }
+        ]
       }
     },
     {
@@ -98,7 +102,7 @@ export const mockGame: Game = {
         ]
       }
     },
-        {
+    {
       id: 3,
       order: 1,
       type: "dialogue",
@@ -224,7 +228,7 @@ export const mockGame: Game = {
           },
           {
             image: i_7_2,
-            voice: a_3_2, 
+            voice: a_3_2,
             name: "Одноклассник",
             text: "— Азот, молодец, что не вёлся. Я потом им написал, чтобы не перегибали."
           }
@@ -331,9 +335,9 @@ export const mockGame: Game = {
         achievement: null,
         score: 1,
         pairs: [
-          { k: "Мне неприятно — я ухожу", v: "Мир" },
-          { k: "Вы глупые", v: "Конфликт" },
-          { k: "Я выбираю не участвовать в этом", v: "Мир" },
+          { k: "Мне неприятно — я ухожу", v: "Mир" },
+          { k: "Вы глупые", v: "Kонфликт" },
+          { k: "Я выбираю не участвовать в этом", v: "Миp" },
           { k: "Сам ты бот!", v: "Конфликт" },
           { k: "Я не с вами. Мне важнее моё настроение", v: "Мир" }
         ]
@@ -347,12 +351,12 @@ export const mockGame: Game = {
         score: 0,
         achievement: {
           title: "Ты выбрал себя, а не конфликт",
-          cover_image: ''
+          cover_image: i_11_a
         },
         next_scene_id: null,
         dialogues: [
           {
-            image: i_11_a,
+            image: i_12_1,
             voice: a_end,
             name: "Азот",
             text: "— Раньше я думал, что надо огрызаться или терпеть. А теперь знаю: я могу просто выйти. Я могу выбрать. И быть сильным — значит не вестись."

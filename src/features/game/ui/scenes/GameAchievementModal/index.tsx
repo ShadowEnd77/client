@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import styles from './gameAchievement.module.scss'
 import { starsIcon } from '../../../../../ui/icons'
 import { Button } from '../../../../../ui/components/buttons/Button'
@@ -6,6 +7,8 @@ import { motion } from "motion/react"
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { resetAchievementData, setIsOpenAchievement } from '../../../slices/game-info/gameInfoSlice'
 import { FC } from 'react'
+import audioFile from '../../../../../assets/audio/Achievement_dev.mp3';
+import { useAudio } from '../../../../audio/AudioProvider'
 
 type GameAchievementModalProps = {
     onClose: () => void
@@ -15,12 +18,29 @@ export const GameAchievementModal: FC<GameAchievementModalProps> = ({
 }) => {
     const dispatch = useAppDispatch()
     const { cover_image, title } = useAppSelector(state => state.game.modal_achievement.data)
+    const { audio_muted } = useAppSelector(state => state.settings)
+    const { play, pause, loadTrack } = useAudio()
 
     const handleClose = () => {
         onClose()
         dispatch(setIsOpenAchievement(false))
         dispatch(resetAchievementData())
     }
+
+    useEffect(() => {
+        const audioId = 'Achievement';
+        if (audioFile) {
+            loadTrack(audioId, audioFile);
+            if (!audio_muted) {
+                play(audioId);
+            } else {
+                pause(audioId);
+            }
+        }
+        return () => {
+            pause(audioId);
+        }
+    }, []);
 
     return (
         <div className={styles.modal}>

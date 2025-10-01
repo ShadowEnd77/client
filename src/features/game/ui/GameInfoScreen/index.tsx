@@ -1,9 +1,9 @@
 import {useEffect } from 'react'
 import styles from './gameInfoScreen.module.scss'
-import t_game_1 from '../../../../assets/audio/t_game_1.mp3'
-import t_game_2 from '../../../../assets/audio/t_game_2.mp3'
-import t_game_3 from '../../../../assets/audio/t_game_3.mp3'
-import t_game_4 from '../../../../assets/audio/t_game_4.mp3'
+
+
+
+
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { clockIcon, logoIcon } from '../../../../ui/icons'
@@ -22,28 +22,8 @@ export const GameInfoScreen = () => {
 
 
     useEffect(() => {
-        let audioFile = null;
+        let audioFile = data.t_voice;
         const audioId = 'title_game';
-        
-        // Пока используем switch, потом можно добавить в структуру самой игры
-        switch (data.title) {
-            case 'Где я - там и выбор':
-                audioFile = t_game_1;
-                break;
-            case 'Слабо не вестись?':
-                audioFile = t_game_2;
-                break;
-            case 'Высоко — не значит круто':
-                audioFile = t_game_3;
-                break;
-            case 'Кажется, что-то не так…':
-                audioFile = t_game_4;
-                break;
-            default:
-                audioFile = null;
-        }
-
-
         if (audioFile) {
             loadTrack(audioId, audioFile);
             if (!audio_muted) {

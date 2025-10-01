@@ -29,7 +29,7 @@
 .button {
   @include square(50px);
   @include flex-center;
-  //box-shadow: 0 0 18px var(--c-light-hover);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
   border: 2px solid var(--c-light);
   max-width: fit-content;
   color: var(--c-light);

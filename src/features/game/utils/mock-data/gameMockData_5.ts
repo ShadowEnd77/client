@@ -17,7 +17,7 @@ import a_end from '/game_5/aud_end.mp3'
 
 
 export const mockGame: Game = {
-  id: 3,
+  id: 5,
   title: "Когда не хочется молчать",
   cover_image: cover,
   description: "Живое и интригующее — сразу говорит о конфликте и внутреннем напряжении. Ребёнок захочет узнать, что будет дальше",
@@ -28,23 +28,23 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: null,
-          next_scene_id: 2,
-          dialogues: [
-            {
-              image: '',
-              voice: a_1_1,
-              name: "",
-              text: "Азот возвращается домой после школы. Погода солнечная, дети играют во дворе. Вдруг он замечает Бульдозера, одноклассника, который с сердитым видом спорит с младшими ребятами у песочницы."
-            },
-            {
-              image: '',
-              voice: a_1_2,
-              name: "Бульдозер",
-              text: "Уходите отсюда! Это наша площадка. Мы тут главные!"
-            }
-          ]
+        score: 0,
+        achievement: null,
+        next_scene_id: 2,
+        dialogues: [
+          {
+            image: '',
+            voice: a_1_1,
+            name: "",
+            text: "Азот возвращается домой после школы. Погода солнечная, дети играют во дворе. Вдруг он замечает Бульдозера, одноклассника, который с сердитым видом спорит с младшими ребятами у песочницы."
+          },
+          {
+            image: '',
+            voice: a_1_2,
+            name: "Бульдозер",
+            text: "Уходите отсюда! Это наша площадка. Мы тут главные!"
+          }
+        ]
       }
     },
     {
@@ -52,23 +52,23 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: null,
-          next_scene_id: 3,
-          dialogues: [
-            {
-              image: '',
-              voice: a_1_3,
-              name: "",
-              text: "Младшие дети испуганно смотрят и отходят в сторону."
-            },
-            {
-              image: '',
-              voice: a_1_4,
-              name: "",
-              text: "Азот подходит."
-            }
-          ]
+        score: 0,
+        achievement: null,
+        next_scene_id: 3,
+        dialogues: [
+          {
+            image: '',
+            voice: a_1_3,
+            name: "",
+            text: "Младшие дети испуганно смотрят и отходят в сторону."
+          },
+          {
+            image: '',
+            voice: a_1_4,
+            name: "",
+            text: "Азот подходит."
+          }
+        ]
       }
     },
     {
@@ -76,23 +76,23 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: null,
-          next_scene_id: 4,
-          dialogues: [
-            {
-              image: '',
-              voice: a_1_5,
-              name: "Азот",
-              text: "Привет, Бульдозер. Почему ты их прогоняешь?"
-            },
-            {
-              image: '',
-              voice: a_1_6,
-              name: "Бульдозер",
-              text: "А что, ты за них? Ты тоже хочешь в песок полететь?"
-            }
-          ]
+        score: 0,
+        achievement: null,
+        next_scene_id: 4,
+        dialogues: [
+          {
+            image: '',
+            voice: a_1_5,
+            name: "Азот",
+            text: "Привет, Бульдозер. Почему ты их прогоняешь?"
+          },
+          {
+            image: '',
+            voice: a_1_6,
+            name: "Бульдозер",
+            text: "А что, ты за них? Ты тоже хочешь в песок полететь?"
+          }
+        ]
       }
     },
     {
@@ -129,23 +129,23 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: null,
-          next_scene_id: 6,
-          dialogues: [
-            {
-              image: '',
-              voice: a_2_1,
-              name: "",
-              text: "Азот спокойно смотрит на Бульдозера и предлагает:"
-            },
-            {
-              image: '',
-              voice: a_2_2,
-              name: "Азот",
-              text: "Давай лучше сыграем в мяч, а малыши пусть строят замок."
-            }
-          ]
+        score: 0,
+        achievement: null,
+        next_scene_id: 6,
+        dialogues: [
+          {
+            image: '',
+            voice: a_2_1,
+            name: "",
+            text: "Азот спокойно смотрит на Бульдозера и предлагает:"
+          },
+          {
+            image: '',
+            voice: a_2_2,
+            name: "Азот",
+            text: "Давай лучше сыграем в мяч, а малыши пусть строят замок."
+          }
+        ]
       }
     },
     {
@@ -153,21 +153,21 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: {
+        score: 0,
+        achievement: {
           title: "Ты разрядил конфликт и сохранил дружбу",
           cover_image: ''
-            },
-          next_scene_id: 8,
-          dialogues: [
-            {
-              image: '',
+        },
+        next_scene_id: 8,
+        dialogues: [
+          {
+            image: '',
             //voice: a_2_3,
-              voice: '',
-              name: "",
-              text: "Бульдозер колеблется, но соглашается. Спор заканчивается без ссоры. Малыши радуются, песочница оживает."
-            }
-          ]
+            voice: '',
+            name: "",
+            text: "Бульдозер колеблется, но соглашается. Спор заканчивается без ссоры. Малыши радуются, песочница оживает."
+          }
+        ]
       }
     },
     {
@@ -175,23 +175,23 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: {
-            title: "Ты понял, как важно сохранять контроль. Теперь знаешь, как быть лучше.",
-            cover_image: ''
-            },
-          next_scene_id: 8,
-          dialogues: [
-            {
-              image: '',
-              voice: a_3_1,
-              name: "",
-              text: "Азот бросает сердитую фразу, и начинается ссора. Оба злятся, появляются обидные слова. Младшие дети убегают. Позже Азоту становится грустно. Дома он рассказывает взрослым, и вместе они обсуждают, как можно было поступить иначе."
-            }
+        score: 0,
+        achievement: {
+          title: "Ты понял, как важно сохранять контроль. Теперь знаешь, как быть лучше.",
+          cover_image: ''
+        },
+        next_scene_id: 8,
+        dialogues: [
+          {
+            image: '',
+            voice: a_3_1,
+            name: "",
+            text: "Азот бросает сердитую фразу, и начинается ссора. Оба злятся, появляются обидные слова. Младшие дети убегают. Позже Азоту становится грустно. Дома он рассказывает взрослым, и вместе они обсуждают, как можно было поступить иначе."
+          }
         ]
       }
     },
-// под вопросом
+    // под вопросом
     {
       id: 8,
       order: 1,
@@ -201,9 +201,9 @@ export const mockGame: Game = {
         achievement: null,
         score: 1,
         pairs: [
-          { k: "Давайте играть по очереди!", v: "Мир" },
+          { k: "Давайте играть по очереди!", v: "Mир" },
           { k: "Хочешь — будем командой!", v: "Мир" },
-          { k: "Уходи сам!", v: "Ссора" },
+          { k: "Уходи сам!", v: "Ccора" },
           { k: "Я тебя сейчас…!", v: "Ссора" }
         ]
       }
@@ -213,21 +213,21 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement:{
+        score: 0,
+        achievement: {
           title: "Мастер спокойствия",
           cover_image: ''
+        }
+        ,
+        next_scene_id: null,
+        dialogues: [
+          {
+            image: '',
+            voice: a_end,
+            name: "Азот",
+            text: "Иногда хочется вспылить. Но спокойствие — это сила. Когда ты умеешь выбирать слова — ты становишься сильнее"
           }
-          ,
-          next_scene_id: null,
-          dialogues: [
-            {
-              image: '',
-              voice: a_end,
-              name: "Азот",
-              text: "Иногда хочется вспылить. Но спокойствие — это сила. Когда ты умеешь выбирать слова — ты становишься сильнее"
-            }
-          ]
+        ]
       }
     }
   ]
