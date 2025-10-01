@@ -4,20 +4,27 @@ import { FinishGameReq, FinishGameRes, GetGameInfoByIdReq, GetGameInfoByIdRes } 
 import { Game, GameAchievement, Scene } from '../../../../types/entities'
 import { GameApi } from '../../api/game.api'
 import { AxiosResponse } from 'axios'
-//import { mockGame } from '../../utils/mock-data/gameMockData_1' // 1 игра МЕНЯТЬ КОГДА НАДО
-//import { mockGame } from '../../utils/mock-data/gameMockData_3' // 2 игра
-//import { mockGame } from '../../utils/mock-data/gameMockData_4' // 3 игра
-//import { mockGame } from '../../utils/mock-data/gameMockData_2' // 4 игра
-import { mockGame } from '../../utils/mock-data/gameMockData_5' // 5 игра
+import { mockGame as mockGame1 } from '../../utils/mock-data/gameMockData_1' // 1 игра 
+import { mockGame as mockGame2 } from '../../utils/mock-data/gameMockData_3' // 2 игра
+import { mockGame as mockGame3 } from '../../utils/mock-data/gameMockData_4' // 3 игра
+import { mockGame as mockGame4 } from '../../utils/mock-data/gameMockData_2' // 4 игра
+import { mockGame as mockGame5 } from '../../utils/mock-data/gameMockData_5' // 5 игра
 import { CONFIG } from '../../../../config'
 
 export const getGameInfoById = createAsyncThunk(
     'game/get-by-id',
     async (req: GetGameInfoByIdReq) => {
         if (CONFIG.USE_MOCK_API) {
+            const mockGames: Record<number, GetGameInfoByIdRes> = {
+                [mockGame1.id]: mockGame1,
+                [mockGame2.id]: mockGame2,
+                [mockGame3.id]: mockGame3,
+                [mockGame4.id]: mockGame4,
+                [mockGame5.id]: mockGame5,
+            };
             return new Promise<GetGameInfoByIdRes>((rs, _) => {
                 setTimeout(() => {
-                    rs(mockGame)
+                    rs(mockGames[req.id] || mockGame1)
                 }, CONFIG.MOCK_FETCH_DELAY)
             })
         }
@@ -88,6 +95,9 @@ export const gameInfoSlice = createSlice({
         setGameIsInProgress: (state, action: PayloadAction<boolean>) => {
             state.game_is_in_progress = action.payload
         },
+        resetGameInProgress: (state) => {
+            state.game_is_in_progress = false;
+        },
         finishGame: (state) => {
             const { id, title, cover_image } = state.data
 
@@ -144,6 +154,8 @@ export const {
     resetAchievementData,
     addToVisitedScenes,
     setGameIsInProgress,
+    resetGameInProgress,
+    resetPassedGameData,
     setIsOpenAchievement,
     setCurrentSceneAnimated,
     finishGame

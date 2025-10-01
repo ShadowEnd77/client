@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { GameMatchesScene } from '../GameMatchesScene'
 import { useAudio } from '../../../../audio/AudioProvider'
 import { CONFIG } from '../../../../../config'
+import achievementAudioFile from '../../../../../assets/audio/Achievement_dev.mp3';
 
 type SceneLayoutProps = {
     scene: Scene
@@ -21,12 +22,35 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
     const { current_scene_animated } = useAppSelector(state => state.game)
     const { play, pause, loadTrack, onAudioEnd, setVolume } = useAudio()
 
+    const achievementAudioId = 'Achievement';
+
     const [currentVoiceId, setCurrentVoiceId] = useState<string | null>(null)
     const [currentDialogIndex, setCurrentDialogIndex] = useState(0)
     const [isPlaying, setIsPlaying] = useState(false)
 
     const currentSceneIsDialog = scene.type == "dialogue"
     const dialogues = scene.payload.dialogues || []
+
+    // Воспроизведение звука ачивки при показе карточки достижения (один диалог)
+    useEffect(() => {
+        if (
+            currentSceneIsDialog &&
+            dialogues.length === 1 &&
+            scene.payload.achievement &&
+            !isPlaying
+        ) 
+        {
+            loadTrack(achievementAudioId, achievementAudioFile);
+            if (!audio_muted) {
+                play(achievementAudioId);
+            } else {
+                pause(achievementAudioId);
+            }
+        }
+        return () => {
+            pause(achievementAudioId);
+        };
+    }, [currentSceneIsDialog, dialogues.length, scene.payload.achievement, isPlaying, audio_muted]);
 
     const playNextDialogAudio = () => {
         setIsPlaying(false)
@@ -44,6 +68,15 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
         }
 
         if (currentSceneIsDialog && (dialogues.length > 1) && scene.payload.achievement) {
+            // Воспроизведение звука ачивки
+            if (achievementAudioFile) {
+                loadTrack(achievementAudioId, achievementAudioFile);
+                if (!audio_muted) {
+                    play(achievementAudioId);
+                } else {
+                    pause(achievementAudioId);
+                }
+            }
             dispatch(setAchievementData(scene.payload.achievement))
             dispatch(setIsOpenAchievement(true))
             return
@@ -85,7 +118,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                             <GameSceneCard
                                 scene_id={scene.id}
                                 achievement={scene.payload.achievement}
-                                delayShow={CONFIG.SCENE_DIALOG_CHANGE_DELAY / 1000}
+                                delayShow={CONFIG.SCENE_DIALOG_CHANGE_DELAY / 5000}
                             />
                         )}
                     </>
@@ -182,7 +215,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
                 <aside className={styles.sceneControls}>
                     <ControlButton
                         classNames={{ button: styles.nextSceneButton }}
-                        disabled={!current_scene_animated || isPlaying || (!currentDialogIndex && dialogues.length > 1 && Boolean(dialogues[1].voice))}
+                        // disabled={!current_scene_animated || isPlaying || (!currentDialogIndex && dialogues.length > 1 && Boolean(dialogues[1].voice))}
                         onClick={handleNextScene}>
                         Далее
                         <img src={arrowRightIcon} height={18} width={18} alt="" />

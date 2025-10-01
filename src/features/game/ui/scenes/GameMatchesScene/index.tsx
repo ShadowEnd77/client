@@ -64,22 +64,22 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
 
         if (!draggedItem) return;
 
-        if (draggedItem.source === 'options') {
+        if (draggedItem.source === 'options' && draggedItem.index !== undefined) {
             const currentAnswer = answers[answerIndex];
 
             setAnswers(prev => {
                 const newAnswers = [...prev];
-                newAnswers[answerIndex] = draggedItem.text;
+                newAnswers[answerIndex] = options[draggedItem.index!];
                 return newAnswers;
             });
 
-            setOptions(prev => prev.filter(opt => opt !== draggedItem.text));
+            setOptions(prev => prev.filter((_, idx) => idx !== draggedItem.index));
 
-            if (currentAnswer) {
+            if (currentAnswer !== null) {
                 setOptions(prev => [...prev, currentAnswer]);
             }
 
-            return
+            return;
         }
         if (draggedItem.source === 'answer' && draggedItem.index !== undefined) {
             setAnswers(prev => {
@@ -103,11 +103,11 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
         if (draggedItem.index !== undefined) {
             setAnswers(prev => {
                 const newAnswers = [...prev];
+                const removed = newAnswers[draggedItem.index!];
                 newAnswers[draggedItem.index!] = null;
+                setOptions(prevOptions => [...prevOptions, removed!]);
                 return newAnswers;
             });
-
-            setOptions(prev => [...prev, draggedItem.text]);
         }
     };
 
@@ -136,7 +136,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
 
         if (payload.next_scene_id == null) {
             dispatch(finishGame())
-            
+
             return
         }
 
@@ -255,8 +255,8 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
                         onDragOver={handleOptionsDragOver}
                         onDragLeave={handleOptionsDragLeave}
                     >
-
-                        {options.map((option, index) => (
+                        
+                        {options.map((option: string, index: number) => (
                             <motion.div
                                 initial={{
                                     scale: 0
@@ -267,11 +267,12 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
                                         delay: index * 0.4
                                     } : {}
                                 }}
-                                key={option} className={styles.gameAreaOptionItem}>
+                                key={index} className={styles.gameAreaOptionItem}>
                                 <GameMatchElement
                                     draggable
                                     text={option}
-                                    onDragStart={(e) => handleDragStart(e, option, 'options')}
+                                    index={index}
+                                    onDragStart={(e) => handleDragStart(e, option, 'options', index)}
                                     onDragEnd={handleDragEnd}
                                 />
                             </motion.div>

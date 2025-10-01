@@ -12,6 +12,7 @@ export const ExitButton = () => {
         '/',
         '/game',
         '/game/progress',
+        '/game/selection',
     ].includes(location.pathname);
 
     const handleLogout = () => {

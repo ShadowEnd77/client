@@ -1,0 +1,29 @@
+.section {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    .title {
+        font-size: 28px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 30px;
+    }
+
+    .SelectionGameList {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 30px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+        padding-bottom: 20px;
+    }
+}

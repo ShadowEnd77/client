@@ -141,8 +141,8 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement: {
+        score: 0,
+        achievement: {
           title: "Ты разрядил конфликт и сохранил дружбу",
           cover_image: i_4_2
             },
@@ -150,12 +150,13 @@ export const mockGame: Game = {
           dialogues: [
              {
               image: i_4_1,
+
             //voice: a_2_3,
-              voice: '',
-              name: "",
-              text: "Бульдозер колеблется, но соглашается. Спор заканчивается без ссоры. Малыши радуются, песочница оживает."
-            }
-          ]
+            voice: '',
+            name: "",
+            text: "Бульдозер колеблется, но соглашается. Спор заканчивается без ссоры. Малыши радуются, песочница оживает."
+          }
+        ]
       }
     },
     {
@@ -203,7 +204,7 @@ export const mockGame: Game = {
         ]
       }
     },
-// под вопросом
+    // под вопросом
     {
       id: 8,
       order: 1,
@@ -213,9 +214,9 @@ export const mockGame: Game = {
         achievement: null,
         score: 1,
         pairs: [
-          { k: "Давайте играть по очереди!", v: "Мир" },
+          { k: "Давайте играть по очереди!", v: "Mир" },
           { k: "Хочешь — будем командой!", v: "Мир" },
-          { k: "Уходи сам!", v: "Ссора" },
+          { k: "Уходи сам!", v: "Ccора" },
           { k: "Я тебя сейчас…!", v: "Ссора" }
         ]
       }
@@ -225,21 +226,20 @@ export const mockGame: Game = {
       order: 1,
       type: "dialogue",
       payload: {
-          score: 0,
-          achievement:{
+        score: 0,
+        achievement: {
           title: "Мастер спокойствия",
           cover_image: ''
+        },
+        next_scene_id: null,
+        dialogues: [
+          {
+            image: i_7_1,
+            voice: a_end,
+            name: "Азот",
+            text: "Иногда хочется вспылить. Но спокойствие — это сила. Когда ты умеешь выбирать слова — ты становишься сильнее"
           }
-          ,
-          next_scene_id: null,
-          dialogues: [
-            {
-              image: i_7_1,
-              voice: a_end,
-              name: "Азот",
-              text: "Иногда хочется вспылить. Но спокойствие — это сила. Когда ты умеешь выбирать слова — ты становишься сильнее"
-            }
-          ]
+        ]          
       }
     }
   ]

@@ -5,17 +5,18 @@ import { Answer } from '../../../../types/entities'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
 import { logoIcon, smileIcon } from '../../../../ui/icons'
-import { answerTheQuestion, sendSurvey, resetSendingSurveyStatus } from '../../slices/surveySlice'
+import { answerTheQuestion, sendSurvey, resetSendingSurveyStatus, resetSurvey } from '../../slices/surveySlice'
 import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
 import end from '../../../../../public/survey/end.mp3'
 import { motion } from "motion/react"
 import { getGameInfoById } from '../../../game/slices/game-info/gameInfoSlice'
-import { useNavigate } from 'react-router'
+import { Route, Router, useNavigate } from 'react-router'
 import { ROUTER } from '../../../../router/consts'
 
 export const SurveyScreen = () => {
     const dispatch = useAppDispatch()
+    const isEndSurvey = useAppSelector(state => state.settings.isEndSurvey)
     const navigate = useNavigate()
     const [buttonsDisabled, setButtonsDisabled] = useState(false)
     const { loadTrack, play, pause } = useAudio();
@@ -33,8 +34,12 @@ export const SurveyScreen = () => {
     } = useAppSelector(state => state.survey)
     const user_id = useAppSelector(state => state.user.data.uuid)
 
+    useEffect(() => {
+        dispatch(resetSurvey());
+    }, [dispatch]);
+
     const currentQuestion = questions.items.find(item => item.id == current_question_id)
-    // Воспроизведение озвучки вопроса
+
     useEffect(() => {
         if (!currentQuestion || !currentQuestion.voice) return;
         const audioId = `q_${currentQuestion.id}`;
@@ -49,7 +54,6 @@ export const SurveyScreen = () => {
         }
     }, [currentQuestion?.voice, audio_muted, currentQuestion?.id])
 
-    // Воспроизведение озвучки завершения опроса
     useEffect(() => {
         const endAudioId = 'survey_end';
         if (survey_passed) {
@@ -67,18 +71,15 @@ export const SurveyScreen = () => {
         }
     }, [survey_passed, audio_muted]);
 
-    // Automatically lock the buttons for each new question
     useEffect(() => {
         setButtonsDisabled(true)
-        
         const timer = setTimeout(() => {
             setButtonsDisabled(false)
-        }, 1000) // 7 sec
-
+        }, 1000)
         return () => {
             clearTimeout(timer)
         }
-    }, [current_question_id]) // It starts every time the question is changed
+    }, [current_question_id])
 
     const onAnswer = (answer: Answer) => {
         setButtonsDisabled(true)
@@ -86,7 +87,6 @@ export const SurveyScreen = () => {
     }
 
     const onSubmit = () => {
-        console.log('user_id:', user_id); // тест
         dispatch(sendSurvey({
             survey_id: id,
             user_id: user_id,
@@ -94,18 +94,24 @@ export const SurveyScreen = () => {
         }))
     }
 
+    // ===== ИСПРАВЛЕННЫЙ БЛОК =====
     useEffect(() => {
         if (sending_statuses.success) {
-            navigate(ROUTER.PATHS.GAME_INFO)
-            dispatch(getGameInfoById({ id: suggested_game, include_details: true }))
+            if (isEndSurvey) {
+                navigate(ROUTER.PATHS.GAME_PASSED);
+            } else {
+                navigate(ROUTER.PATHS.GAME_INFO);
+                dispatch(getGameInfoById({ id: suggested_game, include_details: true }));
+            }
         }
-    }, [sending_statuses.success])
+    }, [sending_statuses.success, isEndSurvey, navigate, dispatch, suggested_game]);
+    // =============================
 
     useEffect(() => {
         return () => {
             dispatch(resetSendingSurveyStatus())
         }
-    }, [])
+    }, [dispatch])
 
     return (
         <WhiteContainer className={styles.section}>
