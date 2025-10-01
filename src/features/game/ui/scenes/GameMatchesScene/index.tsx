@@ -136,7 +136,7 @@ export const GameMatchesScene: FC<GameMatchSceneProps> = ({ payload, scene_id })
 
         if (payload.next_scene_id == null) {
             dispatch(finishGame())
-            
+
             return
         }
 
