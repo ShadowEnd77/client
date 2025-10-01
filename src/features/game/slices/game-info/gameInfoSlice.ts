@@ -8,7 +8,7 @@ import { mockGame as mockGame1 } from '../../utils/mock-data/gameMockData_1' // 
 import { mockGame as mockGame2 } from '../../utils/mock-data/gameMockData_3' // 2 игра
 import { mockGame as mockGame3 } from '../../utils/mock-data/gameMockData_4' // 3 игра
 import { mockGame as mockGame4 } from '../../utils/mock-data/gameMockData_2' // 4 игра
-import { mockGame as mockGame5 } from '../../utils/mock-data/gameMockData_5' // 5 игра СЕЙЧАС НЕТ КАРТИНОК, ТОЛЬКО ОЗВУЧКА И ТЕКСТ!!!!!
+import { mockGame as mockGame5 } from '../../utils/mock-data/gameMockData_5' // 5 игра
 import { CONFIG } from '../../../../config'
 
 export const getGameInfoById = createAsyncThunk(
