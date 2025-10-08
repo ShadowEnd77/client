@@ -25,4 +25,5 @@ export type SelectFieldProps = {
     asyncOptions?: SelectAsyncOptions
     onSearch?: (e: ChangeEvent<HTMLInputElement>) => void
     onChange?: (value: number, label: string) => void
+    disabled?: boolean
 } & HasClassName

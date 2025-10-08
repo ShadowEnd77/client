@@ -235,6 +235,7 @@ export const RegisterForm = () => {
                         { value: 3, label: 'Школа №3' },
                     ].find(opt => opt.label === formik.values.school)?.value || 0}
                     onChange={(value, label) => onSchoolSelect(value, label)}
+                    disabled={!formik.values.city_id}
                 />
             </FieldsGroup>
             <div className={styles.bottom}>

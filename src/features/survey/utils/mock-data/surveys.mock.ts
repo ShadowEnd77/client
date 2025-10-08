@@ -38,81 +38,36 @@ export const mockSurveys: GetSurveysRes = {
             title: "Опрос 'Как я веду себя'",
             questions: [
                 { id: 1, text: "Я легко теряю терпение", voice: q_1, options: [ { id: 1, text: "Да", order: 1 }, { id: 2, text: "Нет", order: 2 } ] },
-                // { id: 2, text: "Если меня обидели, то я обязательно отомщу", voice: q_2, options: [ { id: 3, text: "Да", order: 1 }, { id: 4, text: "Нет", order: 2 } ] },
-                // { id: 3, text: "Часто я злю других специально", voice: q_3, options: [ { id: 5, text: "Да", order: 1 }, { id: 6, text: "Нет", order: 2 } ] },
-                // { id: 4, text: "Я очень редко ссорюсь с родными", voice: q_4, options: [ { id: 7, text: "Да", order: 1 }, { id: 8, text: "Нет", order: 2 } ] },
-                // { id: 5, text: "Я не люблю, когда мне делают замечания", voice: q_5, options: [ { id: 9, text: "Да", order: 1 }, { id: 10, text: "Нет", order: 2 } ] },
-                // { id: 6, text: "Мне нравится делать что-то опасное", voice: q_6, options: [ { id: 11, text: "Да", order: 1 }, { id: 12, text: "Нет", order: 2 } ] },
-                // { id: 7, text: "Я люблю испытывать страх", voice: q_7, options: [ { id: 13, text: "Да", order: 1 }, { id: 14, text: "Нет", order: 2 } ] },
-                // { id: 8, text: "Если кого-то обижают, то я не вмешиваюсь", voice: q_8, options: [ { id: 15, text: "Да", order: 1 }, { id: 16, text: "Нет", order: 2 } ] },
-                // { id: 9, text: "Я иногда нарушаю установленные взрослыми правила", voice: q_9, options: [ { id: 17, text: "Да", order: 1 }, { id: 18, text: "Нет", order: 2 } ] },
-                // { id: 10, text: "Я люблю острые ощущения", voice: q_10, options: [ { id: 19, text: "Да", order: 1 }, { id: 20, text: "Нет", order: 2 } ] },
-                // { id: 11, text: "Я жду помощи от взрослых", voice: q_11, options: [ { id: 21, text: "Да", order: 1 }, { id: 22, text: "Нет", order: 2 } ] },
-                // { id: 12, text: "Я не могу отказать, когда меня о чем-то просят", voice: q_12, options: [ { id: 23, text: "Да", order: 1 }, { id: 24, text: "Нет", order: 2 } ] },
-                // { id: 13, text: "Я не общаюсь со сверстниками, так как они меня обижают", voice: q_13, options: [ { id: 25, text: "Да", order: 1 }, { id: 26, text: "Нет", order: 2 } ] },
-                // { id: 14, text: "Мне трудно просить других о помощи", voice: q_14, options: [ { id: 27, text: "Да", order: 1 }, { id: 28, text: "Нет", order: 2 } ] },
-                // { id: 15, text: "Мне часто кажется, что я не справлюсь", voice: q_15, options: [ { id: 29, text: "Да", order: 1 }, { id: 30, text: "Нет", order: 2 } ] },
-                // { id: 16, text: "Верю всему, что говорят по радио и телевидению", voice: q_16, options: [ { id: 31, text: "Да", order: 1 }, { id: 32, text: "Нет", order: 2 } ] },
-                // { id: 17, text: "Я доверяю незнакомым людям", voice: q_17, options: [ { id: 33, text: "Да", order: 1 }, { id: 34, text: "Нет", order: 2 } ] },
-                // { id: 18, text: "Иногда я делаю не думая", voice: q_18, options: [ { id: 35, text: "Да", order: 1 }, { id: 36, text: "Нет", order: 2 } ] },
-                // { id: 19, text: "Другие люди кажутся счастливее меня", voice: q_19, options: [ { id: 37, text: "Да", order: 1 }, { id: 38, text: "Нет", order: 2 } ] },
-                // { id: 20, text: "Я всегда соглашаюсь с окружающими", voice: q_20, options: [ { id: 39, text: "Да", order: 1 }, { id: 40, text: "Нет", order: 2 } ] },
-                // { id: 21, text: "Меня часто обижают", voice: q_21, options: [ { id: 41, text: "Да", order: 1 }, { id: 42, text: "Нет", order: 2 } ] },
-                // { id: 22, text: "Я часто попадаю в беду", voice: q_22, options: [ { id: 43, text: "Да", order: 1 }, { id: 44, text: "Нет", order: 2 } ] },
-                // { id: 23, text: "Я часто чувствую, что все против меня", voice: q_23, options: [ { id: 45, text: "Да", order: 1 }, { id: 46, text: "Нет", order: 2 } ] },
-                // { id: 24, text: "Меня часто дразнят", voice: q_24, options: [ { id: 47, text: "Да", order: 1 }, { id: 48, text: "Нет", order: 2 } ] },
-                // { id: 25, text: "Я не умею защищаться", voice: q_25, options: [ { id: 49, text: "Да", order: 1 }, { id: 50, text: "Нет", order: 2 } ] },
-                // { id: 26, text: "Я никогда никого не обижал", voice: q_26, options: [ { id: 51, text: "Да", order: 1 }, { id: 52, text: "Нет", order: 2 } ] },
-                // { id: 27, text: "Я всегда слушаюсь взрослых", voice: q_27, options: [ { id: 53, text: "Да", order: 1 }, { id: 54, text: "Нет", order: 2 } ] },
-                // { id: 28, text: "У меня не бывает плохого настроения", voice: q_28, options: [ { id: 55, text: "Да", order: 1 }, { id: 56, text: "Нет", order: 2 } ] },
-                // { id: 29, text: "Я всегда говорю правду", voice: q_29, options: [ { id: 57, text: "Да", order: 1 }, { id: 58, text: "Нет", order: 2 } ] },
-                // { id: 30, text: "Я никогда не злюсь", voice: q_30, options: [ { id: 59, text: "Да", order: 1 }, { id: 60, text: "Нет", order: 2 } ] },
+                { id: 2, text: "Если меня обидели, то я обязательно отомщу", voice: q_2, options: [ { id: 3, text: "Да", order: 1 }, { id: 4, text: "Нет", order: 2 } ] },
+                { id: 3, text: "Часто я злю других специально", voice: q_3, options: [ { id: 5, text: "Да", order: 1 }, { id: 6, text: "Нет", order: 2 } ] },
+                { id: 4, text: "Я очень редко ссорюсь с родными", voice: q_4, options: [ { id: 7, text: "Да", order: 1 }, { id: 8, text: "Нет", order: 2 } ] },
+                { id: 5, text: "Я не люблю, когда мне делают замечания", voice: q_5, options: [ { id: 9, text: "Да", order: 1 }, { id: 10, text: "Нет", order: 2 } ] },
+                { id: 6, text: "Мне нравится делать что-то опасное", voice: q_6, options: [ { id: 11, text: "Да", order: 1 }, { id: 12, text: "Нет", order: 2 } ] },
+                { id: 7, text: "Я люблю испытывать страх", voice: q_7, options: [ { id: 13, text: "Да", order: 1 }, { id: 14, text: "Нет", order: 2 } ] },
+                { id: 8, text: "Если кого-то обижают, то я не вмешиваюсь", voice: q_8, options: [ { id: 15, text: "Да", order: 1 }, { id: 16, text: "Нет", order: 2 } ] },
+                { id: 9, text: "Я иногда нарушаю установленные взрослыми правила", voice: q_9, options: [ { id: 17, text: "Да", order: 1 }, { id: 18, text: "Нет", order: 2 } ] },
+                { id: 10, text: "Я люблю острые ощущения", voice: q_10, options: [ { id: 19, text: "Да", order: 1 }, { id: 20, text: "Нет", order: 2 } ] },
+                { id: 11, text: "Я жду помощи от взрослых", voice: q_11, options: [ { id: 21, text: "Да", order: 1 }, { id: 22, text: "Нет", order: 2 } ] },
+                { id: 12, text: "Я не могу отказать, когда меня о чем-то просят", voice: q_12, options: [ { id: 23, text: "Да", order: 1 }, { id: 24, text: "Нет", order: 2 } ] },
+                { id: 13, text: "Я не общаюсь со сверстниками, так как они меня обижают", voice: q_13, options: [ { id: 25, text: "Да", order: 1 }, { id: 26, text: "Нет", order: 2 } ] },
+                { id: 14, text: "Мне трудно просить других о помощи", voice: q_14, options: [ { id: 27, text: "Да", order: 1 }, { id: 28, text: "Нет", order: 2 } ] },
+                { id: 15, text: "Мне часто кажется, что я не справлюсь", voice: q_15, options: [ { id: 29, text: "Да", order: 1 }, { id: 30, text: "Нет", order: 2 } ] },
+                { id: 16, text: "Верю всему, что говорят по радио и телевидению", voice: q_16, options: [ { id: 31, text: "Да", order: 1 }, { id: 32, text: "Нет", order: 2 } ] },
+                { id: 17, text: "Я доверяю незнакомым людям", voice: q_17, options: [ { id: 33, text: "Да", order: 1 }, { id: 34, text: "Нет", order: 2 } ] },
+                { id: 18, text: "Иногда я делаю не думая", voice: q_18, options: [ { id: 35, text: "Да", order: 1 }, { id: 36, text: "Нет", order: 2 } ] },
+                { id: 19, text: "Другие люди кажутся счастливее меня", voice: q_19, options: [ { id: 37, text: "Да", order: 1 }, { id: 38, text: "Нет", order: 2 } ] },
+                { id: 20, text: "Я всегда соглашаюсь с окружающими", voice: q_20, options: [ { id: 39, text: "Да", order: 1 }, { id: 40, text: "Нет", order: 2 } ] },
+                { id: 21, text: "Меня часто обижают", voice: q_21, options: [ { id: 41, text: "Да", order: 1 }, { id: 42, text: "Нет", order: 2 } ] },
+                { id: 22, text: "Я часто попадаю в беду", voice: q_22, options: [ { id: 43, text: "Да", order: 1 }, { id: 44, text: "Нет", order: 2 } ] },
+                { id: 23, text: "Я часто чувствую, что все против меня", voice: q_23, options: [ { id: 45, text: "Да", order: 1 }, { id: 46, text: "Нет", order: 2 } ] },
+                { id: 24, text: "Меня часто дразнят", voice: q_24, options: [ { id: 47, text: "Да", order: 1 }, { id: 48, text: "Нет", order: 2 } ] },
+                { id: 25, text: "Я не умею защищаться", voice: q_25, options: [ { id: 49, text: "Да", order: 1 }, { id: 50, text: "Нет", order: 2 } ] },
+                { id: 26, text: "Я никогда никого не обижал", voice: q_26, options: [ { id: 51, text: "Да", order: 1 }, { id: 52, text: "Нет", order: 2 } ] },
+                { id: 27, text: "Я всегда слушаюсь взрослых", voice: q_27, options: [ { id: 53, text: "Да", order: 1 }, { id: 54, text: "Нет", order: 2 } ] },
+                { id: 28, text: "У меня не бывает плохого настроения", voice: q_28, options: [ { id: 55, text: "Да", order: 1 }, { id: 56, text: "Нет", order: 2 } ] },
+                { id: 29, text: "Я всегда говорю правду", voice: q_29, options: [ { id: 57, text: "Да", order: 1 }, { id: 58, text: "Нет", order: 2 } ] },
+                { id: 30, text: "Я никогда не злюсь", voice: q_30, options: [ { id: 59, text: "Да", order: 1 }, { id: 60, text: "Нет", order: 2 } ] },
             ]
         },
-        // {
-
-        //     id: 2,
-        //     title: "Опрос о внеклассных занятиях",
-        //     questions: [
-        //         {
-        //             id: 201,
-        //             text: "Какие кружки вы посещаете?",
-        //             options: [
-        //                 { id: 2001, text: "Посещаю кружки", order: 1 },
-        //                 { id: 2002, text: "Не посещаю кружки", order: 2 }
-        //             ]
-        //         },
-        //         {
-        //             id: 202,
-        //             text: "Сколько часов в неделю вы уделяете внеклассным занятиям?",
-        //             options: [
-        //                 { id: 2003, text: "Меньше 3 часов", order: 1 },
-        //                 { id: 2004, text: "Больше 3 часов", order: 2 }
-        //             ]
-        //         }
-        //     ]
-        // },
-        // {
-        //     id: 3,
-        //     title: "Опрос о школьном питании",
-        //     questions: [
-        //         {
-        //             id: 301,
-        //             text: "Удовлетворены ли вы качеством школьного питания?",
-        //             options: [
-        //                 { id: 3001, text: "Да", order: 1 },
-        //                 { id: 3002, text: "Нет", order: 2 }
-        //             ]
-        //         },
-        //         {
-        //             id: 302,
-        //             text: "Как часто вы питаетесь в школьной столовой?",
-        //             options: [
-        //                 { id: 3003, text: "Каждый день", order: 1 },
-        //                 { id: 3004, text: "Иногда", order: 2 }
-        //             ]
-        //         }
-        //     ]
-        // }
     ]
 };
