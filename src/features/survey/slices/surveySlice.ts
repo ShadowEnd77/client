@@ -25,12 +25,12 @@ export const getSurvey = createAsyncThunk(
 
 export const sendSurvey = createAsyncThunk(
     'survey/send',
-    async (req: SendSurveyReq) => {
+    async (req: SendSurveyReq & { suggested_game?: number }) => {
         if (CONFIG.USE_MOCK_API) {
             return new Promise<SendSurveyRes>((rs) => {
                 setTimeout(() => {
                     rs({
-                        suggested_game: 1
+                        suggested_game: req.suggested_game ?? 1
                     })
                 }, CONFIG.MOCK_FETCH_DELAY)
             })
@@ -85,9 +85,9 @@ export const surveySlice = createSlice({
         // <--- ДОБАВЛЕНО: Новый редьюсер для сброса опроса
         resetSurvey: (state) => {
             state.answers_data = [];
-            state.survey_passed = false;
+            //state.survey_passed = false;
             state.sending_statuses = initialSurveyState.sending_statuses;
-            
+
             // Возвращаем итератор к первому вопросу, если вопросы загружены
             if (state.questions.items.length > 0) {
                 state.current_question_id = state.questions.items[0].id;
