@@ -122,9 +122,9 @@ export const gameInfoSlice = createSlice({
                 state.statuses.loading = false
                 state.statuses.success = true
             })
-            .addCase(getGameInfoById.rejected, state => {
-                state.statuses.loading = false
-                state.statuses.error = ""
+            .addCase(getGameInfoById.rejected, (state, action) => {
+                state.statuses.loading = false;
+                state.statuses.error = action.error?.message || "Ошибка загрузки игры";
             })
 
             // SEND GAME

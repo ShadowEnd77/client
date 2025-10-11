@@ -1,26 +1,65 @@
-import { ControlButton } from '../../buttons/ControlButton'
-import styles from './visuallyImpired.module.scss'
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { toggleVisualImpairedMode, setFontSize, setThemeMode, openVisualImpairedPanel, closeVisualImpairedPanel, } from '../../../../features/settings/slices/settingsSlice'
+import { useEffect, useRef } from 'react';
+import { ControlButton } from '../../buttons/ControlButton';
+import styles from './visuallyImpired.module.scss';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import {
+    toggleVisualImpairedMode,
+    setFontSize,
+    setThemeMode,
+    openVisualImpairedPanel,
+    closeVisualImpairedPanel,
+} from '../../../../features/settings/slices/settingsSlice';
 
 export const VisuallyImpairedControl = () => {
-    const dispatch = useAppDispatch()
-    const { visual_impaired_mode, visual_impaired_panel_open, theme_mode, font_size } = useAppSelector(state => state.settings)
+    const dispatch = useAppDispatch();
+    const {
+        visual_impaired_mode,
+        visual_impaired_panel_open,
+        theme_mode,
+        font_size
+    } = useAppSelector(state => state.settings);
+
+    // Указываем TypeScript, что этот ref будет хранить HTMLDivElement
+    const wrapperRef = useRef<HTMLDivElement>(null);
 
     const handleEyeButtonClick = () => {
-           if (visual_impaired_panel_open) { 
-            dispatch(closeVisualImpairedPanel()) // Закрываем панель, но не выключаем режим
+        if (visual_impaired_panel_open) {
+            dispatch(closeVisualImpairedPanel());
         } else {
-            // Включаем режим и открываем панель
             if (!visual_impaired_mode) {
-                dispatch(toggleVisualImpairedMode()) // Включаем режим только если он выключен
+                dispatch(toggleVisualImpairedMode());
             }
-            dispatch(openVisualImpairedPanel()) // Открываем панель
+            dispatch(openVisualImpairedPanel());
         }
-    }
-    const shouldShowDetails = visual_impaired_mode && (theme_mode !== 'Цветовая схема №1' || font_size !== 'small')
+    };
+
+    useEffect(() => {
+        // Явно типизируем 'event' как MouseEvent
+        function handleClickOutside(event: MouseEvent) {
+            // Проверяем, что ref существует и клик был не по элементу внутри ref
+            // event.target приводим к типу Node, чтобы TypeScript был уверен в наличии метода .contains
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+                if (visual_impaired_panel_open) {
+                    dispatch(closeVisualImpairedPanel());
+                }
+            }
+        }
+
+        // Добавляем обработчик события при монтировании компонента
+        document.addEventListener('mousedown', handleClickOutside);
+
+        // Удаляем обработчик при размонтировании для избежания утечек памяти
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [visual_impaired_panel_open, dispatch]); // Зависимости эффекта
+
+    const shouldShowDetails =
+        visual_impaired_mode && (theme_mode !== 'Цветовая схема №1' || font_size !== 'small');
+
     return (
-        <div className={styles.controlWrapper}>
+        // Привязываем ref к главному div-обертке
+        <div className={styles.controlWrapper} ref={wrapperRef}>
             {/* Кнопка глазика */}
             <ControlButton
                 classNames={{ button: styles.button }}
@@ -54,5 +93,5 @@ export const VisuallyImpairedControl = () => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

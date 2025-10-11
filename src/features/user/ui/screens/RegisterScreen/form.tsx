@@ -240,6 +240,7 @@ export const RegisterForm = () => {
                     value={searchSchoolsValue}
                     selectedValue={getSelectOptions(schools.items, "id", "name").find(opt => opt.label === formik.values.school)?.value || 0}
                     onChange={(value, label) => onSchoolSelect(value, label)}
+                    disabled={!formik.values.city_id}
                 />
             </FieldsGroup>
             <div className={styles.bottom}>
