@@ -85,9 +85,9 @@ export const surveySlice = createSlice({
         // <--- ДОБАВЛЕНО: Новый редьюсер для сброса опроса
         resetSurvey: (state) => {
             state.answers_data = [];
-            state.survey_passed = false;
+            //state.survey_passed = false;
             state.sending_statuses = initialSurveyState.sending_statuses;
-            
+
             // Возвращаем итератор к первому вопросу, если вопросы загружены
             if (state.questions.items.length > 0) {
                 state.current_question_id = state.questions.items[0].id;
