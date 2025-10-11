@@ -25,12 +25,12 @@ export const getSurvey = createAsyncThunk(
 
 export const sendSurvey = createAsyncThunk(
     'survey/send',
-    async (req: SendSurveyReq) => {
+    async (req: SendSurveyReq & { suggested_game?: number }) => {
         if (CONFIG.USE_MOCK_API) {
             return new Promise<SendSurveyRes>((rs) => {
                 setTimeout(() => {
                     rs({
-                        suggested_game: 1
+                        suggested_game: req.suggested_game ?? 1
                     })
                 }, CONFIG.MOCK_FETCH_DELAY)
             })

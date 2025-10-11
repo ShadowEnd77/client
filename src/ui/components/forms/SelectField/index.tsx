@@ -18,7 +18,8 @@ export const SelectField: FC<SelectFieldProps> = ({
     options,
     selectedValue,
     onChange,
-    onSearch
+    onSearch,
+    disabled
 }) => {
     const [isFocused, setIsFocused] = useState(false)
     const [menuIsOpened, setMenuIsOpened] = useState(false)
@@ -29,13 +30,14 @@ export const SelectField: FC<SelectFieldProps> = ({
     }
 
     const onContainerClick = () => {
-        if (menuIsOpened) {
+        if (menuIsOpened || disabled) {
             return undefined
         }
         return () => setMenuIsOpened(true)
     }
 
     const onLabelClick = () => {
+        if (disabled) return
         setMenuIsOpened(prev => !prev)
     }
 
@@ -85,6 +87,7 @@ export const SelectField: FC<SelectFieldProps> = ({
                 }>
                 <input
                     readOnly={readOnly}
+                    disabled={disabled}
                     onChange={onSearch}
                     placeholder={placeholder || "Не выбрано"}
                     value={value || ""}

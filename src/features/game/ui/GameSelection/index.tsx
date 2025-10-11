@@ -12,19 +12,47 @@ import { mockGame as mockGame2 } from '../../utils/mock-data/gameMockData_2';
 import { mockGame as mockGame3 } from '../../utils/mock-data/gameMockData_3';
 import { mockGame as mockGame4 } from '../../utils/mock-data/gameMockData_4';
 import { mockGame as mockGame5 } from '../../utils/mock-data/gameMockData_5';
-import { resetGameInProgress } from '../../slices/game-info/gameInfoSlice';
-import { resetPassedGameData } from '../../slices/game-info/gameInfoSlice';
+import { resetGameInProgress, resetPassedGameData } from '../../slices/game-info/gameInfoSlice';
 
 export const GameSelectionScreen = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    const handlePlay = (gameId: number) => {
+    const [pendingGameId, setPendingGameId] = useState<number | null>(null);
+    const [isNavigating, setIsNavigating] = useState(false);
+    const gameLoading = useAppSelector(state => state.game.statuses.loading);
+    const gameLoaded = useAppSelector(state => state.game.statuses.success);
+
+    const handlePlay = async (gameId: number) => {
+        if (isNavigating) return; // Защита от повторных кликов
+        
+        setIsNavigating(true);
+        setPendingGameId(gameId);
+        
+        // Сбрасываем состояния
         dispatch(resetGameInProgress());
         dispatch(resetPassedGameData());
-        navigate(ROUTER.PATHS.GAME_INFO);
-        dispatch(getGameInfoById({ id: gameId, include_details: true }));
+        
+        // Загружаем информацию об игре
+        await dispatch(getGameInfoById({ id: gameId, include_details: true }));
     };
+
+    useEffect(() => {
+        if (pendingGameId !== null && !gameLoading && gameLoaded && isNavigating) {
+            // Используем replace вместо push чтобы избежать накопления истории
+            navigate(ROUTER.PATHS.GAME_INFO, { replace: true });
+            setPendingGameId(null);
+            setIsNavigating(false);
+        }
+    }, [pendingGameId, gameLoading, gameLoaded, isNavigating, navigate]);
+
+    // Сброс состояния навигации при размонтировании компонента
+    useEffect(() => {
+        return () => {
+            setIsNavigating(false);
+            setPendingGameId(null);
+        };
+    }, []);
 
     return (
         <WhiteContainer className={styles.section}>
