@@ -6,10 +6,10 @@ import { GetSchoolsReq, GetSchoolsRes } from "../../../types/api/schools.api.typ
 
 export class SchoolsApi {
     static async getAll(req: GetSchoolsReq) {
-        const res: AxiosResponse<GetSchoolsRes> = await api.get(`${API_PATHS.GET_GAMES}${convertToQueryParams(req)}`)
+        const res: AxiosResponse<GetSchoolsRes> = await api.get(`${API_PATHS.GET_SCHOOLS}${convertToQueryParams(req)}`)
 
         if (!res.data) throw res;
 
-        return res
+        return res.data
     }
 }
