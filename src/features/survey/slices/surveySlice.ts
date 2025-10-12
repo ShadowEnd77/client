@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialSurveyState } from './surveyState'
-import { GetSurveysRes, SendSurveyReq, SendSurveyRes } from '../../../types/api/survey.api.types'
+import { SendSurveyReq, SendSurveyRes } from '../../../types/api/survey.api.types'
 import { Answer, Survey } from '../../../types/entities'
 import { mockSurveys } from '../utils/mock-data/surveys.mock'
 import { CONFIG } from '../../../config'
-import { AxiosResponse } from 'axios'
 import { SurveyApi } from '../api/survey.api'
 
 export const getSurvey = createAsyncThunk(
@@ -18,7 +17,7 @@ export const getSurvey = createAsyncThunk(
             })
         } else {
             const res = await SurveyApi.getAll({});
-            return res.data.surveys[0];
+            return res.surveys[0];
         }
     },
 )
@@ -36,13 +35,9 @@ export const sendSurvey = createAsyncThunk(
             })
         }
 
-        const res: AxiosResponse<SendSurveyRes> = await SurveyApi.sendAnswers(req);
+        const res = await SurveyApi.sendAnswers(req);
 
-        if (!res.data) {
-            throw res;
-        }
-
-        return res.data
+        return res
     },
 )
 
@@ -85,7 +80,12 @@ export const surveySlice = createSlice({
         // <--- ДОБАВЛЕНО: Новый редьюсер для сброса опроса
         resetSurvey: (state) => {
             state.answers_data = [];
-            //state.survey_passed = false;
+            // Reset survey passed flag so UI doesn't immediately go to submit state
+            state.survey_passed = false;
+            state.allow_game_selection = false;
+            // reset suggested game / lie flag for next run
+            state.suggested_game = initialSurveyState.suggested_game;
+            state.lie_detected = initialSurveyState.lie_detected;
             state.sending_statuses = initialSurveyState.sending_statuses;
 
             // Возвращаем итератор к первому вопросу, если вопросы загружены
@@ -94,6 +94,13 @@ export const surveySlice = createSlice({
             } else {
                 state.current_question_id = initialSurveyState.current_question_id;
             }
+        }
+        ,
+        setAllowGameSelection: (state, action: PayloadAction<boolean>) => {
+            state.allow_game_selection = action.payload;
+        },
+        setSurveyPassed: (state, action: PayloadAction<boolean>) => {
+            state.survey_passed = action.payload;
         }
     },
     extraReducers(builder) {
@@ -135,6 +142,7 @@ export const surveySlice = createSlice({
             })
             .addCase(sendSurvey.fulfilled, (state, action: PayloadAction<SendSurveyRes>) => {
                 state.suggested_game = action.payload.suggested_game
+                state.lie_detected = !!action.payload.lie_detected
                 state.sending_statuses = {
                     success: true,
                     loading: false,
@@ -154,7 +162,9 @@ export const surveySlice = createSlice({
 export const {
     resetSendingSurveyStatus,
     answerTheQuestion,
-    resetSurvey // <--- ДОБАВЛЕНО: Экспортируем новое действие
+    resetSurvey, // <--- ДОБАВЛЕНО: Экспортируем новое действие
+    setAllowGameSelection,
+    setSurveyPassed
 } = surveySlice.actions
 
 export const surveyReducer = surveySlice.reducer

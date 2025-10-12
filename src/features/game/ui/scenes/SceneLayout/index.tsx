@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { GameMatchesScene } from '../GameMatchesScene'
 import { useAudio } from '../../../../audio/AudioProvider'
 import { CONFIG } from '../../../../../config'
-import achievementAudioFile from '../../../../../assets/audio/Achievement_dev.mp3';
+import achievementAudioFile from '../../../../../assets/audio/Achievement.mp3';
 
 type SceneLayoutProps = {
     scene: Scene
@@ -38,8 +38,7 @@ export const SceneLayout: FC<SceneLayoutProps> = ({ scene }) => {
             dialogues.length === 1 &&
             scene.payload.achievement &&
             !isPlaying
-        ) 
-        {
+        ) {
             loadTrack(achievementAudioId, achievementAudioFile);
             if (!audio_muted) {
                 play(achievementAudioId);

@@ -26,6 +26,7 @@ export type Survey = {
 } & HasId
 
 export type Question = {
+    group_id?: number;
     options: Answer[];
     voice: string;
 } & HasId & HasText;
@@ -44,6 +45,7 @@ export type Game = {
     title: string
     t_voice: string
     cover_image: string
+    game_group_id?: number
     description: string
     duration: number
     scenes: Scene[]

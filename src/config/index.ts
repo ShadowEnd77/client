@@ -1,5 +1,5 @@
 export const CONFIG = {
-    USE_MOCK_API: false,
+    USE_MOCK_API: true,
     MOCK_FETCH_DELAY: 500,
     AUTH_CHECK_ENABLED: true,
     VISUAL_IMPAIRED_VALUE: 1.2,

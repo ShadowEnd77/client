@@ -39,6 +39,7 @@ import a_6_1 from '/game_3/aud_6_1.mp3'
 
 export const mockGame: Game = {
   id: 3,
+  game_group_id: 2,
   title: "Высоко — не значит круто",
   t_voice: t_game_3,
   cover_image: cover,

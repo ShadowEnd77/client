@@ -7,6 +7,7 @@ import { ConditionalContainer } from '../../../../ui/components/containers/Condi
 import { LoaderWidget } from '../../../../ui/components/service/LoaderWidget'
 import { useEffect } from 'react'
 import { getSurvey } from '../../slices/surveySlice'
+import { resetSurvey } from '../../slices/surveySlice'
 import { setSurvey } from '../../../../features/settings/slices/settingsSlice'
 
 export const EndSurveyContainer = () => {
@@ -34,9 +35,9 @@ export const EndSurveyContainer = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (!id) {
-            dispatch(getSurvey())
-        }
+        // Reset previous survey state and reload current survey when opening EndSurvey
+        dispatch(resetSurvey());
+        dispatch(getSurvey())
     }, [id])
     
     return (
