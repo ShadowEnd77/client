@@ -18,6 +18,7 @@ type GameInfoSliceState = {
         sertificate_url: string
         title: string
         cover_image: string
+        game_group_id?: number
     }
     sending_statuses: ResponseStatus
 }
@@ -30,12 +31,15 @@ export const initialGameInfoState: GameInfoSliceState = {
         id: 0,
         sertificate_url: "",
         title: "",
-        cover_image: ""
+        cover_image: "",
+        // optional game_group_id will be populated when game finished
+        game_group_id: 0
     },
     data: {
         cover_image: "",
         id: 0,
         title: "",
+        t_voice: "",
         description: "",
         duration: 0,
         scenes: []

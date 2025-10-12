@@ -5,6 +5,7 @@ import { FieldsGroup } from '../../../../../ui/components/forms/FieldsGroup'
 import { InputField } from '../../../../../ui/components/forms/InputField'
 import { SelectField } from '../../../../../ui/components/forms/SelectField'
 import { getSchools, resetSchoolPagination } from '../../../../schools/slices/schoolsSlice'
+import { GetSchoolsReq } from '../../../../../types/api/schools.api.types'
 import { tickIcon } from '../../../../../ui/icons'
 import { getSelectOptions } from '../../../../../utils/getSelectOptions'
 import { STATIC_DATA } from '../../../config'
@@ -71,6 +72,8 @@ export const RegisterForm = () => {
             setSearchCitiesValue(name)
         }
         registerFormSelect("city_id", city)
+        // reset schools pagination and items so we reload schools for selected city
+        dispatch(resetSchoolPagination())
     }
 
     const fetchSchools = () => {
@@ -80,14 +83,16 @@ export const RegisterForm = () => {
             currentSkip = (schools.pagination.part - 1) * schools.pagination.limit
         }
 
-        dispatch(getSchools({
+        const req: GetSchoolsReq = {
             skip: currentSkip,
             limit: schools.pagination.limit,
-            query: searchSchoolsValue
-        }))
+            query: searchSchoolsValue,
+            city_id: formik.values.city_id || undefined
+        }
+        dispatch(getSchools(req))
     }
 
-    const onSchoolSelect = (school: number, name: string) => {
+    const onSchoolSelect = (_school: number, name: string) => {
         if (name !== searchSchoolsValue) {
             setSearchSchoolsValue(name)
         }
@@ -134,6 +139,16 @@ export const RegisterForm = () => {
     //         registerFormSelect("school_id", 0)
     //     }
     // }, [defferedSearchSchoolsValue])
+
+    useEffect(() => {
+        // When search input for schools is cleared, reset selected school and reload schools
+        if (!defferedSearchSchoolsValue.length) {
+            if (formik.values.school) {
+                registerFormSelect("school", "")
+            }
+            dispatch(resetSchoolPagination())
+        }
+    }, [defferedSearchSchoolsValue])
 
     useEffect(() => {
         if (schools.pagination.part == 1) {
@@ -212,28 +227,18 @@ export const RegisterForm = () => {
                     className={styles.ageSelect}
                     placeholder={"Выбери свою школу"}
                     htmlId={"register-school-input"}
-                    // options={getSelectOptions(schools.items, "id", "name")}
-                    // asyncOptions={{
-                    //     is_loading: schools.statuses.loading,
-                    //     is_pag_loading: schools.pagination.loading,
-                    //     part: schools.pagination.part,
-                    //     disableObserving: schools.pagination.is_out,
-                    //     limit: schools.pagination.limit,
-                    //     onLoad: fetchSchools,
-                    // }}
-                    options={[
-                        { value: 1, label: 'Школа №1' },
-                        { value: 2, label: 'Школа №2' },
-                        { value: 3, label: 'Школа №3' },
-                    ]}
+                    options={getSelectOptions(schools.items, "id", "name")}
+                    asyncOptions={{
+                        is_loading: schools.statuses.loading,
+                        is_pag_loading: schools.pagination.loading,
+                        part: schools.pagination.part,
+                        disableObserving: schools.pagination.is_out,
+                        limit: schools.pagination.limit,
+                        onLoad: fetchSchools,
+                    }}
                     onSearch={(e) => setSearchSchoolsValue(e.target.value)}
                     value={searchSchoolsValue}
-                    // selectedValue={formik.values.school_id}
-                    selectedValue={[
-                        { value: 1, label: 'Школа №1' },
-                        { value: 2, label: 'Школа №2' },
-                        { value: 3, label: 'Школа №3' },
-                    ].find(opt => opt.label === formik.values.school)?.value || 0}
+                    selectedValue={getSelectOptions(schools.items, "id", "name").find(opt => opt.label === formik.values.school)?.value || 0}
                     onChange={(value, label) => onSchoolSelect(value, label)}
                     disabled={!formik.values.city_id}
                 />

@@ -48,6 +48,7 @@ import a_end from '/game_2/aud_end.mp3'
 
 export const mockGame: Game = {
   id: 2,
+  game_group_id: 5,
   title: "Не вестись — это выбор",
   t_voice: t_game_2,
   cover_image: i_1_1,

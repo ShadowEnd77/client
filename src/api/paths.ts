@@ -5,6 +5,9 @@ export const API_PATHS = {
     // Города
     GET_CITIES: "/cities/",
 
+    // Школы
+    GET_SCHOOLS: "/schools",
+
     // Опросы
     GET_SURVEYS: "/surveys",
     SUBMIT_SURVEY: "/surveys/submit",

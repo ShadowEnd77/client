@@ -46,6 +46,7 @@ import a_2_3 from '/game_4/aud_2_3.mp3'
 
 export const mockGame: Game = {
   id: 4,
+  game_group_id: 4,
   title: "Кажется, что-то не так…",
   t_voice: t_game_4,
   cover_image: cover,

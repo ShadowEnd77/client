@@ -12,6 +12,9 @@ import { mockGame as mockGame2 } from '../../utils/mock-data/gameMockData_2';
 import { mockGame as mockGame3 } from '../../utils/mock-data/gameMockData_3';
 import { mockGame as mockGame4 } from '../../utils/mock-data/gameMockData_4';
 import { mockGame as mockGame5 } from '../../utils/mock-data/gameMockData_5';
+import { api } from '../../../../api/instance';
+import { API_PATHS } from '../../../../api/paths';
+import { CONFIG } from '../../../../config';
 import { resetGameInProgress, resetPassedGameData } from '../../slices/game-info/gameInfoSlice';
 
 export const GameSelectionScreen = () => {
@@ -22,6 +25,37 @@ export const GameSelectionScreen = () => {
     const [isNavigating, setIsNavigating] = useState(false);
     const gameLoading = useAppSelector(state => state.game.statuses.loading);
     const gameLoaded = useAppSelector(state => state.game.statuses.success);
+
+    // List of games to display. In mock mode we'll populate with mocks; in DB mode we'll fetch from API
+    const [gamesList, setGamesList] = useState<any[]>([]);
+
+    useEffect(() => {
+        let mounted = true;
+
+        if (CONFIG.USE_MOCK_API) {
+            setGamesList([mockGame1, mockGame2, mockGame3, mockGame4, mockGame5]);
+            return;
+        }
+
+        const fetchGames = async () => {
+            try {
+                const res = await api.get(API_PATHS.GET_GAMES);
+                const data: any[] = res.data || [];
+                if (!mounted) return;
+                // Use the DB-provided list as-is — number and order reflect DB
+                setGamesList(data);
+            } catch (e) {
+                // On error, show empty list (DB mode should not show mocks)
+                if (!mounted) return;
+                setGamesList([]);
+                console.error('Failed to fetch games list', e);
+            }
+        };
+
+        fetchGames();
+
+        return () => { mounted = false };
+    }, []);
 
     const handlePlay = async (gameId: number) => {
         if (isNavigating) return; // Защита от повторных кликов
@@ -61,11 +95,9 @@ export const GameSelectionScreen = () => {
                 <img src={logoIcon} height={20} width={63} alt="Логотип" />
             </header>
             <div className={styles.SelectionGameList}>
-                <SelectionElement game={mockGame1} onPlay={() => handlePlay(mockGame1.id)} />
-                <SelectionElement game={mockGame2} onPlay={() => handlePlay(mockGame2.id)} />
-                <SelectionElement game={mockGame3} onPlay={() => handlePlay(mockGame3.id)} />
-                <SelectionElement game={mockGame4} onPlay={() => handlePlay(mockGame4.id)} />
-                <SelectionElement game={mockGame5} onPlay={() => handlePlay(mockGame5.id)} />
+                {gamesList.map(g => (
+                    <SelectionElement key={g.id} game={g} onPlay={() => handlePlay(g.id)} />
+                ))}
             </div>
         </WhiteContainer >
     )

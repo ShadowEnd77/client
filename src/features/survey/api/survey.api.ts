@@ -9,13 +9,13 @@ export class SurveyApi {
         const res: AxiosResponse<GetSurveysRes> = await api.get(`${API_PATHS.GET_SURVEYS}${convertToQueryParams(req)}`)
         if (!res.data) throw res;
 
-        return res
+        return res.data
     }
     static async sendAnswers(req: SendSurveyReq) {
         console.log('SurveyApi.sendAnswers payload:', req); // доб
         const res: AxiosResponse<SendSurveyRes> = await api.post(`${API_PATHS.SUBMIT_SURVEY}`, req)
         if (!res.data) throw res;
 
-        return res
+        return res.data
     }
 }

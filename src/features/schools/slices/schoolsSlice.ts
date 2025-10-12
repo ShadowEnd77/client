@@ -5,7 +5,6 @@ import { HasPagination, HasResponseStatus } from "../../../types/common/utilitar
 import { USER_STRINGS } from "../../user/config"
 import { CONFIG } from "../../../config"
 import { SchoolsApi } from "../api/schools.api"
-import { AxiosResponse } from "axios"
 
 type SchoolsSliceState = {
     items: School[]
@@ -48,13 +47,13 @@ export const getSchools = createAsyncThunk(
                 }, CONFIG.MOCK_FETCH_DELAY)
             })
         }
-        const res: AxiosResponse<GetSchoolsRes> = await SchoolsApi.getAll(req);
+    const res: GetSchoolsRes = await SchoolsApi.getAll(req);
 
-        if (!res.data) {
-            throw res;
+        if (!res) {
+            throw new Error("Empty response")
         }
 
-        return res.data;
+        return res;
 
     },
 )

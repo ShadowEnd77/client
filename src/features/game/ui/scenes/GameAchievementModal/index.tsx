@@ -7,7 +7,7 @@ import { motion } from "motion/react"
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks'
 import { resetAchievementData, setIsOpenAchievement } from '../../../slices/game-info/gameInfoSlice'
 import { FC } from 'react'
-import audioFile from '../../../../../assets/audio/Achievement_dev.mp3';
+import audioFile from '../../../../../assets/audio/Achievement.mp3';
 import { useAudio } from '../../../../audio/AudioProvider'
 
 type GameAchievementModalProps = {

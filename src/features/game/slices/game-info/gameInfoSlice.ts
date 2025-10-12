@@ -101,11 +101,26 @@ export const gameInfoSlice = createSlice({
         finishGame: (state) => {
             const { id, title, cover_image } = state.data
 
+            // Determine game_group_id: prefer explicit field on loaded data,
+            // otherwise, when in mock mode, try to read it from known mock games.
+            let groupId = (state.data as any).game_group_id;
+            if (!groupId && CONFIG.USE_MOCK_API) {
+                const mockMap: Record<number, number> = {
+                    [mockGame1.id]: (mockGame1 as any).game_group_id || 0,
+                    [mockGame2.id]: (mockGame2 as any).game_group_id || 0,
+                    [mockGame3.id]: (mockGame3 as any).game_group_id || 0,
+                    [mockGame4.id]: (mockGame4 as any).game_group_id || 0,
+                    [mockGame5.id]: (mockGame5 as any).game_group_id || 0,
+                };
+                groupId = mockMap[id] || 0;
+            }
+
             state.passed_game = {
                 id,
                 title,
                 cover_image,
-                sertificate_url: ""
+                sertificate_url: "",
+                game_group_id: groupId || 0
             }
         }
     },
@@ -135,7 +150,8 @@ export const gameInfoSlice = createSlice({
             .addCase(sendFinishGame.fulfilled, (state, action: PayloadAction<Pick<Game, "id" | "cover_image" | "title">>) => {
                 state.passed_game = {
                     ...action.payload,
-                    sertificate_url: ""
+                    sertificate_url: "",
+                    game_group_id: (state.data as any).game_group_id || 0
                 }
                 state.sending_statuses.loading = false
                 state.sending_statuses.success = true

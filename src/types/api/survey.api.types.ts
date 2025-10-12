@@ -19,4 +19,5 @@ export type SendSurveyReq = {
 
 export type SendSurveyRes = {
     suggested_game: number
+    lie_detected?: boolean
 }

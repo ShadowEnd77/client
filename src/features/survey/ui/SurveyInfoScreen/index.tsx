@@ -14,6 +14,7 @@ export const SurveyInfoScreen = () => {
     const { loadTrack, play, pause } = useAudio();
     const audioId = 'instruction';
     const audio_muted = useAppSelector(state => state.settings.audio_muted);
+    const surveyLoaded = useAppSelector(state => state.survey.questions.statuses.success);
 
     useEffect(() => {
         if (!showSurveyScreen) {
@@ -57,7 +58,7 @@ export const SurveyInfoScreen = () => {
                         <span>Примерная длительность 5 мин.</span>
                     </div>
                     <div className={styles.surveyInfoBottom}>
-                        <Button onClick={() => setShowSurveyScreen(true)} classNames={{ button: styles.surveyInfoButton }}>Начать</Button>
+                        <Button disabled={!surveyLoaded} onClick={() => setShowSurveyScreen(true)} classNames={{ button: styles.surveyInfoButton }}>Начать</Button>
                         <img src={logoIcon} height={26} width={80} alt="Логотип" />
                     </div>
                 </footer>

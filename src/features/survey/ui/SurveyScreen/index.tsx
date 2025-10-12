@@ -5,24 +5,17 @@ import { Answer } from '../../../../types/entities'
 import { Button } from '../../../../ui/components/buttons/Button'
 import { WhiteContainer } from '../../../../ui/components/containers/WhiteContainer'
 import { logoIcon, smileIcon } from '../../../../ui/icons'
-import { answerTheQuestion, sendSurvey, resetSendingSurveyStatus, resetSurvey } from '../../slices/surveySlice'
+import { answerTheQuestion, sendSurvey, resetSendingSurveyStatus, resetSurvey, setSurveyPassed } from '../../slices/surveySlice'
 import { getAnsweredProgress } from '../../utils/helpers/getAnsweredProgress'
 import styles from './surveyScreen.module.scss'
 import end from '../../../../../public/survey/end.mp3'
 import { motion } from "motion/react"
+
+import { useNavigate } from 'react-router'
+import { ROUTER } from '../../../../router/consts'
 import { getGameInfoById } from '../../../game/slices/game-info/gameInfoSlice'
 
-import { Route, Router, useNavigate } from 'react-router'
-import { ROUTER } from '../../../../router/consts'
-
-// Массив секций: id вопросов и id игры
-const sectionConfig = [
-    { ids: [1,2,3,4,5], gameId: 5 }, 
-    { ids: [6,7,8,9,10], gameId: 3 }, 
-    { ids: [11,12,13,14,15], gameId: 1 },
-    { ids: [16,17,18,19,20], gameId: 4 }, 
-    { ids: [21,22,23,24,25], gameId: 2 }  
-];
+// Sectioning now driven by group_id matching passed game's game_group_id
 
 export const SurveyScreen = () => {
     // --- Чистый рабочий блок ---
@@ -42,6 +35,7 @@ export const SurveyScreen = () => {
         suggested_game,
         id,
         sending_statuses
+        , lie_detected
     } = useAppSelector(state => state.survey);
     const user_id = useAppSelector(state => state.user.data.uuid);
     const [localSurveyPassed, setLocalSurveyPassed] = useState(false);
@@ -53,14 +47,16 @@ export const SurveyScreen = () => {
     let sectionQuestions: typeof questions.items = [];
     const [sectionIndex, setSectionIndex] = useState(0);
 
-    if (passedGameId) {
-        const section = sectionConfig.find(s => s.gameId === passedGameId);
-        if (section) {
-            sectionQuestions = questions.items.filter(q => section.ids.includes(q.id));
+    const passedGameGroupId = useAppSelector(state => state.game.passed_game.game_group_id);
+    if (passedGameId && passedGameGroupId) {
+        sectionQuestions = questions.items.filter(q => q.group_id === passedGameGroupId);
+        if (sectionQuestions && sectionQuestions.length > 0) {
             filteredQuestions = sectionQuestions;
             isSectionMode = true;
         }
     }
+
+    // (no-op) group filtering is handled above; removed debug logging
 
     // Индекс текущего вопроса
     let currentIndex = 0;
@@ -122,6 +118,17 @@ export const SurveyScreen = () => {
 
     useEffect(() => {
         if (sending_statuses.success) {
+            // If backend detected lie/invalid answers, restart survey
+            if (lie_detected) {
+                dispatch(resetSurvey());
+                return;
+            }
+            // If this was a section submission (post-game), allow the user to choose the next game manually
+            if (isSectionMode || localSurveyPassed) {
+                navigate(ROUTER.PATHS.GAME_SELECTION);
+                return;
+            }
+
             if (isEndSurvey) {
                 navigate(ROUTER.PATHS.GAME_PASSED);
             } else {
@@ -139,27 +146,11 @@ export const SurveyScreen = () => {
 
     // Section scoring logic
     const getLastSectionScore = () => {
-        const lastIds = [26, 27, 28, 29, 30];
+        const lastIds = questions.items.filter(q => q.group_id === 6).map(q => q.id);
         return answers_data.filter(a => lastIds.includes(a.question_id) && a.answer_option_id % 2 === 1).length;
     };
-    const getSectionScores = () => {
-        return sectionConfig.map(section => {
-            const score = answers_data.filter(a => section.ids.includes(a.question_id) && a.answer_option_id % 2 === 1).length;
-            return { score, gameId: section.gameId };
-        });
-    };
-    const getBestGameId = () => {
-        const scores = getSectionScores();
-        let maxScore = -1;
-        let bestGameId = null;
-        for (let i = 0; i < scores.length; i++) {
-            if (scores[i].score > maxScore) {
-                maxScore = scores[i].score;
-                bestGameId = scores[i].gameId;
-            }
-        }
-        return bestGameId;
-    };
+    // Section scores are computed on backend for full survey; local partial submission simply sends group answers
+    // Backend will choose suggested_game for full survey; no local bestGame computation needed here
     const isLastQuestionInSection = isSectionMode && sectionIndex === filteredQuestions.length - 1;
     const onAnswer = (answer: Answer) => {
         setButtonsDisabled(true);
@@ -167,7 +158,7 @@ export const SurveyScreen = () => {
             // Локально сохраняем ответы для секции
             dispatch(answerTheQuestion({ ...answer, id: answer.id }));
             if (isLastQuestionInSection) {
-                setLocalSurveyPassed(true);
+                dispatch(setSurveyPassed(true));
                 return;
             } else {
                 setTimeout(() => {
@@ -185,30 +176,16 @@ export const SurveyScreen = () => {
             dispatch(resetSurvey());
             return;
         }
-        const bestGameId = getBestGameId();
         const payload: any = {
             survey_id: id,
             user_id: user_id,
-            answers: answers_data
+            // If section mode, send only answers that belong to this group's questions
+            answers: isSectionMode ? answers_data.filter(a => filteredQuestions.map(q => q.id).includes(a.question_id)) : answers_data
         };
-        if (typeof bestGameId === 'number') {
-            payload.suggested_game = bestGameId;
-        }
         dispatch(sendSurvey(payload));
     };
 
-    // ===== ИСПРАВЛЕННЫЙ БЛОК =====
-    useEffect(() => {
-        if (sending_statuses.success) {
-            if (isEndSurvey) {
-                navigate(ROUTER.PATHS.GAME_PASSED);
-            } else {
-                navigate(ROUTER.PATHS.GAME_INFO);
-                dispatch(getGameInfoById({ id: suggested_game, include_details: true }));
-            }
-        }
-    }, [sending_statuses.success, isEndSurvey, navigate, dispatch, suggested_game]);
-    // =============================
+    // (sending_statuses.success effect already handled above with lie-detection)
 
     useEffect(() => {
         return () => {
